@@ -79,7 +79,7 @@ function App() {
           </div>
 
           {/* Gallery Preview */}
-          <section id="gallery" className="py-16 bg-gray-900 text-white">
+          <section id="gallery" className="py-16 bg-gray-900 text-white mb-20">
             <div className="container mx-auto px-4">
                <div className="flex justify-between items-end mb-8">
                   <div>
