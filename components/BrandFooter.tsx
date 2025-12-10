@@ -1,0 +1,20 @@
+import React from 'react';
+
+const BrandFooter: React.FC = () => {
+  return (
+    <div className="bg-gray-900 text-white flex flex-col justify-center items-center py-10 md:py-20 border-t border-gray-800 w-full overflow-hidden select-none">
+      <div className="relative group cursor-default">
+         <h1 className="text-[25vw] leading-[0.8] font-display font-bold text-gray-800 tracking-tighter opacity-50 group-hover:opacity-80 transition-opacity duration-700">
+           AFSH
+         </h1>
+         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+             <span className="text-xl md:text-3xl lg:text-4xl font-serif tracking-[1em] uppercase text-af-gold opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-y-10 group-hover:translate-y-0">
+               Air Force School Hindan
+             </span>
+         </div>
+      </div>
+    </div>
+  );
+};
+
+export default BrandFooter;
