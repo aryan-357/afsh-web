@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Search, User, Calendar, Heart, GraduationCap, MapPin } from 'lucide-react';
+import { Menu, X, Search, User, Calendar, GraduationCap, MapPin } from 'lucide-react';
 import { NavItem } from '../types';
 
 const navItems: NavItem[] = [
@@ -93,9 +93,6 @@ const Header: React.FC = () => {
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Directory</a>
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Parents</a>
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</a>
-          <a href="#" className={`flex items-center gap-1 transition-colors ${scrolled ? 'text-af-gold' : 'text-af-gold'} hover:text-yellow-300`}>
-            <Heart size={12} fill="currentColor" /> Give
-          </a>
           <a href="#" className={`flex items-center gap-1 px-3 py-1 rounded transition-colors ml-4 border ${scrolled ? 'bg-af-blue text-white border-af-blue hover:bg-blue-700' : 'bg-transparent text-white border-white hover:bg-white/20'}`}>
             <User size={12} /> Login
           </a>
@@ -257,10 +254,6 @@ const Header: React.FC = () => {
               <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded hover:bg-gray-100 transition">
                 <MapPin className="text-af-blue mb-2" />
                 <span className="text-xs font-bold uppercase text-gray-600">Directions</span>
-              </a>
-              <a href="#" className="flex flex-col items-center justify-center p-4 bg-af-blue text-white rounded hover:bg-blue-800 transition shadow-lg">
-                <Heart className="mb-2" fill="currentColor" />
-                <span className="text-xs font-bold uppercase">Give</span>
               </a>
             </div>
           </div>

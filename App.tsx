@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import HeroCarousel from './components/HeroCarousel';
 import NoticeBoard from './components/NoticeBoard';
+import LatestNews from './components/LatestNews';
 import PrincipalMessage from './components/PrincipalMessage';
 import Footer from './components/Footer';
 import AssistantChat from './components/AssistantChat';
@@ -12,6 +13,10 @@ function App() {
       <Header />
       <main>
         <HeroCarousel />
+        
+        {/* Visual News Grid Section */}
+        <LatestNews />
+
         <NoticeBoard />
         
         {/* About/Vision Snippet Section */}
