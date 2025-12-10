@@ -1,9 +1,8 @@
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 
 // Initialize Gemini AI
-// NOTE: In a real production app, this should be proxied through a backend to protect the API key.
-// For this frontend-only demo, we assume the environment variable is available.
-const apiKey = process.env.API_KEY || ''; 
+// The API key must be obtained exclusively from the environment variable process.env.API_KEY.
+const apiKey = process.env.API_KEY;
 let ai: GoogleGenAI | null = null;
 
 if (apiKey) {
@@ -50,8 +49,11 @@ export const initializeChat = async (): Promise<void> => {
 };
 
 export const sendMessageToGemini = async (message: string): Promise<string> => {
-  if (!ai || !chatSession) {
-    if (!apiKey) return "Please configure the API_KEY to use the AI Assistant.";
+  if (!ai) {
+    return "The AI Assistant is currently inactive (API Key missing). Please contact the school office.";
+  }
+
+  if (!chatSession) {
     await initializeChat();
   }
 
