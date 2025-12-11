@@ -10,6 +10,7 @@ export interface Notice {
   title: string;
   link: string;
   isNew?: boolean;
+  content?: string;
 }
 
 export interface CarouselSlide {

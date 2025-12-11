@@ -42,7 +42,7 @@ const newsItems: NewsItem[] = [
 
 const LatestNews: React.FC = () => {
   return (
-    <section className="bg-white pb-8">
+    <section className="bg-white dark:bg-gray-900 pb-8 transition-colors duration-300">
       <div className="w-full">
         {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3">
@@ -86,7 +86,7 @@ const LatestNews: React.FC = () => {
               href="https://airforceschoolhindan.in/news" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-gray-500 font-serif italic text-lg hover:text-af-blue transition-colors border-b border-transparent hover:border-af-blue"
+              className="text-gray-500 dark:text-gray-400 font-serif italic text-lg hover:text-af-blue dark:hover:text-af-light transition-colors border-b border-transparent hover:border-af-blue dark:hover:border-af-light"
             >
                 View All News
             </a>
