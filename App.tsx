@@ -7,10 +7,15 @@ import PrincipalMessage from './components/PrincipalMessage';
 import Footer from './components/Footer';
 import AssistantChat from './components/AssistantChat';
 import BrandFooter from './components/BrandFooter';
+import LoginPage from './components/LoginPage';
 
 function App() {
   const [footerHeight, setFooterHeight] = useState(0);
   const footerRef = useRef<HTMLDivElement>(null);
+  
+  // Auth State
+  const [user, setUser] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<'home' | 'login'>('home');
 
   useEffect(() => {
     const updateFooterHeight = () => {
@@ -32,11 +37,27 @@ function App() {
       window.removeEventListener('resize', updateFooterHeight);
       clearTimeout(timer);
     };
-  }, []);
+  }, [currentPage]); // Recalculate if page changes
+
+  if (currentPage === 'login') {
+    return (
+      <LoginPage 
+        onLogin={(username) => {
+          setUser(username);
+          setCurrentPage('home');
+        }}
+        onBack={() => setCurrentPage('home')}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 font-sans selection:bg-af-blue selection:text-white">
-      <Header />
+      <Header 
+        user={user} 
+        onLoginClick={() => setCurrentPage('login')} 
+        onLogout={() => setUser(null)}
+      />
       
       {/* Main Content Wrapper - Acts as the "Curtain" */}
       <div 
