@@ -1,14 +1,6 @@
 import React from 'react';
-
-interface NewsItem {
-  id: number;
-  title: string;
-  image: string;
-  alignment: 'center' | 'bottom';
-  hasButton: boolean;
-  borderColor: string;
-  link: string;
-}
+import { Link } from 'react-router-dom';
+import { NewsItem } from '../types';
 
 const newsItems: NewsItem[] = [
   {
@@ -18,7 +10,7 @@ const newsItems: NewsItem[] = [
     alignment: "center",
     hasButton: true,
     borderColor: "border-af-gold", // Gold top border
-    link: "#"
+    link: "/news"
   },
   {
     id: 2,
@@ -27,7 +19,7 @@ const newsItems: NewsItem[] = [
     alignment: "bottom",
     hasButton: false,
     borderColor: "border-af-blue", // Blue top border
-    link: "#"
+    link: "/news"
   },
   {
     id: 3,
@@ -36,7 +28,7 @@ const newsItems: NewsItem[] = [
     alignment: "bottom",
     hasButton: false,
     borderColor: "border-red-600", // Red top border accent
-    link: "#"
+    link: "/news"
   }
 ];
 
@@ -68,12 +60,12 @@ const LatestNews: React.FC = () => {
                         </h3>
                         
                         {item.hasButton && (
-                            <a 
-                              href={item.link} 
+                            <Link 
+                              to="/news" 
                               className="inline-block px-8 py-3 border border-white text-white font-serif italic text-lg hover:bg-white hover:text-black transition-colors duration-300"
                             >
                                 Read Story
-                            </a>
+                            </Link>
                         )}
                     </div>
                 </div>
@@ -82,14 +74,12 @@ const LatestNews: React.FC = () => {
         
         {/* View All Redirect Link */}
         <div className="container mx-auto px-4 mt-6 flex justify-end">
-            <a 
-              href="https://airforceschoolhindan.in/news" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link 
+              to="/news"
               className="text-gray-500 dark:text-gray-400 font-serif italic text-lg hover:text-af-blue dark:hover:text-af-light transition-colors border-b border-transparent hover:border-af-blue dark:hover:border-af-light"
             >
                 View All News
-            </a>
+            </Link>
         </div>
       </div>
     </section>

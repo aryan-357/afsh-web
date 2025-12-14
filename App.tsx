@@ -6,6 +6,7 @@ import BrandFooter from '@/components/BrandFooter';
 import Home from '@/pages/Home';
 import GalleryPage from '@/pages/Gallery';
 import LoginPage from '@/pages/Login';
+import NewsPage from '@/pages/News';
 
 // ScrollToTop: Handles scrolling when route changes or hash is present
 const ScrollToTop = () => {
@@ -108,6 +109,13 @@ function App() {
         <Route path="/gallery" element={
           <Layout user={user} onLogout={() => setUser(null)}>
             <GalleryPage />
+          </Layout>
+        } />
+
+        {/* News Route */}
+        <Route path="/news" element={
+          <Layout user={user} onLogout={() => setUser(null)}>
+            <NewsPage />
           </Layout>
         } />
 
