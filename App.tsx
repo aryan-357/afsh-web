@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet, useOutletContext, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import HeroCarousel from './components/HeroCarousel';
 import NoticeBoard from './components/NoticeBoard';
@@ -11,6 +11,21 @@ import BrandFooter from './components/BrandFooter';
 import LoginPage from './components/LoginPage';
 import ScholarsPage from './components/ScholarsPage';
 import GalleryPage from './components/GalleryPage';
+
+// Types for the Outlet Context
+interface AppContextType {
+  user: string | null;
+  setUser: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+// RootLayout handles the global state (user) and renders the Outlet
+const RootLayout = () => {
+  const [user, setUser] = useState<string | null>(null);
+
+  return (
+    <Outlet context={{ user, setUser }} />
+  );
+};
 
 // Home Component acting as the Landing Page
 const Home: React.FC<{ user: string | null; onLogout: () => void }> = ({ user, onLogout }) => {
@@ -129,39 +144,53 @@ const Home: React.FC<{ user: string | null; onLogout: () => void }> = ({ user, o
   );
 };
 
-function App() {
-  const [user, setUser] = useState<string | null>(null);
-  const navigate = useNavigate();
+// Wrappers to connect Route Components to the Context
+const HomeWrapper = () => {
+  const { user, setUser } = useOutletContext<AppContextType>();
+  return <Home user={user} onLogout={() => setUser(null)} />;
+};
 
+const LoginWrapper = () => {
+  const { setUser } = useOutletContext<AppContextType>();
+  const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gray-900 font-sans selection:bg-af-blue selection:text-white">
-      <Routes>
-        <Route 
-          path="/" 
-          element={<Home user={user} onLogout={() => setUser(null)} />} 
-        />
-        <Route 
-          path="/login" 
-          element={
-            <LoginPage 
-              onLogin={(username) => {
-                setUser(username);
-                navigate('/');
-              }} 
-            />
-          } 
-        />
-        <Route 
-          path="/scholars" 
-          element={<ScholarsPage />} 
-        />
-        <Route 
-          path="/gallery" 
-          element={<GalleryPage />} 
-        />
-      </Routes>
-    </div>
+    <LoginPage 
+      onLogin={(username) => {
+        setUser(username);
+        navigate('/');
+      }} 
+    />
   );
+};
+
+// Router Configuration
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomeWrapper />,
+      },
+      {
+        path: "login",
+        element: <LoginWrapper />,
+      },
+      {
+        path: "scholars",
+        element: <ScholarsPage />,
+      },
+      {
+        path: "gallery",
+        element: <GalleryPage />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
