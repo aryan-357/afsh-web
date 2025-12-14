@@ -29,15 +29,19 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                     
                     <div className="bg-white dark:bg-gray-700 p-3 rounded-xl shadow-md border border-gray-100 dark:border-gray-600">
                         {/* 
-                           PLACEHOLDER IMAGE 
-                           Please replace the src below with the URL of the image you uploaded 
-                           (e.g., ./assets/class10.jpg or the hosted URL).
+                           INSTRUCTION:
+                           1. Rename your image file to "scholars_photo.jpg"
+                           2. Place the file in your project's "public" folder.
                         */}
-                        <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+                        <div className="relative overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
                              <img
-                                src=":afsh website pic 1.jpg"
-                                alt="Class 10th Students with Medals and Certificates"
-                                className="w-full h-full object-cover"
+                                src="/scholars_photo.jpg"
+                                alt="Class 10th Students 2024-25"
+                                className="w-full h-auto max-h-[80vh] object-contain mx-auto"
+                                onError={(e) => {
+                                  // Fallback if image is missing
+                                  e.currentTarget.src = "scholars_photo.jpg";
+                                }}
                             />
                         </div>
                         <p className="text-gray-600 dark:text-gray-300 mt-4 font-serif italic">
