@@ -1,27 +1,21 @@
 import React from 'react';
 import { ArrowLeft, Info } from 'lucide-react';
-
-interface ScholarsPageProps {
-  onBack: () => void;
-}
+import { useNavigate } from 'react-router-dom';
 
 // ==================================================================================
 // PHOTO CONFIGURATION
 // ==================================================================================
-// TIP: If your original image is small or blurry, this new layout will help it look better 
-// by adding a blurred background effect. 
-// For best results, use an AI Upscaler (like upscale.media) on your photo before uploading.
-// ==================================================================================
 const YOUR_PHOTO_URL = "https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp"; 
 // ==================================================================================
 
+const ScholarsPage: React.FC = () => {
+  const navigate = useNavigate();
 
-const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <button
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="flex items-center gap-2 text-af-blue dark:text-af-light hover:underline mb-8 font-medium group"
         >
             <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Back to Home
@@ -53,7 +47,7 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                             <div 
                                 className="absolute inset-0 opacity-50 blur-[20px] scale-110"
                                 style={{ 
-                                    backgroundImage: `url(${https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp})`,
+                                    backgroundImage: `url(${YOUR_PHOTO_URL})`,
                                     backgroundPosition: 'center',
                                     backgroundSize: 'cover'
                                 }}
@@ -65,11 +59,11 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                             {/* 3. The Main Image - Centered and 'contain' to prevent pixelated stretching */}
                             <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8">
                                 <img
-                                    src={https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp}
+                                    src={YOUR_PHOTO_URL}
                                     alt="Class 10th Scholars"
                                     className="w-full h-full object-contain rounded shadow-2xl relative z-10 transition-transform duration-500 hover:scale-[1.02]"
                                     onError={(e) => {
-                                        e.currentTarget.src = "https://placehold.co/1200x675/00308F/FFFFFF/png?text=Image+Load+Error";
+                                        e.currentTarget.src = YOUR_PHOTO_URL;
                                     }}
                                 />
                             </div>

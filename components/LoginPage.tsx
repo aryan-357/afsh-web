@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { ArrowLeft, User, Lock, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginPageProps {
   onLogin: (username: string) => void;
-  onBack: () => void;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
 
         <div className="relative z-10 w-full max-w-md px-6">
             <button
-                onClick={onBack}
+                onClick={() => navigate('/')}
                 className="flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors text-sm font-medium uppercase tracking-wide group"
             >
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to School

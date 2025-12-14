@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Search, User, Calendar, GraduationCap, MapPin, Sun, Moon, LogOut } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { NavItem } from '../types';
 
 interface HeaderProps {
   user: string | null;
-  onLoginClick: () => void;
   onLogout: () => void;
-  onNavigate: (page: string) => void;
 }
 
 const navItems: NavItem[] = [
@@ -60,12 +59,15 @@ const navItems: NavItem[] = [
   },
 ];
 
-const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigate }) => {
+const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // Theme State
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -101,21 +103,22 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
   };
 
   const handleNavClick = (e: React.MouseEvent, item: NavItem, subItem?: NavItem) => {
-    // If it's the scholars link, prevent default and use onNavigate
+    // If it's the scholars link, navigate to route
     if ((subItem && subItem.label === 'Scholars') || (item.label === 'Scholars')) {
         e.preventDefault();
-        onNavigate('scholars');
+        navigate('/scholars');
         setIsMenuOpen(false);
-        setActiveSubMenu(null); // Close submenu on desktop
+        setActiveSubMenu(null);
         return;
     }
     
-    // For other links, if we are handling navigation, we might want to ensure we go to home first
-    if (!subItem && item.href.startsWith('#')) {
-       onNavigate('home');
-       // We don't prevent default here to allow hash scrolling
-    } else if (subItem && subItem.href.startsWith('#')) {
-       onNavigate('home');
+    // Handle hash links
+    if ((!subItem && item.href.startsWith('#')) || (subItem && subItem.href.startsWith('#'))) {
+       // If we are not on home, go home first
+       if (location.pathname !== '/') {
+           navigate('/');
+           // We'll let the hash handle scrolling naturally after navigation, or browser default behavior
+       }
     }
 
     if (subItem || !item.subItems) {
@@ -124,7 +127,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
     }
   };
 
-  // Dynamic styling based on scroll state
   const headerClasses = scrolled
     ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg py-0'
     : 'bg-gradient-to-b from-black/80 via-black/40 to-transparent py-4';
@@ -171,7 +173,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
               </div>
           ) : (
             <button 
-                onClick={onLoginClick}
+                onClick={() => navigate('/login')}
                 className={`flex items-center gap-1 px-3 py-1 rounded transition-colors ml-2 border ${scrolled ? 'bg-af-blue text-white border-af-blue hover:bg-blue-700' : 'bg-transparent text-white border-white hover:bg-white/20'}`}
             >
                 <User size={12} /> Login
@@ -187,7 +189,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
           {/* Logo Section */}
           <div 
             className="flex items-center gap-3 group cursor-pointer"
-            onClick={() => onNavigate('home')}
+            onClick={() => navigate('/')}
           >
             <img 
               src="https://ecolearn.pages.dev/img/logo.png" 
@@ -359,7 +361,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                {/* Mobile Login Button if not logged in */}
                {!user && (
                   <button 
-                    onClick={() => { onLoginClick(); setIsMenuOpen(false); }}
+                    onClick={() => { navigate('/login'); setIsMenuOpen(false); }}
                     className="col-span-2 flex items-center justify-center gap-2 p-4 bg-af-blue text-white rounded hover:bg-blue-700 transition"
                   >
                     <User size={16} /> <span className="text-sm font-bold uppercase">Login</span>
