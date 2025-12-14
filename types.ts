@@ -30,18 +30,4 @@ export interface GalleryImage {
   id: number;
   url: string;
   caption: string;
-  category: 'All' | 'Academics' | 'Sports' | 'Events' | 'Campus';
-}
-
-export interface NewsItem {
-  id: number;
-  title: string;
-  image: string;
-  alignment: 'center' | 'bottom';
-  hasButton: boolean;
-  borderColor: string;
-  link: string;
-  date?: string;
-  category?: string;
-  excerpt?: string;
 }

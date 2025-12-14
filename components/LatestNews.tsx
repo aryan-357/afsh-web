@@ -1,6 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { NewsItem } from '../types';
+
+interface NewsItem {
+  id: number;
+  title: string;
+  image: string;
+  alignment: 'center' | 'bottom';
+  hasButton: boolean;
+  borderColor: string;
+  link: string;
+}
 
 const newsItems: NewsItem[] = [
   {
@@ -10,7 +18,7 @@ const newsItems: NewsItem[] = [
     alignment: "center",
     hasButton: true,
     borderColor: "border-af-gold", // Gold top border
-    link: "/news"
+    link: "#"
   },
   {
     id: 2,
@@ -19,7 +27,7 @@ const newsItems: NewsItem[] = [
     alignment: "bottom",
     hasButton: false,
     borderColor: "border-af-blue", // Blue top border
-    link: "/news"
+    link: "#"
   },
   {
     id: 3,
@@ -28,7 +36,7 @@ const newsItems: NewsItem[] = [
     alignment: "bottom",
     hasButton: false,
     borderColor: "border-red-600", // Red top border accent
-    link: "/news"
+    link: "#"
   }
 ];
 
@@ -60,12 +68,12 @@ const LatestNews: React.FC = () => {
                         </h3>
                         
                         {item.hasButton && (
-                            <Link 
-                              to="/news" 
+                            <a 
+                              href={item.link} 
                               className="inline-block px-8 py-3 border border-white text-white font-serif italic text-lg hover:bg-white hover:text-black transition-colors duration-300"
                             >
                                 Read Story
-                            </Link>
+                            </a>
                         )}
                     </div>
                 </div>
@@ -74,12 +82,14 @@ const LatestNews: React.FC = () => {
         
         {/* View All Redirect Link */}
         <div className="container mx-auto px-4 mt-6 flex justify-end">
-            <Link 
-              to="/news"
+            <a 
+              href="https://airforceschoolhindan.in/news" 
+              target="_blank" 
+              rel="noopener noreferrer" 
               className="text-gray-500 dark:text-gray-400 font-serif italic text-lg hover:text-af-blue dark:hover:text-af-light transition-colors border-b border-transparent hover:border-af-blue dark:hover:border-af-light"
             >
                 View All News
-            </Link>
+            </a>
         </div>
       </div>
     </section>
