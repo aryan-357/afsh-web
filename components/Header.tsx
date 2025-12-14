@@ -6,6 +6,7 @@ interface HeaderProps {
   user: string | null;
   onLoginClick: () => void;
   onLogout: () => void;
+  onNavigate: (page: string) => void;
 }
 
 const navItems: NavItem[] = [
@@ -59,7 +60,7 @@ const navItems: NavItem[] = [
   },
 ];
 
-const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigate }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -97,6 +98,29 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  const handleNavClick = (e: React.MouseEvent, item: NavItem, subItem?: NavItem) => {
+    // If it's the scholars link, prevent default and use onNavigate
+    if ((subItem && subItem.label === 'Scholars') || (item.label === 'Scholars')) {
+        e.preventDefault();
+        onNavigate('scholars');
+        setIsMenuOpen(false);
+        return;
+    }
+    
+    // For other links, if we are handling navigation, we might want to ensure we go to home first
+    // But for now, let standard anchor tags work for hash scrolling on home page
+    if (!subItem && item.href.startsWith('#')) {
+       onNavigate('home');
+       // Allow the anchor click to propagate for scrolling if we are already on home, 
+       // or if we switched to home, the hash might need a manual scroll.
+       // For simplicity in this structure, we assume standard behavior unless it's a "page" switch.
+    }
+
+    if (subItem) {
+        setIsMenuOpen(false);
+    }
   };
 
   // Dynamic styling based on scroll state
@@ -160,7 +184,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
         <div className={`container mx-auto px-6 transition-all duration-300 flex justify-between items-center ${scrolled ? 'h-20' : 'h-24'}`}>
           
           {/* Logo Section */}
-          <div className="flex items-center gap-3 group cursor-pointer">
+          <div 
+            className="flex items-center gap-3 group cursor-pointer"
+            onClick={() => onNavigate('home')}
+          >
             <img 
               src="https://ecolearn.pages.dev/img/logo.png" 
               alt="Air Force School Logo"
@@ -188,6 +215,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
                 >
                   <a 
                     href={item.href}
+                    onClick={(e) => handleNavClick(e, item)}
                     className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-colors relative z-10 ${textClasses} ${navHoverClasses}`}
                   >
                     {item.label}
@@ -200,7 +228,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
                           <ul className="py-2">
                             {item.subItems.map((sub) => (
                               <li key={sub.label}>
-                                <a href={sub.href} className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-af-blue dark:hover:text-af-light transition-colors border-l-2 border-transparent hover:border-af-blue font-medium">
+                                <a 
+                                    href={sub.href} 
+                                    onClick={(e) => handleNavClick(e, item, sub)}
+                                    className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-af-blue dark:hover:text-af-light transition-colors border-l-2 border-transparent hover:border-af-blue font-medium"
+                                >
                                   {sub.label}
                                 </a>
                               </li>
@@ -296,7 +328,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
                   <a 
                     href={item.href} 
                     className="text-2xl font-serif font-bold text-gray-900 dark:text-white hover:text-af-blue dark:hover:text-af-light transition-colors block mb-2"
-                    onClick={() => !item.subItems && setIsMenuOpen(false)}
+                    onClick={(e) => {
+                         if (!item.subItems) {
+                             handleNavClick(e, item);
+                         }
+                    }}
                   >
                     {item.label}
                   </a>
@@ -307,7 +343,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout }) => {
                           key={sub.label} 
                           href={sub.href}
                           className="block text-gray-500 dark:text-gray-400 hover:text-af-blue dark:hover:text-af-light text-sm uppercase tracking-wide font-medium"
-                          onClick={() => setIsMenuOpen(false)}
+                          onClick={(e) => handleNavClick(e, item, sub)}
                         >
                           {sub.label}
                         </a>
