@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 interface LoginPageProps {
   onLogin: (username: string) => void;
-  onBack?: () => void;
 }
 
 type AuthMode = 'login' | 'signup' | 'forgot-password';
 
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>('login');
   
@@ -41,11 +40,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
   };
 
   const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else {
-      navigate('/');
-    }
+    navigate('/');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -64,11 +59,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
             setError('All fields are required.');
             return;
         }
-    } else if (mode === 'forgot-password') {
-        if (!email.trim() || !email.includes('@')) {
-            setError('Please enter a valid email address.');
-            return;
-        }
     }
 
     setIsLoading(true);
@@ -77,24 +67,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
       setIsLoading(false);
 
       if (mode === 'login') {
-          // DEMO LOGIC: Simulate incorrect password
-          if (password === 'wrong' || password === '1234' || password === 'password') {
+          if (password === 'wrong') {
               setError('Incorrect password. Please try again.');
-              setPassword('');
               return;
           }
-          if (username.toLowerCase() === 'unknown') {
-             setError('Username not found in our records.');
-             return;
-          }
-
           onLogin(username);
+          navigate('/');
       } 
       else if (mode === 'signup') {
-          if (['admin', 'student', 'user', 'test'].includes(username.toLowerCase())) {
-              setError('Username is already taken. Please choose another.');
-              return;
-          }
           setSuccess('Account created successfully! Redirecting to login...');
           setTimeout(() => switchMode('login'), 2000);
       } 
@@ -103,7 +83,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
           setSuccess(`Password reset link sent to ${email}`);
           setEmail('');
       }
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -129,11 +109,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                         {mode === 'signup' && 'Create Account'}
                         {mode === 'forgot-password' && 'Reset Password'}
                     </h2>
-                    <p className="text-blue-200 text-sm">
-                        {mode === 'login' && 'Login to access your dashboard'}
-                        {mode === 'signup' && 'Join the Air Force School community'}
-                        {mode === 'forgot-password' && 'Recover your account access'}
-                    </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -145,20 +120,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                     
                     {success && (
                         <div className="bg-green-500/20 border border-green-500/50 text-green-200 text-xs p-3 rounded flex flex-col items-center justify-center gap-2 animate-fade-in text-center">
-                            <div className="flex items-center gap-2">
-                                <Check size={14} /> {success}
-                            </div>
-                            
-                            {mode === 'forgot-password' && submittedEmail.includes('@gmail.com') && (
-                                <a 
-                                    href="https://mail.google.com" 
-                                    target="_blank" 
-                                    rel="noreferrer"
-                                    className="mt-2 flex items-center gap-1 bg-white text-gray-900 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase hover:bg-gray-100 transition-colors"
-                                >
-                                    Open Gmail <ExternalLink size={10} />
-                                </a>
-                            )}
+                            <Check size={14} /> {success}
                         </div>
                     )}
 
@@ -204,7 +166,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-12 pr-12 text-white placeholder:text-white/30 focus:outline-none focus:border-af-gold/50 focus:bg-white/10 transition-all"
-                                    placeholder={mode === 'signup' ? "Create a strong password" : "Enter your Password"}
+                                    placeholder="Enter Password"
                                 />
                                 <button
                                     type="button"
@@ -221,27 +183,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full bg-af-blue hover:bg-blue-600 text-white font-bold py-3.5 rounded-lg shadow-lg shadow-blue-900/50 transition-all transform hover:translate-y-[-1px] active:translate-y-[1px] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full bg-af-blue hover:bg-blue-600 text-white font-bold py-3.5 rounded-lg shadow-lg shadow-blue-900/50 transition-all flex items-center justify-center gap-2"
                         >
-                            {isLoading ? (
-                            <> <Loader2 size={18} className="animate-spin" /> Processing... </>
-                            ) : (
-                            <>
-                                {mode === 'login' && 'Login Securely'}
-                                {mode === 'signup' && 'Register Account'}
-                                {mode === 'forgot-password' && 'Send Reset Link'}
-                            </>
-                            )}
-                        </button>
-                    )}
-                    
-                    {mode === 'forgot-password' && success && (
-                        <button
-                            type="button"
-                            onClick={() => switchMode('login')}
-                            className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-                        >
-                             <ArrowLeft size={16} /> Back to Login
+                            {isLoading ? <Loader2 size={18} className="animate-spin" /> : (mode === 'login' ? 'Login' : 'Submit')}
                         </button>
                     )}
                 </form>
@@ -257,13 +201,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                             </div>
                         </>
                     )}
-                    
                     {mode === 'signup' && (
                         <div className="text-xs text-white/40">
                             Already have an account? <button onClick={() => switchMode('login')} className="text-white hover:text-af-gold font-bold transition-colors ml-1">Login</button>
                         </div>
                     )}
-
                     {mode === 'forgot-password' && !success && (
                         <button onClick={() => switchMode('login')} className="flex items-center justify-center gap-1 text-xs text-white/50 hover:text-white transition-colors">
                             <ArrowLeft size={12} /> Back to Login

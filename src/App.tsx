@@ -1,30 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
-import Home from './components/Home';
-import GalleryPage from './components/GalleryPage';
 import AssistantChat from './components/AssistantChat';
 import BrandFooter from './components/BrandFooter';
-import LoginPage from './components/LoginPage';
+import Home from './pages/Home';
+import GalleryPage from './pages/Gallery';
+import LoginPage from './pages/Login';
 
-// Enhanced ScrollToTop component to handle hash navigation
+// ScrollToTop: Handles scrolling when route changes or hash is present
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // If there is a hash, attempt to scroll to the element
     if (hash) {
-      // Small timeout to allow the DOM to update after a route change
-      const timer = setTimeout(() => {
+      // If hash exists, wait for render then scroll
+      setTimeout(() => {
         const id = hash.replace('#', '');
         const element = document.getElementById(id);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);
-      return () => clearTimeout(timer);
     } else {
-      // If no hash is present, scroll to the top of the page
+      // If new page (no hash), scroll to top
       window.scrollTo(0, 0);
     }
   }, [pathname, hash]);
@@ -32,7 +30,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Layout component to wrap pages that share Header/Footer
+// Layout: Wraps pages that need Header, Footer, and Chat
 interface LayoutProps {
   user: string | null;
   onLogout: () => void;
@@ -50,11 +48,10 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
         setFooterHeight(footerRef.current.offsetHeight);
       }
     };
-
+    
     updateFooterHeight();
     window.addEventListener('resize', updateFooterHeight);
-    
-    // Update when location changes (in case footer content changes)
+    // Recalculate after short delay to allow content to settle
     const timer = setTimeout(updateFooterHeight, 500);
 
     return () => {
@@ -67,22 +64,21 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
     <div className="min-h-screen bg-gray-900 font-sans selection:bg-af-blue selection:text-white">
       <Header user={user} onLogout={onLogout} />
       
-      {/* Main Content Wrapper - Acts as the "Curtain" */}
+      {/* Main Content "Curtain" Effect */}
       <div 
         className="relative z-10 bg-white dark:bg-gray-900 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out"
-        style={{ marginBottom: `${footerHeight}px` }}
+        style={{ marginBottom: `${footerHeight}px`, minHeight: '100vh' }}
       >
         <main>
           {children}
         </main>
       </div>
 
-      {/* Fixed Footer Section - The Reveal */}
+      {/* Fixed Footer Reveal */}
       <div ref={footerRef} className="fixed bottom-0 left-0 w-full z-0">
         <BrandFooter />
       </div>
       
-      {/* AI Assistant Widget */}
       <AssistantChat />
     </div>
   );
@@ -95,26 +91,28 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
+        {/* Login Route - Standalone */}
         <Route path="/login" element={
-          <LoginPage 
-            onLogin={(username) => setUser(username)} 
-          />
+          <LoginPage onLogin={(u) => setUser(u)} />
         } />
         
+        {/* Home Route */}
         <Route path="/" element={
           <Layout user={user} onLogout={() => setUser(null)}>
             <Home />
           </Layout>
         } />
 
+        {/* Gallery Route */}
         <Route path="/gallery" element={
           <Layout user={user} onLogout={() => setUser(null)}>
             <GalleryPage />
           </Layout>
         } />
-        
+
+        {/* Fallback Route */}
         <Route path="*" element={
-           <Layout user={user} onLogout={() => setUser(null)}>
+          <Layout user={user} onLogout={() => setUser(null)}>
              <div className="pt-32 pb-20 text-center min-h-[50vh] bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
                <h1 className="text-4xl font-bold mb-4">404</h1>
                <p>Page not found</p>

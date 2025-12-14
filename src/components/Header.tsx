@@ -105,30 +105,37 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
   };
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
-    // If it's a route (starts with /), let Link handle it normally unless we are on mobile
+    // 1. If it's a full route (starts with /), let standard navigation happen
     if (href.startsWith('/')) {
         setIsMenuOpen(false);
+        // Link component handles this automatically
         return;
     }
 
-    // If it's an anchor link (#)
+    // 2. If it's a hash link (#id)
     e.preventDefault();
     setIsMenuOpen(false);
 
     if (isHomePage) {
-        // If on home page, scroll to element
-        const id = href.substring(1);
+        // If we are already on home, scroll to the element
+        const id = href.substring(1); // remove #
         const element = document.getElementById(id);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
     } else {
-        // If not on home page, navigate to home with hash
+        // If we are on another page (e.g. /gallery), navigate to home + hash
         navigate(`/${href}`);
     }
   };
 
-  // Dynamic styling based on scroll state or page
+  // Helper to get correct 'to' prop for Link component
+  const getLinkTo = (href: string) => {
+    if (href.startsWith('/')) return href;
+    if (isHomePage) return href; // Return #id to let handleNavClick preventDefault work
+    return `/${href}`; // Return /#id for other pages
+  };
+
   const headerClasses = (scrolled || !isHomePage)
     ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg py-0'
     : 'bg-gradient-to-b from-black/80 via-black/40 to-transparent py-4';
@@ -151,7 +158,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Parents</a>
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</a>
           
-          {/* Theme Toggle Button */}
           <button 
             onClick={toggleTheme}
             className={`flex items-center gap-1 px-2 py-1 rounded transition-colors ml-4 ${(scrolled || !isHomePage) ? 'text-gray-600 hover:text-af-blue dark:text-gray-300 dark:hover:text-white' : 'text-white hover:text-af-gold'}`}
@@ -188,7 +194,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
       <div className="relative">
         <div className={`container mx-auto px-6 transition-all duration-300 flex justify-between items-center ${(scrolled || !isHomePage) ? 'h-20' : 'h-24'}`}>
           
-          {/* Logo Section */}
           <Link to="/" className="flex items-center gap-3 group cursor-pointer">
             <img 
               src="https://ecolearn.pages.dev/img/logo.png" 
@@ -205,7 +210,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center h-full">
             <ul className="flex h-full items-center">
               {navItems.map((item) => (
@@ -216,14 +220,13 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
                   onMouseLeave={() => setActiveSubMenu(null)}
                 >
                   <Link 
-                    to={item.href.startsWith('/') ? item.href : (isHomePage ? item.href : `/${item.href}`)}
+                    to={getLinkTo(item.href)}
                     onClick={(e) => handleNavClick(e, item.href)}
                     className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-colors relative z-10 ${textClasses} ${navHoverClasses}`}
                   >
                     {item.label}
                   </Link>
                   
-                  {/* Dropdown Menu */}
                   {item.subItems && (
                     <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
                        <div className="w-64 bg-white dark:bg-gray-800 shadow-xl border-t-4 border-af-blue rounded-b-md overflow-hidden">
@@ -231,9 +234,9 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
                             {item.subItems.map((sub) => (
                               <li key={sub.label}>
                                 <Link 
-                                    to={sub.href.startsWith('/') ? sub.href : (isHomePage ? sub.href : `/${sub.href}`)}
-                                    onClick={(e) => handleNavClick(e, sub.href)}
-                                    className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-af-blue dark:hover:text-af-light transition-colors border-l-2 border-transparent hover:border-af-blue font-medium"
+                                  to={getLinkTo(sub.href)}
+                                  onClick={(e) => handleNavClick(e, sub.href)}
+                                  className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-af-blue dark:hover:text-af-light transition-colors border-l-2 border-transparent hover:border-af-blue font-medium"
                                 >
                                   {sub.label}
                                 </Link>
@@ -247,7 +250,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
               ))}
             </ul>
 
-            {/* Search Icon */}
             <button 
               className={`ml-6 p-2 transition-colors ${searchIconColor}`}
               onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -256,7 +258,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
             </button>
           </nav>
 
-          {/* Mobile Menu Toggle */}
           <button 
             className={`lg:hidden p-2 ${textClasses}`}
             onClick={() => setIsMenuOpen(true)}
@@ -270,7 +271,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
           </button>
         </div>
 
-        {/* Search Overlay */}
         {isSearchOpen && (
           <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-800 shadow-md p-6 border-t border-gray-100 dark:border-gray-700 animate-fade-in-down z-40">
             <div className="container mx-auto flex items-center gap-4">
@@ -289,7 +289,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
         )}
       </div>
 
-      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-white dark:bg-gray-900 flex flex-col animate-fade-in text-gray-800 dark:text-gray-100">
           <div className="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800">
@@ -306,7 +305,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
           </div>
           
           <div className="flex-1 overflow-y-auto p-6">
-             {/* Mobile User Section */}
              {user && (
                  <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center justify-between">
                      <div className="flex items-center gap-3">
@@ -328,7 +326,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
               {navItems.map((item) => (
                 <div key={item.label} className="border-b border-gray-50 dark:border-gray-800 pb-4">
                   <Link 
-                    to={item.href.startsWith('/') ? item.href : (isHomePage ? item.href : `/${item.href}`)}
+                    to={getLinkTo(item.href)}
                     onClick={(e) => handleNavClick(e, item.href)}
                     className="text-2xl font-serif font-bold text-gray-900 dark:text-white hover:text-af-blue dark:hover:text-af-light transition-colors block mb-2"
                   >
@@ -338,10 +336,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
                     <div className="pl-4 space-y-3 mt-2 border-l-2 border-gray-100 dark:border-gray-800">
                       {item.subItems.map((sub) => (
                         <Link 
-                            key={sub.label}
-                            to={sub.href.startsWith('/') ? sub.href : (isHomePage ? sub.href : `/${sub.href}`)}
-                            onClick={(e) => handleNavClick(e, sub.href)}
-                            className="block text-gray-500 dark:text-gray-400 hover:text-af-blue dark:hover:text-af-light text-sm uppercase tracking-wide font-medium"
+                          key={sub.label} 
+                          to={getLinkTo(sub.href)}
+                          onClick={(e) => handleNavClick(e, sub.href)}
+                          className="block text-gray-500 dark:text-gray-400 hover:text-af-blue dark:hover:text-af-light text-sm uppercase tracking-wide font-medium"
                         >
                           {sub.label}
                         </Link>
@@ -353,7 +351,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
             </nav>
             
             <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800 grid grid-cols-2 gap-4">
-               {/* Mobile Login Button if not logged in */}
                {!user && (
                   <Link 
                     to="/login"
@@ -363,26 +360,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
                     <User size={16} /> <span className="text-sm font-bold uppercase">Login</span>
                   </Link>
                )}
-
-              <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                <Calendar className="text-af-blue dark:text-af-light mb-2" />
-                <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Calendar</span>
-              </a>
-              <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                <GraduationCap className="text-af-blue dark:text-af-light mb-2" />
-                <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Alumni</span>
-              </a>
-              <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                <MapPin className="text-af-blue dark:text-af-light mb-2" />
-                <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Directions</span>
-              </a>
-              <button 
-                onClick={toggleTheme}
-                className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-              >
-                {theme === 'dark' ? <Sun className="text-af-blue dark:text-af-light mb-2" /> : <Moon className="text-af-blue mb-2" />}
-                <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Theme</span>
-              </button>
             </div>
           </div>
         </div>

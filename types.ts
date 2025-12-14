@@ -30,4 +30,5 @@ export interface GalleryImage {
   id: number;
   url: string;
   caption: string;
+  category: 'All' | 'Academics' | 'Sports' | 'Events' | 'Campus';
 }

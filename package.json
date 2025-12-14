@@ -9,13 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "@google/genai": "^1.32.0",
-    "lucide-react": "^0.556.0",
-    "vite": "^7.2.7",
-    "@vitejs/plugin-react": "^5.1.2",
-    "react-router-dom": "^7.10.1"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "@google/genai": "0.1.0",
+    "lucide-react": "0.263.1",
+    "vite": "5.0.0",
+    "@vitejs/plugin-react": "4.2.0",
+    "react-router-dom": "6.22.3",
+    "path": "latest",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
