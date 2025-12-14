@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
       { label: 'Curriculum', href: '#' },
       { label: 'Departments', href: '#' },
       { label: 'Academic Calendar', href: '#' },
-      { label: 'Library', href: '#' }
+      { label: 'Scholars', href: '#' }
     ]
   },
   { 
