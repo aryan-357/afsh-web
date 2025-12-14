@@ -10,11 +10,13 @@ import AssistantChat from './components/AssistantChat';
 import BrandFooter from './components/BrandFooter';
 import LoginPage from './components/LoginPage';
 import ScholarsPage from './components/ScholarsPage';
+import GalleryPage from './components/GalleryPage';
 
 // Home Component acting as the Landing Page
 const Home: React.FC<{ user: string | null; onLogout: () => void }> = ({ user, onLogout }) => {
   const [footerHeight, setFooterHeight] = useState(0);
   const footerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateFooterHeight = () => {
@@ -89,7 +91,12 @@ const Home: React.FC<{ user: string | null; onLogout: () => void }> = ({ user, o
                     <h2 className="text-3xl font-serif font-bold">Campus Life</h2>
                     <p className="text-gray-400 mt-2">Glimpses of activities at AF School Hindan</p>
                   </div>
-                  <button className="hidden md:block border border-white px-6 py-2 hover:bg-white hover:text-black transition uppercase text-xs font-bold tracking-widest">View Gallery</button>
+                  <button 
+                    onClick={() => navigate('/gallery')}
+                    className="hidden md:block border border-white px-6 py-2 hover:bg-white hover:text-black transition uppercase text-xs font-bold tracking-widest"
+                  >
+                    View Gallery
+                  </button>
                </div>
                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
                   <img src="https://picsum.photos/seed/campus1/400/300" className="w-full h-48 object-cover rounded hover:opacity-90 transition" alt="Campus 1" />
@@ -97,7 +104,12 @@ const Home: React.FC<{ user: string | null; onLogout: () => void }> = ({ user, o
                   <img src="https://picsum.photos/seed/campus3/400/300" className="w-full h-48 object-cover rounded hover:opacity-90 transition" alt="Campus 3" />
                   <img src="https://picsum.photos/seed/campus4/400/300" className="w-full h-48 object-cover rounded hover:opacity-90 transition" alt="Campus 4" />
                </div>
-               <button className="md:hidden mt-6 w-full border border-white px-6 py-3 hover:bg-white hover:text-black transition uppercase text-xs font-bold tracking-widest">View Gallery</button>
+               <button 
+                onClick={() => navigate('/gallery')}
+                className="md:hidden mt-6 w-full border border-white px-6 py-3 hover:bg-white hover:text-black transition uppercase text-xs font-bold tracking-widest"
+               >
+                View Gallery
+               </button>
             </div>
           </section>
 
@@ -142,6 +154,10 @@ function App() {
         <Route 
           path="/scholars" 
           element={<ScholarsPage />} 
+        />
+        <Route 
+          path="/gallery" 
+          element={<GalleryPage />} 
         />
       </Routes>
     </div>

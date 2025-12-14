@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
       { label: 'Curriculum', href: '#' },
       { label: 'Departments', href: '#' },
       { label: 'Academic Calendar', href: '#' },
-      { label: 'Scholars', href: '#' }
+      { label: 'Scholars', href: '/scholars' }
     ]
   },
   { 
@@ -46,7 +46,8 @@ const navItems: NavItem[] = [
       { label: 'Houses', href: '#' },
       { label: 'Clubs & Societies', href: '#' },
       { label: 'Sports', href: '#' },
-      { label: 'NCC', href: '#' }
+      { label: 'NCC', href: '#' },
+      { label: 'Gallery', href: '/gallery' }
     ]
   },
   { 
@@ -103,17 +104,19 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
   };
 
   const handleNavClick = (e: React.MouseEvent, item: NavItem, subItem?: NavItem) => {
-    // If it's the scholars link, navigate to route
-    if ((subItem && subItem.label === 'Scholars') || (item.label === 'Scholars')) {
+    const targetHref = subItem ? subItem.href : item.href;
+
+    // Handle client-side routing for internal paths
+    if (targetHref.startsWith('/')) {
         e.preventDefault();
-        navigate('/scholars');
+        navigate(targetHref);
         setIsMenuOpen(false);
         setActiveSubMenu(null);
         return;
     }
     
     // Handle hash links
-    if ((!subItem && item.href.startsWith('#')) || (subItem && subItem.href.startsWith('#'))) {
+    if (targetHref.startsWith('#')) {
        // If we are not on home, go home first
        if (location.pathname !== '/') {
            navigate('/');
