@@ -44,12 +44,12 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                     <div className="bg-white dark:bg-gray-700 p-2 md:p-4 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600 transform hover:scale-[1.01] transition-transform duration-500">
                         <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
                              <img
-                                src={YOUR_PHOTO_URL}
+                                src={https://i.postimg.cc/YqLjTp3z/scholars-photo-jpg.webp}
                                 alt="Class 10th Scholars Group Photo"
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                   // Fallback if the link is broken
-                                  e.currentTarget.src = "https://placehold.co/1200x675/00308F/FFFFFF/png?text=Photo+Unavailable+Check+URL";
+                                  e.currentTarget.src = "https://i.postimg.cc/YqLjTp3z/scholars-photo-jpg.webp";
                                 }}
                             />
                             {/* Overlay Gradient for "Stage" effect feel */}
