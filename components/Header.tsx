@@ -106,20 +106,21 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
         e.preventDefault();
         onNavigate('scholars');
         setIsMenuOpen(false);
+        setActiveSubMenu(null); // Close submenu on desktop
         return;
     }
     
     // For other links, if we are handling navigation, we might want to ensure we go to home first
-    // But for now, let standard anchor tags work for hash scrolling on home page
     if (!subItem && item.href.startsWith('#')) {
        onNavigate('home');
-       // Allow the anchor click to propagate for scrolling if we are already on home, 
-       // or if we switched to home, the hash might need a manual scroll.
-       // For simplicity in this structure, we assume standard behavior unless it's a "page" switch.
+       // We don't prevent default here to allow hash scrolling
+    } else if (subItem && subItem.href.startsWith('#')) {
+       onNavigate('home');
     }
 
-    if (subItem) {
+    if (subItem || !item.subItems) {
         setIsMenuOpen(false);
+        setActiveSubMenu(null);
     }
   };
 

@@ -21,23 +21,27 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                 <h1 className="text-3xl md:text-5xl font-serif font-bold text-af-blue dark:text-white mb-2">Scholars</h1>
                 <div className="w-24 h-1.5 bg-af-gold mx-auto mb-10 rounded-full"></div>
 
-                <div className="inline-block bg-white dark:bg-gray-700 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-600 transform hover:scale-[1.01] transition-transform duration-500">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6 font-serif uppercase tracking-wider border-b pb-4 border-gray-200 dark:border-gray-600">
+                <div className="inline-block w-full max-w-5xl mx-auto bg-white dark:bg-gray-700 p-2 md:p-6 rounded-xl shadow-xl border border-gray-100 dark:border-gray-600">
+                    <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6 font-serif uppercase tracking-wider border-b-2 border-gray-200 dark:border-gray-600 pb-4 inline-block px-8">
                         Class 10th 2024-25
                     </h2>
                     
-                    {/* Placeholder for the user's specific image */}
-                    <div className="relative overflow-hidden rounded-lg">
+                    {/* 
+                       Note: In a real application, you would replace this URL with the actual URL of the uploaded image.
+                       Since we are in a code generation environment, we are using a high-quality placeholder 
+                       that represents a group of students.
+                    */}
+                    <div className="relative overflow-hidden rounded-lg mt-4">
                         <img
-                            src="https://picsum.photos/seed/class10group/1200/800" 
+                            src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop" 
                             alt="Class 10th 2024-25 Group Photo"
-                            className="w-full max-w-5xl h-auto object-cover rounded shadow-sm"
+                            className="w-full h-auto object-cover rounded shadow-sm hover:scale-[1.02] transition-transform duration-700"
                         />
-                        <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-lg"></div>
+                        <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-lg pointer-events-none"></div>
                     </div>
                     
-                    <p className="text-gray-500 dark:text-gray-400 mt-4 italic font-serif">
-                        "Excellence is not a skill, it is an attitude."
+                    <p className="text-gray-500 dark:text-gray-400 mt-6 italic font-serif text-lg">
+                        "Celebrating the academic excellence and spirit of our Class 10 scholars."
                     </p>
                 </div>
             </div>
