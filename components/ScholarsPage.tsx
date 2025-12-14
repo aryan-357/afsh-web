@@ -1,17 +1,18 @@
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Info } from 'lucide-react';
 
 interface ScholarsPageProps {
   onBack: () => void;
 }
 
 // ==================================================================================
-// INSTRUCTIONS TO ADD YOUR PHOTO:
-// 1. If you can't add a local file, upload your photo to https://postimages.org/
-// 2. Copy the 'Direct Link' (it usually ends in .jpg or .png).
-// 3. Paste the link inside the quotes below, replacing the placeholder URL.
+// PHOTO CONFIGURATION
 // ==================================================================================
-const YOUR_PHOTO_URL = "https://i.postimg.cc/YqLjTp3z/scholars-photo-jpg.webp"; 
+// TIP: If your original image is small or blurry, this new layout will help it look better 
+// by adding a blurred background effect. 
+// For best results, use an AI Upscaler (like upscale.media) on your photo before uploading.
+// ==================================================================================
+const YOUR_PHOTO_URL = "https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp"; 
 // ==================================================================================
 
 
@@ -40,28 +41,47 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                         </h2>
                     </div>
                     
-                    {/* Photo Frame */}
-                    <div className="bg-white dark:bg-gray-700 p-2 md:p-4 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600 transform hover:scale-[1.01] transition-transform duration-500">
-                        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
-                             <img
-                                src={https://i.postimg.cc/YqLjTp3z/scholars-photo-jpg.webp}
-                                alt="Class 10th Scholars Group Photo"
-                                className="w-full h-full object-cover"
-                                onError={(e) => {
-                                  // Fallback if the link is broken
-                                  e.currentTarget.src = "https://placehold.co/1200x675/00308F/FFFFFF/png?text=Photo+Unavailable+Check+URL";
+                    {/* 
+                        Enhanced Photo Frame 
+                        Uses a blurred backdrop to make low-quality or different aspect ratio images look professional.
+                    */}
+                    <div className="bg-white dark:bg-gray-700 p-2 md:p-4 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600">
+                        <div className="relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden group">
+                            
+                            {/* 1. Blurred Background Layer (Ambience) */}
+                            {/* This fills the container with a blurred version of the image, hiding pixelation */}
+                            <div 
+                                className="absolute inset-0 opacity-50 blur-[20px] scale-110"
+                                style={{ 
+                                    backgroundImage: `url(${https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp})`,
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover'
                                 }}
                             />
-                            {/* Overlay Gradient for "Stage" effect feel */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+                            
+                            {/* 2. Dark Overlay to ensure focus is on the main image */}
+                            <div className="absolute inset-0 bg-black/10" />
+
+                            {/* 3. The Main Image - Centered and 'contain' to prevent pixelated stretching */}
+                            <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8">
+                                <img
+                                    src={https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp}
+                                    alt="Class 10th Scholars"
+                                    className="w-full h-full object-contain rounded shadow-2xl relative z-10 transition-transform duration-500 hover:scale-[1.02]"
+                                    onError={(e) => {
+                                        e.currentTarget.src = "https://placehold.co/1200x675/00308F/FFFFFF/png?text=Image+Load+Error";
+                                    }}
+                                />
+                            </div>
                         </div>
-                        
+
                         <div className="mt-6 text-center">
                             <p className="text-lg md:text-xl text-gray-800 dark:text-white font-serif font-bold">
                                 "Celebrating Excellence"
                             </p>
-                            <p className="text-sm md:text-base text-gray-500 dark:text-gray-300 mt-2 italic max-w-3xl mx-auto">
-                                The school administration, principal, and staff congratulate our brilliant students of Class X for their outstanding performance in the board examinations.
+                            <p className="text-sm md:text-base text-gray-500 dark:text-gray-300 mt-2 italic max-w-3xl mx-auto flex items-center justify-center gap-2">
+                                <Info size={14} className="text-af-blue dark:text-af-light" />
+                                The school administration congratulates our brilliant students.
                             </p>
                         </div>
                     </div>
