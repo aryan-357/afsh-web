@@ -21,28 +21,29 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                 <h1 className="text-3xl md:text-5xl font-serif font-bold text-af-blue dark:text-white mb-2">Scholars</h1>
                 <div className="w-24 h-1.5 bg-af-gold mx-auto mb-10 rounded-full"></div>
 
-                <div className="inline-block w-full max-w-5xl mx-auto bg-white dark:bg-gray-700 p-2 md:p-6 rounded-xl shadow-xl border border-gray-100 dark:border-gray-600">
-                    <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6 font-serif uppercase tracking-wider border-b-2 border-gray-200 dark:border-gray-600 pb-4 inline-block px-8">
+                {/* Class 10th Section */}
+                <div className="w-full max-w-7xl mx-auto mb-16">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6 font-serif uppercase tracking-wider border-b-2 border-af-gold pb-2 inline-block">
                         Class 10th 2024-25
                     </h2>
                     
-                    {/* 
-                       Note: In a real application, you would replace this URL with the actual URL of the uploaded image.
-                       Since we are in a code generation environment, we are using a high-quality placeholder 
-                       that represents a group of students.
-                    */}
-                    <div className="relative overflow-hidden rounded-lg mt-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop" 
-                            alt="Class 10th 2024-25 Group Photo"
-                            className="w-full h-auto object-cover rounded shadow-sm hover:scale-[1.02] transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-lg pointer-events-none"></div>
+                    <div className="bg-white dark:bg-gray-700 p-3 rounded-xl shadow-md border border-gray-100 dark:border-gray-600">
+                        {/* 
+                           PLACEHOLDER IMAGE 
+                           Please replace the src below with the URL of the image you uploaded 
+                           (e.g., ./assets/class10.jpg or the hosted URL).
+                        */}
+                        <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+                             <img
+                                src="https://placehold.co/1200x675/00308F/FFFFFF/png?text=Insert+Class+10th+Photo+Here" 
+                                alt="Class 10th Students with Medals and Certificates"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <p className="text-gray-600 dark:text-gray-300 mt-4 font-serif italic">
+                            "Congratulations to our meritorious students of Class X (Session 2024-25)"
+                        </p>
                     </div>
-                    
-                    <p className="text-gray-500 dark:text-gray-400 mt-6 italic font-serif text-lg">
-                        "Celebrating the academic excellence and spirit of our Class 10 scholars."
-                    </p>
                 </div>
             </div>
         </div>
