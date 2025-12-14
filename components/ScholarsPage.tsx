@@ -49,7 +49,7 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                   // Fallback if the link is broken
-                                  e.currentTarget.src = "https://i.postimg.cc/YqLjTp3z/scholars-photo-jpg.webp";
+                                  e.currentTarget.src = "https://placehold.co/1200x675/00308F/FFFFFF/png?text=Photo+Unavailable+Check+URL";
                                 }}
                             />
                             {/* Overlay Gradient for "Stage" effect feel */}
