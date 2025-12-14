@@ -35,7 +35,7 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                         */}
                         <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
                              <img
-                                src="https://placehold.co/1200x675/00308F/FFFFFF/png?text=Insert+Class+10th+Photo+Here" 
+                                src=":afsh website pic 1"
                                 alt="Class 10th Students with Medals and Certificates"
                                 className="w-full h-full object-cover"
                             />
