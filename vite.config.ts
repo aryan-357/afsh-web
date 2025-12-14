@@ -25,6 +25,7 @@ export default defineConfig({
       // via the index.html importmap (CDN). This fixes the "Two Reacts" issue.
       external: [
         'react',
+        'react/jsx-runtime',
         'react-dom',
         'react-dom/client',
         'react-router-dom',
