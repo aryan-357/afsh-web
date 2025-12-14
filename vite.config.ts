@@ -20,5 +20,17 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      // Prevent Vite from bundling these dependencies so they are loaded 
+      // via the index.html importmap (CDN). This fixes the "Two Reacts" issue.
+      external: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react-router-dom',
+        '@google/genai',
+        'lucide-react'
+      ]
+    }
   },
 });

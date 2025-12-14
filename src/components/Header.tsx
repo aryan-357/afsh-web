@@ -52,7 +52,7 @@ const navItems: NavItem[] = [
   },
   { 
     label: 'News', 
-    href: '#news' 
+    href: '/news' 
   },
   { 
     label: 'Contact', 
