@@ -52,9 +52,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 onLoginClick={() => setShowLogin(true)}
                 onLogout={() => setUser(null)}
                 onNavigate={(page) => {
-                    if (page === 'home') window.location.href = '/';
-                    else if (page === 'news') window.location.href = '/news/';
-                    else if (page === 'scholars') window.location.href = '/scholars';
+                    // Internal router navigation
+                    if (page === 'home') {
+                        window.location.href = '/'; // Keep hard reload for now or use navigate('/')
+                        // Note: If we are fully SPA, we should use navigate('/'). 
+                        // But if we want to ensure fresh state or if "Home" is a separate app (it's not anymore), navigate is better.
+                    }
+                    else if (page === 'news') {
+                        window.location.href = '/blog'; // Navigate to our new Blog route
+                    }
+                    else if (page === 'scholars') {
+                        window.location.href = '/scholars';
+                    }
                     else if (page.startsWith('#')) {
                         if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
                             const el = document.querySelector(page);
