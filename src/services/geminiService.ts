@@ -1,8 +1,8 @@
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 
 // Initialize Gemini AI
-// The API key must be obtained exclusively from the environment variable process.env.API_KEY.
-const apiKey = process.env.API_KEY;
+// The API key must be obtained using import.meta.env for Vite
+const apiKey = import.meta.env.VITE_API_KEY;
 let ai: GoogleGenAI | null = null;
 
 if (apiKey) {
