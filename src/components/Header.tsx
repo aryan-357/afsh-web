@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, User, Calendar, GraduationCap, MapPin, Sun, Moon, LogOut } from 'lucide-react';
 import { NavItem } from '../types';
 
@@ -52,7 +53,7 @@ const navItems: NavItem[] = [
   },
   {
     label: 'News',
-    href: '/news'
+    href: '/blog'
   },
   {
     label: 'Contact',
@@ -61,6 +62,7 @@ const navItems: NavItem[] = [
 ];
 
 const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigate }) => {
+  const navigate = useNavigate();
   // ... state ...
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -224,13 +226,22 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                   onMouseEnter={() => setActiveSubMenu(item.label)}
                   onMouseLeave={() => setActiveSubMenu(null)}
                 >
-                  <a
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item)}
-                    className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-colors relative z-10 ${textClasses} ${navHoverClasses}`}
-                  >
-                    {item.label}
-                  </a>
+                  {item.href.startsWith('/') ? (
+                    <Link
+                      to={item.href}
+                      className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-colors relative z-10 ${textClasses} ${navHoverClasses}`}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      onClick={(e) => handleNavClick(e, item)}
+                      className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-colors relative z-10 ${textClasses} ${navHoverClasses}`}
+                    >
+                      {item.label}
+                    </a>
+                  )}
 
                   {/* Dropdown Menu */}
                   {item.subItems && (

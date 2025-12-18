@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import BrandFooter from './BrandFooter';
 import AssistantChat from './AssistantChat';
@@ -9,6 +10,7 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const navigate = useNavigate();
     const [footerHeight, setFooterHeight] = useState(0);
     const footerRef = useRef<HTMLDivElement>(null);
     const [user, setUser] = useState<string | null>(null);
@@ -54,22 +56,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 onNavigate={(page) => {
                     // Internal router navigation
                     if (page === 'home') {
-                        window.location.href = '/'; // Keep hard reload for now or use navigate('/')
-                        // Note: If we are fully SPA, we should use navigate('/'). 
-                        // But if we want to ensure fresh state or if "Home" is a separate app (it's not anymore), navigate is better.
+                        navigate('/');
                     }
                     else if (page === 'news') {
-                        window.location.href = '/blog'; // Navigate to our new Blog route
+                        navigate('/blog');
                     }
                     else if (page === 'scholars') {
-                        window.location.href = '/scholars';
+                        window.location.href = '/scholars'; // If scholars is a separate app/page
                     }
                     else if (page.startsWith('#')) {
                         if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
                             const el = document.querySelector(page);
                             el?.scrollIntoView({ behavior: 'smooth' });
                         } else {
-                            window.location.href = '/' + page;
+                            navigate('/' + page);
                         }
                     }
                 }}
