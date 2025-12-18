@@ -6,25 +6,32 @@ import { BlogPost } from '../types/blog';
 const BlogPage = () => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [activeCategory, setActiveCategory] = useState('all');
     const API_URL = import.meta.env.VITE_STRAPI_URL;
 
     useEffect(() => {
         fetch(`${API_URL}/api/articles?populate=*`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    if (res.status === 404) throw new Error("Articles endpoint not found. Please create the 'Article' content type in Strapi.");
+                    throw new Error(`API returned ${res.status}`);
+                }
+                return res.json();
+            })
             .then(response => {
-                // Handle both v4 (data: { id, attributes: ... }) and v5 (data: [ ... ]) structures if needed
-                // But following user prompt which implies direct array or simple structure wrapper
-                // User prompt snippet: response.data
-                if (Array.isArray(response.data)) {
+                if (response.data && Array.isArray(response.data)) {
+                    setPosts(response.data);
+                } else if (Array.isArray(response.data)) {
                     setPosts(response.data);
                 } else {
-                    console.error("Unexpected API response format", response);
+                    setError("No articles found or invalid API format.");
                 }
                 setLoading(false);
             })
             .catch(err => {
                 console.error("Failed to fetch posts", err);
+                setError(err.message || "Could not load blog posts.");
                 setLoading(false);
             });
     }, [API_URL]);
@@ -53,6 +60,23 @@ const BlogPage = () => {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-af-blue"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 px-6 text-center">
+                <div className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-md">
+                    <h2 className="text-2xl font-bold text-red-600 mb-4">Connection Issue</h2>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-af-blue text-white rounded-lg font-bold hover:bg-blue-700 transition"
+                    >
+                        Retry
+                    </button>
+                </div>
             </div>
         );
     }
