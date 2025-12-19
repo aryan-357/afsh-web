@@ -2,7 +2,6 @@ import React from 'react';
 import HeroCarousel from './HeroCarousel';
 import NoticeBoard from './NoticeBoard';
 import LatestNews from './LatestNews';
-import PrincipalMessage from './PrincipalMessage';
 import Footer from './Footer';
 
 const HomePage: React.FC = () => {
@@ -41,10 +40,6 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-
-            <div id="about">
-                <PrincipalMessage />
-            </div>
 
             {/* Gallery Preview */}
             <section id="student-life" className="py-16 bg-gray-900 text-white mb-20">

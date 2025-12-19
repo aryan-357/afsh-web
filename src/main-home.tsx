@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import HomePage from './components/HomePage';
 import BlogPage from './components/BlogPage';
 import PostDetails from './components/PostDetails';
+import AboutPage from './components/AboutPage';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -18,6 +19,7 @@ root.render(
             <Layout>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/about" element={<AboutPage />} />
                     <Route path="/blog" element={<BlogPage />} />
                     <Route path="/blog/:slug" element={<PostDetails />} />
                 </Routes>

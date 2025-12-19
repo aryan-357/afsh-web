@@ -13,12 +13,12 @@ interface HeaderProps {
 const navItems: NavItem[] = [
   {
     label: 'About',
-    href: '#about',
+    href: '/about',
     subItems: [
-      { label: 'Principal\'s Message', href: '#' },
-      { label: 'School History', href: '#' },
-      { label: 'Vision & Mission', href: '#' },
-      { label: 'Administration', href: '#' }
+      { label: 'Principal\'s Message', href: '#principal' },
+      { label: 'School History', href: '#history' },
+      { label: 'Vision & Mission', href: '#vision' },
+      { label: 'Administration', href: '#admin' }
     ]
   },
   {
@@ -113,6 +113,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
     // News Link
     else if (item.label === 'News') {
       onNavigate('news');
+    }
+    // About Link
+    else if (item.label === 'About') {
+      onNavigate('about');
     }
     // Hash links
     else if ((!subItem && item.href.startsWith('#')) || (subItem && subItem.href.startsWith('#'))) {
