@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 export interface FacultyMember {
     name: string;
@@ -28,7 +29,7 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
         align: 'center',
         skipSnaps: false,
         duration: 30
-    });
+    }, [Autoplay({ delay: autoSlideInterval, stopOnInteraction: false })]);
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openedMemberIndex, setOpenedMemberIndex] = useState<number | null>(null);
@@ -104,6 +105,8 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
         tweenParallax(emblaApi);
         onSelect(emblaApi);
 
+        const autoplay = emblaApi.plugins().autoplay;
+
         emblaApi
             .on('reInit', setTweenNodes)
             .on('reInit', setTweenFactor)
@@ -113,18 +116,15 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
             .on('slideFocus', tweenParallax)
             .on('select', onSelect);
 
-        // Auto scroll
-        let intervalId: ReturnType<typeof setInterval>;
-        if (openedMemberIndex === null) {
-            intervalId = setInterval(() => {
-                emblaApi.scrollNext();
-            }, autoSlideInterval);
+        // Pause/Resume autoplay based on modal state
+        if (openedMemberIndex !== null) {
+            autoplay?.stop();
+        } else {
+            autoplay?.play();
         }
 
-        return () => {
-            if (intervalId) clearInterval(intervalId);
-        };
-    }, [emblaApi, tweenParallax, setTweenNodes, setTweenFactor, onSelect, autoSlideInterval, openedMemberIndex]);
+        return () => { };
+    }, [emblaApi, tweenParallax, setTweenNodes, setTweenFactor, onSelect, openedMemberIndex]);
 
     const handleCardClick = (index: number) => {
         if (openedMemberIndex === index) {
