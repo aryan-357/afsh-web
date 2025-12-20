@@ -4,86 +4,254 @@ import PrincipalMessage from './PrincipalMessage';
 import FacultyCarousel, { FacultyMember } from './FacultyCarousel';
 
 // Neutral placeholder for face-free identity
-const neutralPlaceholder = "https://placehold.co/600x800/f3f4f6/9ca3af?text=FACULTY";
+const neutralPlaceholder = "/faculty-placeholder.png";
 
 const pgtFaculty: FacultyMember[] = [
     {
         name: "Mrs. Savita Jaitly",
-        designation: "PGT - English",
+        designation: "PGT - History",
         department: "Humanities",
         image: neutralPlaceholder,
-        quote: "Literature is the most agreeable way of ignoring life.",
-        description: "Leading the English department with a passion for classical literature and modern linguistics, ensuring students develop a profound command of the language."
-    },
-    {
-        name: "Mr. Vivek Giri",
-        designation: "PGT - Mathematics",
-        department: "Science",
-        image: neutralPlaceholder,
-        quote: "Mathematics is the music of reason.",
-        description: "Specializing in advanced calculus and algebra, Mr. Giri makes complex mathematical concepts accessible and engaging through logical deduction."
+        quote: "History is a guide to navigation in perilous times.",
+        description: "An expert in modern and ancient history, dedicated to bringing the past alive for students through critical analysis and storytelling."
     },
     {
         name: "Mrs. Kavita Sharma",
-        designation: "PGT - Science",
+        designation: "PGT - Chem.",
         department: "Science",
         image: neutralPlaceholder,
-        quote: "Somewhere, something incredible is waiting to be known.",
-        description: "A dedicated science educator focused on practical experimentation and fostering a scientific temper among senior secondary students."
+        quote: "Chemistry is the study of change.",
+        description: "Specializing in organic and inorganic chemistry, she leads students through complex laboratory experiments and theoretical concepts."
+    },
+    {
+        name: "Miss. Sushma Bhardwaj",
+        designation: "PGT - Eco.",
+        department: "Commerce",
+        image: neutralPlaceholder,
+        quote: "Economics is everywhere, and understanding it is key to understanding the world.",
+        description: "Passionate about macroeconomics and global markets, helping students navigate the complexities of financial systems."
+    },
+    {
+        name: "Mr. Vivek Giri",
+        designation: "PGT - IP",
+        department: "Technology",
+        image: neutralPlaceholder,
+        quote: "Code is the language of the future.",
+        description: "Expert in Informatics Practices and software development, grooming students for the digital era through hands-on programming."
+    },
+    {
+        name: "Mr. PS Gangwar",
+        designation: "PGT - Maths",
+        department: "Science",
+        image: neutralPlaceholder,
+        quote: "Mathematics is the music of reason.",
+        description: "Focused on advanced calculus and logic, Mr. Gangwar helps students solve complex problems with structured thinking."
+    },
+    {
+        name: "Mr. Manzar Zaidi",
+        designation: "PGT - PET",
+        department: "Sports",
+        image: neutralPlaceholder,
+        quote: "A healthy mind resides in a healthy body.",
+        description: "Promoting physical fitness and sportsmanship across all senior grades through rigorous training and discipline."
+    },
+    {
+        name: "Mrs. Namrata Mishra",
+        designation: "PGT - Bio.",
+        department: "Science",
+        image: neutralPlaceholder,
+        quote: "Biology is the most powerful technology ever created.",
+        description: "Specializing in biotechnology and genetics, she fosters a deep appreciation for the living world."
+    },
+    {
+        name: "Mr. Naresh Khanna",
+        designation: "PGT - Eng.",
+        department: "Humanities",
+        image: neutralPlaceholder,
+        quote: "The limit of my language is the limit of my world.",
+        description: "Nurturing analytical reading and eloquent expression through literature and creative writing."
+    },
+    {
+        name: "Mrs. Sunita Malik",
+        designation: "PGT - Hindi",
+        department: "Humanities",
+        image: neutralPlaceholder,
+        quote: "Sahitya hi jeevan ka darpan hai.",
+        description: "Dedicated to the beauty of Hindi literature and linguistics, instilling a sense of cultural pride in her students."
+    },
+    {
+        name: "Mrs. Ayushi Tyagi",
+        designation: "PGT - Commerce",
+        department: "Commerce",
+        image: neutralPlaceholder,
+        quote: "Business is more than money; it's about value.",
+        description: "Leading the commerce stream with a focus on accountancy and business studies."
     }
 ];
 
 const tgtFaculty: FacultyMember[] = [
     {
         name: "Mrs. Anjali Mishra",
-        designation: "TGT - Social Science",
+        designation: "TGT - S. Sci.",
         department: "Humanities",
         image: neutralPlaceholder,
-        quote: "Those who do not remember the past are condemned to repeat it.",
-        description: "Bringing history and geography to life for junior high students, Mrs. Mishra emphasizes the importance of global citizenship."
+        quote: "Understanding society is the first step to changing it.",
+        description: "Passionate about social sciences and civic awareness, helping students understand the world around them."
     },
     {
         name: "Mr. JK Jha",
-        designation: "TGT - Physical Education",
-        department: "Sports",
+        designation: "TGT - Sanskrit",
+        department: "Humanities",
         image: neutralPlaceholder,
-        quote: "Sound mind in a sound body.",
-        description: "A veteran in physical training, Mr. Jha focuses on discipline, teamwork, and the physical well-being of every student."
+        quote: "Sanskrit is the foundation of our culture.",
+        description: "Keeping the ancient language alive through traditional teaching methods and modern engagement."
     },
     {
         name: "Mrs. Sweta Jain",
-        designation: "TGT - Computer Science",
-        department: "Technology",
+        designation: "TGT - Maths",
+        department: "Science",
         image: neutralPlaceholder,
-        quote: "The only way to do great work is to love what you do.",
-        description: "Empowering the next generation with digital literacy and coding skills, Mrs. Jain stays at the forefront of educational technology."
+        quote: "Numbers never lie.",
+        description: "Creating a strong mathematical foundation for middle school students through interactive problem-solving."
+    },
+    {
+        name: "Mrs. Subhara Paul",
+        designation: "TGT - Science",
+        department: "Science",
+        image: neutralPlaceholder,
+        quote: "Science is magic that works.",
+        description: "Focusing on experimental learning and scientific observation in the secondary grades."
+    },
+    {
+        name: "Mrs. Prachi Sharma",
+        designation: "TGT - Music & Dance",
+        department: "Arts",
+        image: neutralPlaceholder,
+        quote: "Where words fail, music speaks.",
+        description: "Nurturing creative talents and cultural expression through performing arts."
+    },
+    {
+        name: "Mrs. Binita Sinha",
+        designation: "TGT - S.Sci.",
+        department: "Humanities",
+        image: neutralPlaceholder,
+        quote: "Geography is the study of home.",
+        description: "Specializing in geography and history, bringing the world closer to the classroom."
+    },
+    {
+        name: "Mrs. Sweta Srivastava",
+        designation: "TGT - Librarian",
+        department: "Library",
+        image: neutralPlaceholder,
+        quote: "A library is a hospital for the mind.",
+        description: "Curating a vast collection of knowledge and fostering a reading culture throughout the school."
+    },
+    {
+        name: "Mr. Hitesh Thakur",
+        designation: "TGT - PET",
+        department: "Sports",
+        image: neutralPlaceholder,
+        quote: "Champions are made, not born.",
+        description: "Leading school teams and individual athletes to excellence on the field."
+    },
+    {
+        name: "Mrs. Neelkamal",
+        designation: "TGT - S. Sci.",
+        department: "Humanities",
+        image: neutralPlaceholder,
+        quote: "History is what we choose to remember.",
+        description: "Engaging students with historical narratives and societal developments."
+    },
+    {
+        name: "Ms. Poonam Bhardwaj",
+        designation: "TGT - Science",
+        department: "Science",
+        image: neutralPlaceholder,
+        quote: "Curiosity is the wick in the candle of learning.",
+        description: "Encouraging inquiry and exploration in the foundational sciences."
     }
 ];
 
 const prtFaculty: FacultyMember[] = [
     {
         name: "Mrs. Annpurna Srivastava",
-        designation: "PRT Staff",
+        designation: "Head Mistress",
         department: "Primary",
         image: neutralPlaceholder,
-        quote: "The influence of a good teacher can never be erased.",
-        description: "Dedicated to the foundational years, Mrs. Srivastava creates a vibrant learning environment where curiosity is nurtured."
+        quote: "Education is the manifestation of perfection already in man.",
+        description: "Leading the primary department with a vision for holistic early childhood development."
     },
     {
         name: "Mrs. Supti Bhattacharya",
-        designation: "PRT Staff",
+        designation: "PRT - Music",
         department: "Primary",
         image: neutralPlaceholder,
-        quote: "Every child is a gifted child.",
-        description: "Focusing on holistic development and creative expression for our youngest learners in the primary department."
+        quote: "Music is the language of the soul.",
+        description: "Introducing our youngest learners to the world of rhythm and melody."
     },
     {
         name: "Mrs. Usha Chauhan",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
-        quote: "To teach is to touch a heart.",
-        description: "Expert in early childhood pedagogy, Mrs. Chauhan emphasizes empathy and social skills alongside academic basics."
+        quote: "Every child is unique.",
+        description: "Dedicated to nurturing individual potential in the foundational years."
+    },
+    {
+        name: "Mrs. Anita Sarkar",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Kindness is the highest form of intelligence.",
+        description: "Creating a nurturing classroom environment where students feel safe to explore."
+    },
+    {
+        name: "Mrs. Anshu Bhardwaj",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Learning should be an adventure.",
+        description: "Bringing creativity and joy to primary school education through active learning."
+    },
+    {
+        name: "Mrs. Manju Sharma",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Teaching is a work of heart.",
+        description: "Supporting students through their first steps of academic and social growth."
+    },
+    {
+        name: "Mrs. Poonam Sharma",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Believe in yourself.",
+        description: "Building confidence and curiosity in our primary grade students."
+    },
+    {
+        name: "Mrs. Saroj Yadav",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Knowledge is power.",
+        description: "Focusing on literacy and numeracy foundations for primary learners."
+    },
+    {
+        name: "Mrs. Renu Lata",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Keep climbing higher.",
+        description: "Encouraging resilience and hard work in early education."
+    },
+    {
+        name: "Mrs. Mala Tiku",
+        designation: "PRT Staff",
+        department: "Primary",
+        image: neutralPlaceholder,
+        quote: "Small steps lead to big changes.",
+        description: "Nurturing the small steps of our primary students every day."
     }
 ];
 
@@ -116,7 +284,7 @@ const AboutPage: React.FC = () => {
 
             {/* Faculty Section Title */}
             <div className="pt-24 pb-8 container mx-auto px-6">
-                <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white border-b-4 border-af-gold inline-block pb-2">Meet Our Educators</h2>
+                <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white border-b-4 border-af-gold inline-block pb-2">Our Dedicated Faculty</h2>
             </div>
 
             {/* PGT Teachers */}
