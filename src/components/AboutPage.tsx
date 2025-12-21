@@ -8,8 +8,8 @@ const neutralPlaceholder = "/faculty-placeholder.png";
 
 const pgtFaculty: FacultyMember[] = [
     {
-        name: "Mrs. Savita Jaitly",
-        designation: "PGT - History",
+        name: "Ms. Pooja",
+        designation: "PGT - Political Sci.",
         department: "Humanities",
         image: neutralPlaceholder,
         quote: "History is a guide to navigation in perilous times.",
@@ -48,7 +48,7 @@ const pgtFaculty: FacultyMember[] = [
         description: "Focused on advanced calculus and logic, Mr. Gangwar helps students solve complex problems with structured thinking."
     },
     {
-        name: "Mr. Manzar Zaidi",
+        name: "Mr. Vikram (Manzar Ziadi Replacement)",
         designation: "PGT - PET",
         department: "Sports",
         image: neutralPlaceholder,
@@ -147,7 +147,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Curating a vast collection of knowledge and fostering a reading culture throughout the school."
     },
     {
-        name: "Mr. Hitesh Thakur",
+        name: "Mr. Vikram",
         designation: "TGT - PET",
         department: "Sports",
         image: neutralPlaceholder,
