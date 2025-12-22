@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, ChevronRight, Share2, ArrowRight } from 'lucide-react';
+import Silk from './Silk';
 
 const newsCategories = [
     { id: 'all', label: 'All Updates' },
@@ -73,11 +74,20 @@ const NewsPage = () => {
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
 
             {/* Header Section */}
-            <div className="bg-af-blue text-white pt-32 pb-16 mb-12 relative overflow-hidden">
-                <div className="absolute inset-0 bg-black/20 z-0"></div>
+            <div className="relative text-white pt-32 pb-16 mb-12 overflow-hidden">
+                {/* Silk Background */}
+                <div className="absolute inset-0 z-0">
+                    <Silk
+                        speed={3}
+                        scale={1.5}
+                        color="#1a365d"
+                        noiseIntensity={1.2}
+                        rotation={0}
+                    />
+                </div>
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4 animate-fade-in-up">News & Chronicles</h1>
-                    <p className="text-lg text-blue-100 max-w-2xl mx-auto animate-fade-in-up delay-100">
+                    <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4 animate-fade-in-up drop-shadow-lg">News & Chronicles</h1>
+                    <p className="text-lg text-blue-100 max-w-2xl mx-auto animate-fade-in-up delay-100 drop-shadow">
                         Stay updated with the latest happenings, achievements, and announcements from Air Force School Hindan.
                     </p>
                 </div>
