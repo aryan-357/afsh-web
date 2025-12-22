@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import BrandFooter from './BrandFooter';
-import AssistantChat from './AssistantChat';
-import LoginPage from './LoginPage';
+
+// Lazy load heavy components to reduce initial bundle size
+// AssistantChat pulls in @google/genai (~100KB)
+// LoginPage pulls in Silk/Three.js (~750KB)
+const AssistantChat = lazy(() => import('./AssistantChat'));
+const LoginPage = lazy(() => import('./LoginPage'));
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -40,10 +44,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     if (showLogin) {
         return (
-            <LoginPage
-                onLogin={handleLogin}
-                onBack={() => setShowLogin(false)}
-            />
+            <Suspense fallback={
+                <div className="min-h-screen flex items-center justify-center bg-gray-900">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-400"></div>
+                </div>
+            }>
+                <LoginPage
+                    onLogin={handleLogin}
+                    onBack={() => setShowLogin(false)}
+                />
+            </Suspense>
         );
     }
 
@@ -91,7 +101,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <BrandFooter />
             </div>
 
-            <AssistantChat />
+            <Suspense fallback={null}>
+                <AssistantChat />
+            </Suspense>
         </div>
     );
 };

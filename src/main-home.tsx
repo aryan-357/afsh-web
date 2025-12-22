@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import HomePage from './components/HomePage';
-import BlogPage from './components/BlogPage';
-import PostDetails from './components/PostDetails';
-import AboutPage from './components/AboutPage';
+
+// Lazy load page components for code splitting
+const HomePage = lazy(() => import('./components/HomePage'));
+const AboutPage = lazy(() => import('./components/AboutPage'));
+const BlogPage = lazy(() => import('./components/BlogPage'));
+const PostDetails = lazy(() => import('./components/PostDetails'));
+
+// Loading spinner component
+const PageLoader = () => (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="flex flex-col items-center gap-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">Loading...</p>
+        </div>
+    </div>
+);
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -17,12 +29,14 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Layout>
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/blog" element={<BlogPage />} />
-                    <Route path="/blog/:slug" element={<PostDetails />} />
-                </Routes>
+                <Suspense fallback={<PageLoader />}>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/blog" element={<BlogPage />} />
+                        <Route path="/blog/:slug" element={<PostDetails />} />
+                    </Routes>
+                </Suspense>
             </Layout>
         </BrowserRouter>
     </React.StrictMode>

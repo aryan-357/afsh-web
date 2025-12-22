@@ -135,10 +135,10 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
     };
 
     return (
-        <section className="bg-gray-50 dark:bg-gray-950 py-20 relative overflow-hidden transition-colors duration-500">
+        <section className="py-20 relative overflow-hidden transition-colors duration-500">
             {/* Background decorative elements for "Liquid" feel */}
-            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-af-blue/10 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] animation-delay-2000"></div>
+            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-af-blue/20 rounded-full blur-[100px] animate-pulse"></div>
+            <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] animation-delay-2000"></div>
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Navigation Buttons Moved higher relative to viewport */}

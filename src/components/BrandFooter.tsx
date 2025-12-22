@@ -2,7 +2,7 @@ import React from 'react';
 
 const BrandFooter: React.FC = () => {
   return (
-    <div className="bg-gray-900 text-white flex flex-col justify-center items-center py-20 border-t border-gray-800 w-full overflow-hidden select-none">
+    <div className="relative z-20 bg-gray-900 text-white flex flex-col justify-center items-center py-20 border-t border-gray-800 w-full overflow-hidden select-none">
       <div className="relative group cursor-default">
         <h1 className="text-[25vw] leading-[0.8] font-display font-bold text-gray-800 tracking-tighter opacity-50 group-hover:opacity-80 transition-opacity duration-700">
           AFSH

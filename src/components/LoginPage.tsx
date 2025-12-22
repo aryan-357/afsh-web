@@ -33,6 +33,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-gray-900 relative overflow-hidden font-sans">
             {/* Silk Background */}
+            {/* Silk Background overlay gradient */}
             <div className="absolute inset-0 z-0">
                 <Silk
                     speed={2}

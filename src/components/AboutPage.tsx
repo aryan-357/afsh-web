@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Shield, Award, BookOpen, Heart } from 'lucide-react';
 import EDMessage from './EDMessage';
-import PrincipalMessage from './PrincipalMessage';
-import FacultyCarousel, { FacultyMember } from './FacultyCarousel';
-import Silk from './Silk';
+const PrincipalMessage = React.lazy(() => import('./PrincipalMessage'));
+import type { FacultyMember } from './FacultyCarousel';
+const FacultyCarousel = React.lazy(() => import('./FacultyCarousel'));
+const Silk = React.lazy(() => import('./Silk'));
 
 // Neutral placeholder for face-free identity
 const neutralPlaceholder = "/faculty-placeholder.png";
@@ -259,93 +260,101 @@ const prtFaculty: FacultyMember[] = [
 
 const AboutPage: React.FC = () => {
     return (
-        <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
-            {/* Hero Section */}
-            <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-                {/* Silk Background */}
-                <div className="absolute inset-0 z-0">
-                    <Silk
-                        speed={3}
-                        scale={1.5}
-                        color="#1a365d"
-                        noiseIntensity={1.2}
-                        rotation={0}
-                    />
-                    {/* Overlay for better text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
-                </div>
+        <div className="relative min-h-screen">
+            <Suspense fallback={<div>Loading background...</div>}>
+                <Silk
+                    speed={3}
+                    scale={1.5}
+                    color="#1a365d"
+                    noiseIntensity={1.2}
+                    rotation={0}
+                />
+            </Suspense>
 
-                <div className="container mx-auto px-4 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
-                        About Our <span className="text-af-gold">Institution</span>
-                    </h1>
-                </div>
-            </section>
-
-            {/* ED's Message Section */}
-            <div id="ed-message" className="border-b border-gray-50 dark:border-gray-800">
-                <EDMessage />
-            </div>
-
-            {/* Principal's Message Section */}
-            <div id="principal" className="border-b border-gray-50 dark:border-gray-800">
-                <PrincipalMessage />
-            </div>
-
-            {/* Faculty Section Title */}
-            <div className="pt-24 pb-8 container mx-auto px-6">
-                <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white border-b-4 border-af-gold inline-block pb-2">Our Dedicated Faculty</h2>
-            </div>
-
-            {/* PGT Teachers */}
-            <div className="py-12">
-                <div className="container mx-auto px-6 mb-8">
-                    <h3 className="text-2xl font-serif font-bold text-af-blue dark:text-af-light uppercase tracking-widest">PGT Teachers</h3>
-                </div>
-                <FacultyCarousel faculty={pgtFaculty} />
-            </div>
-
-            {/* TGT Teachers */}
-            <div className="py-12 bg-gray-50 dark:bg-gray-800/30">
-                <div className="container mx-auto px-6 mb-8">
-                    <h3 className="text-2xl font-serif font-bold text-af-blue dark:text-af-light uppercase tracking-widest">TGT Teachers</h3>
-                </div>
-                <FacultyCarousel faculty={tgtFaculty} />
-            </div>
-
-            {/* PRT Teachers */}
-            <div className="py-12">
-                <div className="container mx-auto px-6 mb-8">
-                    <h3 className="text-2xl font-serif font-bold text-af-blue dark:text-af-light uppercase tracking-widest">PRT Teachers</h3>
-                </div>
-                <FacultyCarousel faculty={prtFaculty} />
-            </div>
-
-            {/* Core Values */}
-            <section id="admin" className="py-24 bg-gray-900 text-white">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-16">
-                        Our Core <span className="text-af-gold">Values</span>
-                    </h2>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-                        {[
-                            { icon: Shield, title: 'Integrity', desc: 'Upholding honesty in all actions.' },
-                            { icon: Award, title: 'Excellence', desc: 'Striving for the best results.' },
-                            { icon: BookOpen, title: 'Innovation', desc: 'Creative approaches to learning.' },
-                            { icon: Heart, title: 'Compassion', desc: 'Empathy for every student.' },
-                        ].map((value, idx) => (
-                            <div key={idx} className="group">
-                                <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-white/10 group-hover:bg-af-gold/20 transition-all duration-300">
-                                    <value.icon className="text-af-gold" size={28} />
-                                </div>
-                                <h4 className="text-xl font-bold mb-4">{value.title}</h4>
-                                <p className="text-gray-400 text-sm leading-relaxed">{value.desc}</p>
-                            </div>
-                        ))}
+            {/* Content wrapper with relative positioning */}
+            <div className="relative z-10">
+                {/* Hero Section */}
+                <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+                    <div className="container mx-auto px-4 relative z-10 text-center">
+                        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+                            About Our <span className="text-af-gold">Institution</span>
+                        </h1>
                     </div>
+                </section>
+
+                {/* ED's Message Section */}
+                <div id="ed-message">
+                    <EDMessage />
                 </div>
-            </section>
+
+                {/* Principal's Message Section */}
+                <Suspense fallback={<div>Loading principal message...</div>}>
+                    <div id="principal">
+                        <PrincipalMessage />
+                    </div>
+                </Suspense>
+
+                {/* Faculty Section Title */}
+                <div className="pt-24 pb-8 container mx-auto px-6">
+                    <h2 className="text-4xl font-serif font-bold text-white drop-shadow-lg border-b-4 border-af-gold inline-block pb-2">Our Dedicated Faculty</h2>
+                </div>
+
+                {/* PGT Teachers */}
+                <div className="py-12 bg-white/5 backdrop-blur-md">
+                    <div className="container mx-auto px-6 mb-8">
+                        <h3 className="text-2xl font-serif font-bold text-white drop-shadow uppercase tracking-widest">PGT Teachers</h3>
+                    </div>
+                    <Suspense fallback={<div>Loading PGT faculty...</div>}>
+                        <FacultyCarousel faculty={pgtFaculty} />
+                    </Suspense>
+                </div>
+
+                {/* TGT Teachers */}
+                <div className="py-12 bg-white/10 backdrop-blur-lg">
+                    <div className="container mx-auto px-6 mb-8">
+                        <h3 className="text-2xl font-serif font-bold text-white drop-shadow uppercase tracking-widest">TGT Teachers</h3>
+                    </div>
+                    <Suspense fallback={<div>Loading TGT faculty...</div>}>
+                        <FacultyCarousel faculty={tgtFaculty} />
+                    </Suspense>
+                </div>
+
+                {/* PRT Teachers */}
+                <div className="py-12 bg-white/5 backdrop-blur-md">
+                    <div className="container mx-auto px-6 mb-8">
+                        <h3 className="text-2xl font-serif font-bold text-white drop-shadow uppercase tracking-widest">PRT Teachers</h3>
+                    </div>
+                    <Suspense fallback={<div>Loading PRT faculty...</div>}>
+                        <FacultyCarousel faculty={prtFaculty} />
+                    </Suspense>
+                </div>
+
+                {/* Core Values */}
+                <section id="admin" className="py-24 bg-black/50 backdrop-blur-xl text-white">
+                    <div className="container mx-auto px-4 text-center">
+                        <h2 className="text-3xl md:text-4xl font-serif font-bold mb-16">
+                            Our Core <span className="text-af-gold">Values</span>
+                        </h2>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+                            {[
+                                { icon: Shield, title: 'Integrity', desc: 'Upholding honesty in all actions.' },
+                                { icon: Award, title: 'Excellence', desc: 'Striving for the best results.' },
+                                { icon: BookOpen, title: 'Innovation', desc: 'Creative approaches to learning.' },
+                                { icon: Heart, title: 'Compassion', desc: 'Empathy for every student.' },
+                            ].map((value, idx) => (
+                                <div key={idx} className="group bg-white/10 backdrop-blur-md rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 border border-white/10">
+                                    <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-white/10 group-hover:bg-af-gold/20 transition-all duration-300">
+                                        <value.icon className="text-af-gold" size={28} />
+                                    </div>
+                                    <h4 className="text-xl font-bold mb-4">{value.title}</h4>
+                                    <p className="text-gray-300 text-sm leading-relaxed">{value.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     );
 };
