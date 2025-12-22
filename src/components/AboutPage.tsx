@@ -3,6 +3,7 @@ import { Shield, Award, BookOpen, Heart } from 'lucide-react';
 import EDMessage from './EDMessage';
 import PrincipalMessage from './PrincipalMessage';
 import FacultyCarousel, { FacultyMember } from './FacultyCarousel';
+import Silk from './Silk';
 
 // Neutral placeholder for face-free identity
 const neutralPlaceholder = "/faculty-placeholder.png";
@@ -261,18 +262,21 @@ const AboutPage: React.FC = () => {
         <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
             {/* Hero Section */}
             <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-                <div
-                    className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{
-                        backgroundImage: 'url("https://images.unsplash.com/photo-1541339907198-e08756ebafe1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")',
-                        backgroundAttachment: 'fixed'
-                    }}
-                >
-                    <div className="absolute inset-0 bg-af-blue/50 dark:bg-gray-900/80 backdrop-blur-[1px]"></div>
+                {/* Silk Background */}
+                <div className="absolute inset-0 z-0">
+                    <Silk
+                        speed={3}
+                        scale={1.5}
+                        color="#1a365d"
+                        noiseIntensity={1.2}
+                        rotation={0}
+                    />
+                    {/* Overlay for better text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up">
+                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
                         About Our <span className="text-af-gold">Institution</span>
                     </h1>
                 </div>
