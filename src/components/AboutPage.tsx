@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Award, BookOpen, Heart } from 'lucide-react';
+import EDMessage from './EDMessage';
 import PrincipalMessage from './PrincipalMessage';
 import FacultyCarousel, { FacultyMember } from './FacultyCarousel';
 
@@ -276,6 +277,11 @@ const AboutPage: React.FC = () => {
                     </h1>
                 </div>
             </section>
+
+            {/* ED's Message Section */}
+            <div id="ed-message" className="border-b border-gray-50 dark:border-gray-800">
+                <EDMessage />
+            </div>
 
             {/* Principal's Message Section */}
             <div id="principal" className="border-b border-gray-50 dark:border-gray-800">
