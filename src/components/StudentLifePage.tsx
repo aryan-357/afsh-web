@@ -31,7 +31,7 @@ const StudentLifePage: React.FC = () => {
       motto: 'Unity in Strength',
       achievements: ['Debating Champions', 'Cultural Fest Winners', 'Best Team Spirit'],
       members: '192+ Students',
-      house_master: 'Ms. Priya Singh'
+      house_master: 'Mrs. Seema Kori'
     },
     {
       id: 'subroto',
@@ -45,7 +45,7 @@ const StudentLifePage: React.FC = () => {
       motto: 'Integrity and Honor',
       achievements: ['Quiz Master Award', 'Science Fair Winners', 'Sporting Legends'],
       members: '178+ Students',
-      house_master: 'Dr. Amit Verma'
+      house_master: 'Mrs. Prachi Sharma'
     },
     {
       id: 'katre',
@@ -294,3 +294,4 @@ const StudentLifePage: React.FC = () => {
 };
 
 export default StudentLifePage;
+
