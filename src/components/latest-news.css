@@ -1,0 +1,36 @@
+.news-carousel-container {
+  overflow: hidden;
+  width: 100%;
+  background: white;
+}
+
+.news-carousel {
+  display: flex;
+  animation: scroll-news 40s linear infinite;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.news-carousel-item {
+  flex-shrink: 0;
+}
+
+@keyframes scroll-news {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover */
+.news-carousel-container:hover .news-carousel {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-carousel {
+    animation: none;
+  }
+}

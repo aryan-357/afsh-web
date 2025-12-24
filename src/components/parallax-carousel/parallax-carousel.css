@@ -1,0 +1,148 @@
+.embla-parallax {
+  --slide-height: 92vh;
+  --slide-spacing: 0rem;
+  --slide-size: 100%;
+}
+.embla-parallax__viewport {
+  overflow: hidden;
+  height: var(--slide-height);
+}
+.embla-parallax__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  height: 100%;
+}
+.embla-parallax__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  position: relative;
+}
+.embla-parallax {
+  height: var(--slide-height);
+  position: relative;
+}
+.embla-parallax__inner {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.embla-parallax__layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.embla-parallax__img {
+  max-width: none;
+  flex: 0 0 120%; /* Increased for better parallax range */
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+/* Controls Overlay */
+.embla-parallax__controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.embla-parallax__buttons {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  pointer-events: none;
+}
+
+.embla-parallax__button {
+  pointer-events: auto;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.embla-parallax__button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+  transform: scale(1.1);
+}
+
+.embla-parallax__button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.embla-parallax__dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  pointer-events: auto;
+}
+
+.embla-parallax__dot {
+  width: 2rem;
+  height: 0.25rem;
+  background: rgba(255, 255, 255, 0.3);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.embla-parallax__dot--selected {
+  background: var(--af-gold, #ffcc00);
+  width: 4rem;
+}
+
+/* Content Transitions */
+.embla-parallax__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0 1rem;
+  z-index: 10;
+}
+
+.embla-parallax__title {
+  font-family: serif;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  max-width: 64rem;
+  line-height: 1.1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.embla-parallax__subtitle {
+  font-weight: 300;
+  max-width: 42rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
