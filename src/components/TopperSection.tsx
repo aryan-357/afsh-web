@@ -13,24 +13,24 @@ const TopperSection: React.FC = () => {
   const toppers: Topper[] = [
     {
       id: 1,
-      name: 'Aarav Kumar',
-      percentage: 98.5,
+      name: 'Kritika Singh',
+      percentage: 92.00,
       position: 1,
-      class: 'Class XII-A'
+      class: 'Science'
     },
     {
       id: 2,
-      name: 'Ishita Sharma',
-      percentage: 97.8,
+      name: 'Arinav Attri',
+      percentage: 91.00,
       position: 2,
-      class: 'Class XII-B'
+      class: 'Commerce'
     },
     {
       id: 3,
-      name: 'Rohan Singh',
-      percentage: 97.2,
+      name: 'Pratigya Chaudhary',
+      percentage: 90.00,
       position: 3,
-      class: 'Class XII-A'
+      class: 'Humanities'
     }
   ];
 
@@ -149,3 +149,4 @@ const TopperSection: React.FC = () => {
 };
 
 export default TopperSection;
+
