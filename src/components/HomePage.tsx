@@ -3,6 +3,7 @@ import ParallaxCarousel from './parallax-carousel/ParallaxCarousel';
 import NoticeBoard from './NoticeBoard';
 import LatestNews from './LatestNews';
 import Footer from './Footer';
+import TopperSection from './TopperSection';
 
 const HomePage: React.FC = () => {
     return (
@@ -16,6 +17,10 @@ const HomePage: React.FC = () => {
 
             <section id="admission">
                 <NoticeBoard />
+            </section>
+
+            <section>
+                <TopperSection />
             </section>
 
             {/* About/Vision Snippet Section */}

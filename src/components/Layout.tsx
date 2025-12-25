@@ -74,6 +74,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     else if (page === 'about') {
                         navigate('/about');
                     }
+                    else if (page === 'gallery') {
+                        navigate('/gallery');
+                    }
+                    else if (page === 'student-life') {
+                        navigate('/student-life');
+                    }
+                    else if (page === 'admissions') {
+                        navigate('/admissions');
+                    }
+                    else if (page === 'academics') {
+                        navigate('/academics');
+                    }
                     else if (page === 'scholars') {
                         window.location.href = '/scholars'; // If scholars is a separate app/page
                     }
