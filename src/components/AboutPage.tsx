@@ -7,7 +7,7 @@ const FacultyCarousel = React.lazy(() => import('./FacultyCarousel'));
 const Silk = React.lazy(() => import('./Silk'));
 
 // Neutral placeholder for face-free identity
-const neutralPlaceholder = "/faculty-placeholder.png";
+const neutralPlaceholder = "https://fastly.picsum.photos/id/22/4434/3729.jpg?hmac=fjZdkSMZJNFgsoDh8Qo5zdA_nSGUAWvKLyyqmEt2xs0";
 
 const pgtFaculty: FacultyMember[] = [
     {

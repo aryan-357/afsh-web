@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
-import Autoplay from 'embla-carousel-autoplay';
+import { EmblaCarouselType } from 'embla-carousel';
+
 
 export interface FacultyMember {
     name: string;
@@ -18,80 +18,23 @@ interface FacultyCarouselProps {
     autoSlideInterval?: number;
 }
 
-const TWEEN_FACTOR_BASE = 0.1;
+
 
 const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
     faculty,
     autoSlideInterval = 5000
 }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({
-        loop: true,
-        align: 'center',
-        skipSnaps: false,
+        loop: false,
         duration: 30
-    }, [Autoplay({ delay: autoSlideInterval, stopOnInteraction: false })]);
+    });
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openedMemberIndex, setOpenedMemberIndex] = useState<number | null>(null);
-    const tweenFactor = useRef(0);
-    const tweenNodes = useRef<HTMLElement[]>([]);
-
     const onPrevClick = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
     const onNextClick = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
-    const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-        tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
-            return slideNode.querySelector('.parallax-layer') as HTMLElement;
-        });
-    }, []);
 
-    const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
-        tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
-    }, []);
-
-    const tweenParallax = useCallback(
-        (emblaApi: EmblaCarouselType, eventName?: EmblaEventType) => {
-            const engine = emblaApi.internalEngine();
-            const scrollProgress = emblaApi.scrollProgress();
-            const slidesInView = emblaApi.slidesInView();
-            const isScrollEvent = eventName === 'scroll';
-
-            emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-                let diffToTarget = scrollSnap - scrollProgress;
-                const slidesInSnap = engine.slideRegistry[snapIndex];
-
-                slidesInSnap.forEach((slideIndex) => {
-                    if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
-
-                    if (engine.options.loop) {
-                        engine.slideLooper.loopPoints.forEach((loopItem) => {
-                            const target = loopItem.target();
-
-                            if (slideIndex === loopItem.index && target !== 0) {
-                                const sign = Math.sign(target);
-
-                                if (sign === -1) {
-                                    diffToTarget = scrollSnap - (1 + scrollProgress);
-                                }
-                                if (sign === 1) {
-                                    diffToTarget = scrollSnap + (1 - scrollProgress);
-                                }
-                            }
-                        });
-                    }
-
-                    const translateRaw = diffToTarget * (-1 * tweenFactor.current) * 100;
-                    // Clamp translation to stay within the 25% buffer (16.6% of 150% width)
-                    const translate = Math.max(-16, Math.min(16, translateRaw));
-                    const tweenNode = tweenNodes.current[slideIndex];
-                    if (tweenNode) {
-                        tweenNode.style.transform = `translateX(${translate}%)`;
-                    }
-                });
-            });
-        },
-        []
-    );
 
     const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
         setSelectedIndex(emblaApi.selectedScrollSnap());
@@ -100,31 +43,13 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
     useEffect(() => {
         if (!emblaApi) return;
 
-        setTweenNodes(emblaApi);
-        setTweenFactor(emblaApi);
-        tweenParallax(emblaApi);
         onSelect(emblaApi);
-
-        const autoplay = emblaApi.plugins().autoplay;
-
-        emblaApi
-            .on('reInit', setTweenNodes)
-            .on('reInit', setTweenFactor)
-            .on('reInit', tweenParallax)
-            .on('reInit', onSelect)
-            .on('scroll', tweenParallax)
-            .on('slideFocus', tweenParallax)
-            .on('select', onSelect);
-
-        // Pause/Resume autoplay based on modal state
-        if (openedMemberIndex !== null) {
-            autoplay?.stop();
-        } else {
-            autoplay?.play();
-        }
+        emblaApi.on('reInit', onSelect).on('select', onSelect);
 
         return () => { };
-    }, [emblaApi, tweenParallax, setTweenNodes, setTweenFactor, onSelect, openedMemberIndex]);
+    }, [emblaApi, onSelect, openedMemberIndex]);
+
+
 
     const handleCardClick = (index: number) => {
         if (openedMemberIndex === index) {
@@ -178,9 +103,9 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
                                         ${openedMemberIndex === index ? 'ring-2 ring-af-blue/50' : ''}
                                     `}
                             >
-                                {/* Parallax Image Layer - Increased buffer for movement */}
+                                {/* Static Image Layer */}
                                 <div className="absolute inset-0 overflow-hidden rounded-[40px]">
-                                    <div className="parallax-layer absolute inset-0 w-[150%] -left-[25%]">
+                                    <div className="absolute inset-0 w-full h-full">
                                         <img
                                             src={member.image}
                                             alt={member.name}
