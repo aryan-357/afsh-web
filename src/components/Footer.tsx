@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, ArrowRight } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -32,12 +33,13 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-serif font-bold mb-6 border-l-4 border-af-gold pl-3">Quick Links</h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><ArrowRight size={14} /> About Us</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><ArrowRight size={14} /> Administration</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><ArrowRight size={14} /> Admission Procedure</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><ArrowRight size={14} /> Fee Structure</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><ArrowRight size={14} /> Transfer Certificate</a></li>
-              <li><a href="#" className="hover:text-white flex items-center gap-2"><ArrowRight size={14} /> Mandatory Disclosure</a></li>
+              <li><Link to="/about" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> About Us</Link></li>
+              <li><Link to="/about#admin" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> Administration</Link></li>
+              <li><Link to="/admissions" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> Admission Procedure</Link></li>
+              <li><Link to="/admissions" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> Fee Structure</Link></li>
+              <li><Link to="/admissions" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> Transfer Certificate</Link></li>
+              <li><Link to="/calendar" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> Academic Calendar</Link></li>
+              <li><Link to="/alumni" className="hover:text-white flex items-center gap-2 transition-colors"><ArrowRight size={14} /> Alumni Network</Link></li>
             </ul>
           </div>
 
@@ -79,9 +81,9 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
           <p>&copy; {new Date().getFullYear()} Air Force School Hindan. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white">Privacy Policy</a>
-            <a href="#" className="hover:text-white">Terms of Use</a>
-            <a href="#" className="hover:text-white">Sitemap</a>
+            <Link to="/about" className="hover:text-white">Privacy Policy</Link>
+            <Link to="/about" className="hover:text-white">Terms of Use</Link>
+            <Link to="/" className="hover:text-white">Sitemap</Link>
           </div>
         </div>
       </div>

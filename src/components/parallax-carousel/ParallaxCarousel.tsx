@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     EmblaCarouselType,
     EmblaEventType,
@@ -16,6 +17,7 @@ export interface ParallaxSlide {
     title: string;
     subtitle: string;
     buttonText?: string;
+    link: string;
 }
 
 const slides: ParallaxSlide[] = [
@@ -24,21 +26,24 @@ const slides: ParallaxSlide[] = [
         imageUrl: 'https://picsum.photos/seed/school1/1920/1080',
         title: 'Excellence in Education',
         subtitle: 'Nurturing the future leaders of tomorrow',
-        buttonText: 'About Us'
+        buttonText: 'About Us',
+        link: '/about'
     },
     {
         id: 2,
         imageUrl: 'https://picsum.photos/seed/school2/1920/1080',
         title: 'Holistic Development',
         subtitle: 'Sports, Arts, and Academics in perfect harmony',
-        buttonText: 'Our Campus'
+        buttonText: 'Our Campus',
+        link: '/academics'
     },
     {
         id: 3,
         imageUrl: 'https://picsum.photos/seed/school3/1920/1080',
         title: 'State of the Art Facilities',
         subtitle: 'Providing the best environment for learning',
-        buttonText: 'Admissions'
+        buttonText: 'Admissions',
+        link: '/admissions'
     }
 ];
 
@@ -160,9 +165,12 @@ const ParallaxCarousel: React.FC = () => {
                                     <p className="embla-parallax__subtitle text-xl md:text-2xl lg:text-3xl">
                                         {slide.subtitle}
                                     </p>
-                                    <button className="px-10 py-4 bg-af-blue hover:bg-blue-700 text-white font-bold rounded-sm transition duration-300 shadow-2xl border-2 border-transparent hover:border-white text-lg tracking-wider uppercase pointer-events-auto">
+                                    <Link 
+                                        to={slide.link}
+                                        className="px-10 py-4 bg-af-blue hover:bg-blue-700 text-white font-bold rounded-sm transition duration-300 shadow-2xl border-2 border-transparent hover:border-white text-lg tracking-wider uppercase pointer-events-auto inline-block"
+                                    >
                                         {slide.buttonText || 'Learn More'}
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

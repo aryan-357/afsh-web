@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Bell, Calendar, ChevronRight, ChevronDown, Download, FileText } from 'lucide-react';
 import { Notice } from '../types';
 
@@ -7,7 +8,7 @@ const notices: Notice[] = [
     id: '1', 
     date: '25 Oct 2023', 
     title: 'Admissions Open for Session 2024-25 (Class I to IX)', 
-    link: '#', 
+    link: '/admissions', 
     isNew: true,
     content: 'Registration forms for the academic session 2024-25 are now available online. Parents are requested to fill out the form before the deadline. Entrance tests for classes VI to IX will be conducted in the second week of December. Please ensure all required documents are ready for upload.'
   },
@@ -15,28 +16,28 @@ const notices: Notice[] = [
     id: '2', 
     date: '20 Oct 2023', 
     title: 'Annual Sports Meet Schedule Released', 
-    link: '#',
+    link: '/student-life',
     content: 'The Annual Sports Meet will be held from November 10th to November 12th. Events include Track & Field, Basketball, and Volleyball. House captains are requested to submit the final list of participants by October 30th. Parents are cordially invited to witness the opening ceremony.'
   },
   { 
     id: '3', 
     date: '15 Oct 2023', 
     title: 'Parent Teacher Meeting on 30th October', 
-    link: '#',
+    link: '/blog',
     content: 'A mandatory Parent Teacher Meeting (PTM) is scheduled for October 30th, 2023, from 08:30 AM to 12:30 PM. We will be discussing the Mid-Term results and student progress. Students must accompany their parents in proper school uniform.'
   },
   { 
     id: '4', 
     date: '10 Oct 2023', 
     title: 'Winter Uniform Mandatory from 1st November', 
-    link: '#',
+    link: '/student-life',
     content: 'All students are hereby informed that wearing the complete winter uniform is mandatory starting November 1st, 2023. Blazers must be worn by students of Class VI onwards. Please refer to the school diary for detailed uniform specifications.'
   },
   { 
     id: '5', 
     date: '05 Oct 2023', 
     title: 'Result of Inter-School Debate Competition', 
-    link: '#',
+    link: '/blog',
     content: 'We are proud to announce that Air Force School Hindan bagged the First Prize in the Inter-School Debate Competition held at DPS Ghaziabad. Congratulations to the winning team: Aryan Sharma (Class X) and Sneha Gupta (Class IX).'
   },
 ];
@@ -78,7 +79,7 @@ const NoticeBoard: React.FC = () => {
                 <h3 className="text-xl font-bold text-af-blue dark:text-af-light flex items-center gap-2">
                   <Bell className="text-af-gold" /> Notice Board
                 </h3>
-                <a href="#" className="text-sm text-af-blue dark:text-af-light hover:underline">View All</a>
+                <Link to="/blog" className="text-sm text-af-blue dark:text-af-light hover:underline">View All</Link>
               </div>
               <div className="p-0">
                 {notices.map((notice) => {
@@ -119,12 +120,12 @@ const NoticeBoard: React.FC = () => {
                             <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg border border-gray-100 dark:border-gray-600/50">
                                 <p className="mb-4 leading-relaxed">{notice.content || "Please contact the school administration for more details regarding this notice."}</p>
                                 <div className="flex gap-4">
-                                    <a href={notice.link} className="inline-flex items-center gap-2 text-af-blue dark:text-af-light font-bold text-xs uppercase tracking-wide hover:underline border border-af-blue dark:border-af-light px-3 py-1.5 rounded hover:bg-af-blue hover:text-white dark:hover:bg-af-light dark:hover:text-gray-900 transition-colors">
+                                    <Link to={notice.link} className="inline-flex items-center gap-2 text-af-blue dark:text-af-light font-bold text-xs uppercase tracking-wide hover:underline border border-af-blue dark:border-af-light px-3 py-1.5 rounded hover:bg-af-blue hover:text-white dark:hover:bg-af-light dark:hover:text-gray-900 transition-colors">
                                         <Download size={14}/> Download PDF
-                                    </a>
-                                    <a href={notice.link} className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-xs uppercase tracking-wide hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+                                    </Link>
+                                    <Link to={notice.link} className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-xs uppercase tracking-wide hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
                                         <FileText size={14}/> View Details
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                          </div>
@@ -162,10 +163,10 @@ const NoticeBoard: React.FC = () => {
               <div className="bg-af-blue text-white rounded-lg shadow-lg p-6">
                  <h3 className="text-xl font-bold mb-4">Quick Links</h3>
                  <ul className="space-y-2 text-sm">
-                   <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> Student Login</a></li>
-                   <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> Online Fee Payment</a></li>
-                   <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> Download Prospectus</a></li>
-                   <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> TC Verification</a></li>
+                   <li><Link to="/about" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> School History</Link></li>
+                   <li><Link to="/admissions" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> Online Fee Payment</Link></li>
+                   <li><Link to="/admissions" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> Download Prospectus</Link></li>
+                   <li><Link to="/admissions" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14}/> TC Verification</Link></li>
                  </ul>
               </div>
             </div>

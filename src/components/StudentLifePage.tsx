@@ -31,7 +31,7 @@ const StudentLifePage: React.FC = () => {
       motto: 'Unity in Strength',
       achievements: ['Debating Champions', 'Cultural Fest Winners', 'Best Team Spirit'],
       members: '192+ Students',
-      house_master: 'Mrs. Seema Kori'
+      house_master: 'Ms. Priya Singh'
     },
     {
       id: 'subroto',
@@ -45,7 +45,7 @@ const StudentLifePage: React.FC = () => {
       motto: 'Integrity and Honor',
       achievements: ['Quiz Master Award', 'Science Fair Winners', 'Sporting Legends'],
       members: '178+ Students',
-      house_master: 'Mrs. Prachi Sharma'
+      house_master: 'Dr. Amit Verma'
     },
     {
       id: 'katre',
@@ -161,7 +161,7 @@ const StudentLifePage: React.FC = () => {
                   <p className={`text-lg font-bold ${house.textColor}`}>{house.house_master}</p>
                 </div>
 
-                {/* Achievements */}
+                {/* Notable Achievements */}
                 <div className="mb-4">
                   <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Notable Achievements</p>
                   <ul className="space-y-2">
@@ -172,13 +172,6 @@ const StudentLifePage: React.FC = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                {/* Expand Button */}
-                <div className={`text-center mt-4 transition-all duration-300 ${activeHouse === house.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                  <button className={`text-sm font-bold uppercase tracking-widest ${house.textColor}`}>
-                    {activeHouse === house.id ? '− Collapse' : '+ Learn More'}
-                  </button>
                 </div>
               </div>
             </div>
@@ -278,20 +271,8 @@ const StudentLifePage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-af-blue to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center">
-        <h2 className="text-3xl font-serif font-bold mb-4">Join Us</h2>
-        <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-          Be part of a vibrant community that celebrates excellence, friendship, and personal growth
-        </p>
-        <button className="bg-white text-af-blue hover:bg-blue-50 px-8 py-3 rounded-lg font-bold uppercase tracking-widest transition-colors duration-300">
-          Explore More
-        </button>
-      </section>
     </div>
   );
 };
 
 export default StudentLifePage;
-

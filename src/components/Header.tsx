@@ -161,10 +161,8 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
       {/* Utility Bar */}
       <div className={`text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 ${scrolled ? 'py-1 border-b border-gray-100 dark:border-gray-800' : 'py-0'}`}>
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
-          <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</a>
-          <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Directory</a>
-          <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Parents</a>
-          <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</a>
+          <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
+          <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
 
           {/* Theme Toggle Button */}
           <button
@@ -377,14 +375,22 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
             </nav>
 
             <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800 grid grid-cols-2 gap-4">
-              <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+              <Link
+                to="/calendar"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+              >
                 <Calendar className="text-af-blue dark:text-af-light mb-2" />
                 <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Calendar</span>
-              </a>
-              <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+              </Link>
+              <Link
+                to="/alumni"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+              >
                 <GraduationCap className="text-af-blue dark:text-af-light mb-2" />
                 <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Alumni</span>
-              </a>
+              </Link>
               <a href="#" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                 <MapPin className="text-af-blue dark:text-af-light mb-2" />
                 <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Directions</span>

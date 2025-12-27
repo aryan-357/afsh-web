@@ -12,6 +12,8 @@ const GalleryPage = lazy(() => import('./components/GalleryPage'));
 const StudentLifePage = lazy(() => import('./components/StudentLifePage'));
 const AdmissionPage = lazy(() => import('./components/AdmissionPage'));
 const AcademicsPage = lazy(() => import('./components/AcademicsPage'));
+const CalendarPage = lazy(() => import('./components/CalendarPage'));
+const AlumniPage = lazy(() => import('./components/AlumniPage'));
 
 // Loading spinner component
 const PageLoader = () => (
@@ -43,6 +45,8 @@ root.render(
                         <Route path="/student-life" element={<StudentLifePage />} />
                         <Route path="/admissions" element={<AdmissionPage />} />
                         <Route path="/academics" element={<AcademicsPage />} />
+                        <Route path="/calendar" element={<CalendarPage />} />
+                        <Route path="/alumni" element={<AlumniPage />} />
                     </Routes>
                 </Suspense>
             </Layout>
