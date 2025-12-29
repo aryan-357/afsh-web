@@ -27,8 +27,8 @@ const navItems: NavItem[] = [
     subItems: [
       { label: 'Curriculum', href: '/academics#curriculum' },
       { label: 'Departments', href: '/academics#departments' },
-      { label: 'Academic Calendar', href: '/academics#calendar' },
-      { label: 'Scholars', href: '/academics#scholars' }
+      { label: 'Academic Calendar', href: '/calendar' },
+      { label: 'Scholars', href: '/scholars' }
     ]
   },
   {
@@ -53,7 +53,7 @@ const navItems: NavItem[] = [
   },
   {
     label: 'News',
-    href: '/blog'
+    href: '/news'
   },
   {
     label: 'Gallery',
@@ -61,7 +61,7 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Contact',
-    href: '#contact'
+    href: '/contact'
   },
 ];
 
@@ -161,7 +161,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
       {/* Utility Bar */}
       <div className={`text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 ${scrolled ? 'py-1 border-b border-gray-100 dark:border-gray-800' : 'py-0'}`}>
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
-          <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</a>
+          <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Directory</a>
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Parents</a>
           <a href="#" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</a>

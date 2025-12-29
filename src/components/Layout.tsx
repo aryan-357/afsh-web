@@ -69,7 +69,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         navigate('/');
                     }
                     else if (page === 'news') {
-                        navigate('/blog');
+                        navigate('/news');
                     }
                     else if (page === 'about') {
                         navigate('/about');
@@ -87,7 +87,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         navigate('/academics');
                     }
                     else if (page === 'scholars') {
-                        window.location.href = '/scholars'; // If scholars is a separate app/page
+                        navigate('/scholars');
                     }
                     else if (page.startsWith('#')) {
                         if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
