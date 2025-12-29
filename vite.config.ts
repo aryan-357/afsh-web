@@ -3,6 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+    port: 5000,
+    allowedHosts: true,
+  },
   build: {
     outDir: 'dist',
     rollupOptions: {
@@ -16,7 +21,5 @@ export default defineConfig({
       },
     },
     chunkSizeWarningLimit: 800,
-    // sourcemap disabled for production builds
-    // sourcemap: false,
   },
 });
