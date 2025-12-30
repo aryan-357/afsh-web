@@ -8,6 +8,15 @@ const HomePage = lazy(() => import('./components/HomePage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const BlogPage = lazy(() => import('./components/BlogPage'));
 const PostDetails = lazy(() => import('./components/PostDetails'));
+const GalleryPage = lazy(() => import('./components/GalleryPage'));
+const StudentLifePage = lazy(() => import('./components/StudentLifePage'));
+const AdmissionPage = lazy(() => import('./components/AdmissionPage'));
+const AcademicsPage = lazy(() => import('./components/AcademicsPage'));
+const CalendarPageNew = lazy(() => import('./components/CalendarPageNew'));
+const ContactPage = lazy(() => import('./components/ContactPage'));
+const NewsPage = lazy(() => import('./components/NewsPage'));
+const ScholarsPage = lazy(() => import('./components/ScholarsPage'));
+const LoginPage = lazy(() => import('./components/LoginPage'));
 
 // Loading spinner component
 const PageLoader = () => (
@@ -35,6 +44,15 @@ root.render(
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/blog" element={<BlogPage />} />
                         <Route path="/blog/:slug" element={<PostDetails />} />
+                        <Route path="/gallery" element={<GalleryPage />} />
+                        <Route path="/student-life" element={<StudentLifePage />} />
+                        <Route path="/admissions" element={<AdmissionPage />} />
+                        <Route path="/academics" element={<AcademicsPage />} />
+                        <Route path="/calendar" element={<CalendarPageNew />} />
+                        <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/news" element={<NewsPage />} />
+                        <Route path="/scholars" element={<ScholarsPage />} />
+                        <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
                     </Routes>
                 </Suspense>
             </Layout>

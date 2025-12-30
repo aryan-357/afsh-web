@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, User, Lock, Loader2 } from 'lucide-react';
-
+import Silk from './Silk';
 
 interface LoginPageProps {
     onLogin: (username: string) => void;
@@ -32,7 +32,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
 
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-gray-900 relative overflow-hidden font-sans">
-
+            {/* Silk Background */}
+            {/* Silk Background overlay gradient */}
+            <div className="absolute inset-0 z-0">
+                <Silk
+                    speed={2}
+                    scale={1.2}
+                    color="#1a365d"
+                    noiseIntensity={1.5}
+                    rotation={0}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent"></div>
+            </div>
 
             <div className="relative z-10 w-full max-w-md px-6">
                 <button

@@ -5,7 +5,7 @@ import BrandFooter from './BrandFooter';
 
 // Lazy load heavy components to reduce initial bundle size
 // AssistantChat pulls in @google/genai (~100KB)
-// LoginPage previously pulled in Silk/Three.js
+// LoginPage pulls in Silk/Three.js (~750KB)
 const AssistantChat = lazy(() => import('./AssistantChat'));
 const LoginPage = lazy(() => import('./LoginPage'));
 
@@ -69,13 +69,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         navigate('/');
                     }
                     else if (page === 'news') {
-                        navigate('/blog');
+                        navigate('/news');
                     }
                     else if (page === 'about') {
                         navigate('/about');
                     }
+                    else if (page === 'gallery') {
+                        navigate('/gallery');
+                    }
+                    else if (page === 'student-life') {
+                        navigate('/student-life');
+                    }
+                    else if (page === 'admissions') {
+                        navigate('/admissions');
+                    }
+                    else if (page === 'academics') {
+                        navigate('/academics');
+                    }
                     else if (page === 'scholars') {
-                        window.location.href = '/scholars'; // If scholars is a separate app/page
+                        navigate('/scholars');
                     }
                     else if (page.startsWith('#')) {
                         if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
