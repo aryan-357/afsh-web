@@ -5,7 +5,7 @@ import BrandFooter from './BrandFooter';
 
 // Lazy load heavy components to reduce initial bundle size
 // AssistantChat pulls in @google/genai (~100KB)
-// LoginPage pulls in Silk/Three.js (~750KB)
+// LoginPage previously pulled in Silk/Three.js
 const AssistantChat = lazy(() => import('./AssistantChat'));
 const LoginPage = lazy(() => import('./LoginPage'));
 

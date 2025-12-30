@@ -4,7 +4,8 @@ import EDMessage from './EDMessage';
 const PrincipalMessage = React.lazy(() => import('./PrincipalMessage'));
 import type { FacultyMember } from './FacultyCarousel';
 const FacultyCarousel = React.lazy(() => import('./FacultyCarousel'));
-const Silk = React.lazy(() => import('./Silk'));
+import Silk from './Silk';
+
 
 // Neutral placeholder for face-free identity
 const neutralPlaceholder = "/faculty-placeholder.png";
@@ -261,20 +262,15 @@ const prtFaculty: FacultyMember[] = [
 const AboutPage: React.FC = () => {
     return (
         <div className="relative min-h-screen">
-            <Suspense fallback={<div>Loading background...</div>}>
-                <Silk
-                    speed={3}
-                    scale={1.5}
-                    color="#1a365d"
-                    noiseIntensity={1.2}
-                    rotation={0}
-                />
-            </Suspense>
+            {/* Silk Background - Fixed and behind everything */}
+            <Silk />
 
-            {/* Content wrapper with relative positioning */}
-            <div className="relative z-10">
+            {/* Content wrapper with relative positioning - allow clicks to pass through to canvas if needed, but usually content is above */}
+            <div className="relative z-10 pointer-events-none">
+                {/* Enable pointer events only on interactive children */}
+
                 {/* Hero Section */}
-                <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+                <section className="relative h-[50vh] flex items-center justify-center overflow-hidden pointer-events-auto">
                     <div className="container mx-auto px-4 relative z-10 text-center">
                         <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
                             About Our <span className="text-af-gold">Institution</span>
@@ -283,24 +279,24 @@ const AboutPage: React.FC = () => {
                 </section>
 
                 {/* ED's Message Section */}
-                <div id="ed-message">
+                <div id="ed-message" className="pointer-events-auto">
                     <EDMessage />
                 </div>
 
                 {/* Principal's Message Section */}
                 <Suspense fallback={<div>Loading principal message...</div>}>
-                    <div id="principal">
+                    <div id="principal" className="pointer-events-auto">
                         <PrincipalMessage />
                     </div>
                 </Suspense>
 
                 {/* Faculty Section Title */}
-                <div className="pt-24 pb-8 container mx-auto px-6">
+                <div className="pt-24 pb-8 container mx-auto px-6 pointer-events-auto">
                     <h2 className="text-4xl font-serif font-bold text-white drop-shadow-lg border-b-4 border-af-gold inline-block pb-2">Our Dedicated Faculty</h2>
                 </div>
 
                 {/* PGT Teachers */}
-                <div className="py-12 bg-white/5 backdrop-blur-md">
+                <div className="py-12 bg-white/5 backdrop-blur-sm pointer-events-auto">
                     <div className="container mx-auto px-6 mb-8">
                         <h3 className="text-2xl font-serif font-bold text-white drop-shadow uppercase tracking-widest">PGT Teachers</h3>
                     </div>
@@ -310,7 +306,7 @@ const AboutPage: React.FC = () => {
                 </div>
 
                 {/* TGT Teachers */}
-                <div className="py-12 bg-white/10 backdrop-blur-lg">
+                <div className="py-12 bg-white/10 backdrop-blur-md pointer-events-auto">
                     <div className="container mx-auto px-6 mb-8">
                         <h3 className="text-2xl font-serif font-bold text-white drop-shadow uppercase tracking-widest">TGT Teachers</h3>
                     </div>
@@ -320,7 +316,7 @@ const AboutPage: React.FC = () => {
                 </div>
 
                 {/* PRT Teachers */}
-                <div className="py-12 bg-white/5 backdrop-blur-md">
+                <div className="py-12 bg-white/5 backdrop-blur-sm pointer-events-auto">
                     <div className="container mx-auto px-6 mb-8">
                         <h3 className="text-2xl font-serif font-bold text-white drop-shadow uppercase tracking-widest">PRT Teachers</h3>
                     </div>
@@ -330,7 +326,7 @@ const AboutPage: React.FC = () => {
                 </div>
 
                 {/* Core Values */}
-                <section id="admin" className="py-24 bg-black/50 backdrop-blur-xl text-white">
+                <section id="admin" className="py-24 bg-black/50 backdrop-blur-xl text-white pointer-events-auto">
                     <div className="container mx-auto px-4 text-center">
                         <h2 className="text-3xl md:text-4xl font-serif font-bold mb-16">
                             Our Core <span className="text-af-gold">Values</span>
