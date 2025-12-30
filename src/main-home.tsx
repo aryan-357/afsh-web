@@ -1,22 +1,22 @@
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 
 // Lazy load page components for code splitting
-const HomePage = lazy(() => import('./components/HomePage'));
-const AboutPage = lazy(() => import('./components/AboutPage'));
-const BlogPage = lazy(() => import('./components/BlogPage'));
-const PostDetails = lazy(() => import('./components/PostDetails'));
-const GalleryPage = lazy(() => import('./components/GalleryPage'));
-const StudentLifePage = lazy(() => import('./components/StudentLifePage'));
-const AdmissionPage = lazy(() => import('./components/AdmissionPage'));
-const AcademicsPage = lazy(() => import('./components/AcademicsPage'));
-const CalendarPageNew = lazy(() => import('./components/CalendarPageNew'));
-const ContactPage = lazy(() => import('./components/ContactPage'));
-const NewsPage = lazy(() => import('./components/NewsPage'));
-const ScholarsPage = lazy(() => import('./components/ScholarsPage'));
-const LoginPage = lazy(() => import('./components/LoginPage'));
+const HomePage = lazy(() => import('./pages/HomePage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const PostDetails = lazy(() => import('./pages/PostDetails'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
+const StudentLifePage = lazy(() => import('./pages/StudentLifePage'));
+const AdmissionPage = lazy(() => import('./pages/AdmissionPage'));
+const AcademicsPage = lazy(() => import('./pages/AcademicsPage'));
+const CalendarPageNew = lazy(() => import('./pages/CalendarPageNew'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const NewsPage = lazy(() => import('./pages/NewsPage'));
+const ScholarsPage = lazy(() => import('./pages/ScholarsPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
 
 // Loading spinner component
 const PageLoader = () => (
@@ -51,7 +51,7 @@ root.render(
                         <Route path="/calendar" element={<CalendarPageNew />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/news" element={<NewsPage />} />
-                        <Route path="/scholars" element={<ScholarsPage />} />
+                        <Route path="/scholars" element={<ScholarsPage onBack={() => window.history.back()} />} />
                         <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
                     </Routes>
                 </Suspense>
