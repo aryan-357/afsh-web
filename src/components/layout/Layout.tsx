@@ -26,7 +26,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
-
     useEffect(() => {
         const updateFooterHeight = () => {
             if (footerRef.current) {

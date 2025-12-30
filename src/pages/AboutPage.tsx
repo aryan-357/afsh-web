@@ -300,6 +300,7 @@ const AboutPage: React.FC = () => {
             {/* Faculty Section Title */}
             <div className="pt-24 pb-8 container mx-auto px-6">
                 <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white border-b-4 border-af-gold inline-block pb-2">Our Dedicated Faculty</h2>
+
             </div>
 
             {/* PGT Teachers */}
