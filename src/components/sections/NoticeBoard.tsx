@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Bell, Calendar, ChevronRight, ChevronDown, Download, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Notice } from '../../types';
 
 const notices: Notice[] = [
@@ -7,7 +9,7 @@ const notices: Notice[] = [
     id: '1',
     date: '25 Oct 2023',
     title: 'Admissions Open for Session 2024-25 (Class I to IX)',
-    link: '#',
+    link: '/admissions',
     isNew: true,
     content: 'Registration forms for the academic session 2024-25 are now available online. Parents are requested to fill out the form before the deadline. Entrance tests for classes VI to IX will be conducted in the second week of December. Please ensure all required documents are ready for upload.'
   },
@@ -15,28 +17,28 @@ const notices: Notice[] = [
     id: '2',
     date: '20 Oct 2023',
     title: 'Annual Sports Meet Schedule Released',
-    link: '#',
+    link: '/student-life#sports',
     content: 'The Annual Sports Meet will be held from November 10th to November 12th. Events include Track & Field, Basketball, and Volleyball. House captains are requested to submit the final list of participants by October 30th. Parents are cordially invited to witness the opening ceremony.'
   },
   {
     id: '3',
     date: '15 Oct 2023',
     title: 'Parent Teacher Meeting on 30th October',
-    link: '#',
+    link: '/calendar',
     content: 'A mandatory Parent Teacher Meeting (PTM) is scheduled for October 30th, 2023, from 08:30 AM to 12:30 PM. We will be discussing the Mid-Term results and student progress. Students must accompany their parents in proper school uniform.'
   },
   {
     id: '4',
     date: '10 Oct 2023',
     title: 'Winter Uniform Mandatory from 1st November',
-    link: '#',
+    link: '/contact',
     content: 'All students are hereby informed that wearing the complete winter uniform is mandatory starting November 1st, 2023. Blazers must be worn by students of Class VI onwards. Please refer to the school diary for detailed uniform specifications.'
   },
   {
     id: '5',
     date: '05 Oct 2023',
     title: 'Result of Inter-School Debate Competition',
-    link: '#',
+    link: '/news',
     content: 'We are proud to announce that Air Force School Hindan bagged the First Prize in the Inter-School Debate Competition held at DPS Ghaziabad. Congratulations to the winning team: Aryan Sharma (Class X) and Sneha Gupta (Class IX).'
   },
 ];
@@ -51,16 +53,16 @@ const NoticeBoard: React.FC = () => {
   return (
     <div className="w-full">
       {/* Marquee Section */}
-      <div className="bg-af-blue text-white py-2 overflow-hidden flex items-center relative z-10">
-        <div className="bg-af-gold text-af-blue font-bold px-4 py-1 text-sm absolute left-0 z-20 h-full flex items-center shadow-md">
-          LATEST NEWS
+      <div className="bg-af-blue text-white py-3 overflow-hidden flex items-center relative z-10 shadow-lg">
+        <div className="bg-af-gold text-af-blue font-black px-6 py-1 text-xs absolute left-0 z-20 h-full flex items-center shadow-[5px_0_15px_rgba(0,0,0,0.3)] skew-x-[-15deg] -ml-2">
+          <span className="skew-x-[15deg] tracking-tighter">LATEST NEWS</span>
         </div>
-        <div className="marquee-container w-full pl-32">
-          <div className="marquee-content text-sm font-medium tracking-wide">
+        <div className="marquee-container w-full pl-36">
+          <div className="marquee-content text-sm font-bold tracking-wide">
             {notices.map((n) => (
-              <span key={n.id} className="mx-8 inline-flex items-center">
-                <span className="w-2 h-2 bg-af-gold rounded-full mr-2"></span>
-                {n.title}
+              <span key={n.id} className="mx-12 inline-flex items-center group cursor-pointer">
+                <span className="w-2 h-2 bg-af-gold rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
+                <span className="hover:text-af-gold transition-colors">{n.title}</span>
               </span>
             ))}
           </div>
@@ -68,106 +70,168 @@ const NoticeBoard: React.FC = () => {
       </div>
 
       {/* Main Notice Section */}
-      <div className="py-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <div className="py-20 bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
             {/* Notices Panel */}
-            <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border-t-4 border-af-blue overflow-hidden transition-colors duration-300">
-              <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
-                <h3 className="text-xl font-bold text-af-blue dark:text-af-light flex items-center gap-2">
-                  <Bell className="text-af-gold" /> Notice Board
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden transition-all duration-300"
+            >
+              <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-900">
+                <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                  <div className="w-10 h-10 bg-af-blue/10 rounded-xl flex items-center justify-center">
+                    <Bell className="text-af-blue" size={20} />
+                  </div>
+                  Notice Board
                 </h3>
-                <a href="#" className="text-sm text-af-blue dark:text-af-light hover:underline">View All</a>
+                <Link to="/news" className="text-sm font-bold text-af-blue dark:text-af-light hover:underline flex items-center gap-1 group">
+                  View All Notices <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
-              <div className="p-0">
-                {notices.map((notice) => {
+
+              <div className="divide-y divide-gray-100 dark:divide-gray-800">
+                {notices.map((notice, idx) => {
                   const isOpen = openNoticeId === notice.id;
                   return (
-                    <div key={notice.id} className="border-b border-gray-100 dark:border-gray-700 last:border-0 group">
+                    <div key={notice.id} className="group">
                       <button
                         onClick={() => toggleNotice(notice.id)}
-                        className={`w-full text-left p-4 flex items-start gap-4 transition-colors duration-200 focus:outline-none ${isOpen ? 'bg-blue-50/50 dark:bg-gray-700/30' : 'hover:bg-blue-50 dark:hover:bg-gray-700/50'}`}
+                        className={`w-full text-left p-6 flex items-start gap-6 transition-all duration-300 focus:outline-none ${isOpen ? 'bg-blue-50/30 dark:bg-af-blue/5' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}
                       >
-                        <div className="flex-shrink-0 flex flex-col items-center justify-center bg-blue-100 dark:bg-blue-900/40 text-af-blue dark:text-blue-300 w-16 h-16 rounded-lg p-2 transition-transform duration-300 group-hover:scale-105">
-                          <span className="text-xs font-bold uppercase">{notice.date.split(' ')[1]}</span>
-                          <span className="text-2xl font-bold leading-none">{notice.date.split(' ')[0]}</span>
+                        <div className="flex-shrink-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800 text-af-blue dark:text-af-light w-16 h-16 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 transition-transform duration-500 group-hover:scale-105 group-hover:shadow-lg">
+                          <span className="text-[10px] font-black uppercase tracking-tighter opacity-60">{notice.date.split(' ')[1]}</span>
+                          <span className="text-2xl font-black leading-none">{notice.date.split(' ')[0]}</span>
                         </div>
                         <div className="flex-grow pt-1">
-                          <h4 className="font-medium text-gray-800 dark:text-gray-100 group-hover:text-af-blue dark:group-hover:text-af-light transition-colors text-lg leading-snug">
+                          <h4 className={`font-bold transition-colors duration-300 text-lg leading-snug ${isOpen ? 'text-af-blue dark:text-af-light' : 'text-gray-800 dark:text-gray-200 group-hover:text-af-blue'}`}>
                             {notice.title}
                             {notice.isNew && (
-                              <span className="inline-block ml-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded animate-pulse align-middle">
+                              <span className="inline-block ml-3 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-500/30">
                                 NEW
                               </span>
                             )}
                           </h4>
-                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                            {isOpen ? 'Click to collapse' : 'Click to read details'}
+                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium">
+                            {isOpen ? 'Click to collapse' : 'Click to read detailed announcement'}
                           </p>
                         </div>
-                        <div className={`transform transition-transform duration-300 text-gray-400 self-center ${isOpen ? 'rotate-180' : ''}`}>
-                          <ChevronDown />
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'bg-af-blue text-white rotate-180' : 'bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:bg-af-blue/10 group-hover:text-af-blue'}`}>
+                          <ChevronDown size={20} />
                         </div>
                       </button>
 
-                      {/* Accordion Body */}
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
-                      >
-                        <div className="px-4 pb-4 pl-[5.5rem] pr-8 text-gray-600 dark:text-gray-300 text-sm">
-                          <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg border border-gray-100 dark:border-gray-600/50">
-                            <p className="mb-4 leading-relaxed">{notice.content || "Please contact the school administration for more details regarding this notice."}</p>
-                            <div className="flex gap-4">
-                              <a href={notice.link} className="inline-flex items-center gap-2 text-af-blue dark:text-af-light font-bold text-xs uppercase tracking-wide hover:underline border border-af-blue dark:border-af-light px-3 py-1.5 rounded hover:bg-af-blue hover:text-white dark:hover:bg-af-light dark:hover:text-gray-900 transition-colors">
-                                <Download size={14} /> Download PDF
-                              </a>
-                              <a href={notice.link} className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 font-bold text-xs uppercase tracking-wide hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
-                                <FileText size={14} /> View Details
-                              </a>
+                      <AnimatePresence>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-6 pb-8 pl-[6.5rem] pr-10">
+                              <div className="bg-white dark:bg-gray-800/80 p-6 rounded-2xl border border-blue-100 dark:border-af-blue/20 shadow-inner">
+                                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-sm">{notice.content || "Please contact the school administration for more details regarding this notice."}</p>
+                                <div className="flex flex-wrap gap-4">
+                                  <motion.a
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    href={notice.link}
+                                    className="inline-flex items-center gap-2 bg-af-blue text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl shadow-lg shadow-af-blue/20 transition-all hover:bg-af-dark hover:shadow-af-blue/40"
+                                  >
+                                    <Download size={16} /> Download PDF
+                                  </motion.a>
+                                  <motion.a
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    href={notice.link}
+                                    className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all hover:bg-gray-200 dark:hover:bg-gray-600"
+                                  >
+                                    <FileText size={16} /> View Details
+                                  </motion.a>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
 
-            {/* Quick Links & Events */}
-            <div className="space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border-t-4 border-af-gold transition-colors duration-300">
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                  <Calendar className="text-af-blue dark:text-af-light" /> Upcoming Events
+            {/* Side Panel */}
+            <div className="space-y-8">
+              {/* Events Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-white dark:bg-gray-900 rounded-3xl shadow-xl p-8 border border-gray-100 dark:border-gray-800"
+              >
+                <h3 className="text-xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-af-gold/10 rounded-xl flex items-center justify-center">
+                    <Calendar className="text-af-gold" size={20} />
+                  </div>
+                  Upcoming Events
                 </h3>
-                <ul className="space-y-4">
-                  <li className="flex gap-3">
-                    <div className="w-1 h-full min-h-[40px] bg-af-blue dark:bg-af-light rounded"></div>
-                    <div>
-                      <h4 className="font-bold text-gray-800 dark:text-gray-100 text-sm">Annual Day Function</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">15th November 2023</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <div className="w-1 h-full min-h-[40px] bg-af-blue dark:bg-af-light rounded"></div>
-                    <div>
-                      <h4 className="font-bold text-gray-800 dark:text-gray-100 text-sm">Science Exhibition</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">20th November 2023</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+                <div className="space-y-6">
+                  {[
+                    { title: 'Annual Day Function', date: '15th November 2023', color: 'bg-af-blue' },
+                    { title: 'Science Exhibition', date: '20th November 2023', color: 'bg-af-gold' }
+                  ].map((event, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ x: 5 }}
+                      className="flex gap-4 group cursor-pointer"
+                    >
+                      <div className={`w-1 h-full min-h-[45px] ${event.color} rounded-full transition-all group-hover:w-1.5`}></div>
+                      <div>
+                        <h4 className="font-bold text-gray-900 dark:text-gray-100 text-sm group-hover:text-af-blue transition-colors">{event.title}</h4>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{event.date}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                <Link to="/calendar" className="mt-8 w-full block text-center py-3 border border-gray-100 dark:border-gray-800 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+                  Full School Calendar
+                </Link>
+              </motion.div>
 
-              <div className="bg-af-blue text-white rounded-lg shadow-lg p-6">
-                <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-                <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14} /> Student Login</a></li>
-                  <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14} /> Online Fee Payment</a></li>
-                  <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14} /> Download Prospectus</a></li>
-                  <li><a href="#" className="flex items-center gap-2 hover:text-af-gold transition"><ChevronRight size={14} /> TC Verification</a></li>
+              {/* Quick Links Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="bg-af-blue text-white rounded-3xl shadow-xl p-8 relative overflow-hidden group"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-3xl rounded-full -mr-16 -mt-16 group-hover:bg-white/20 transition-all duration-700" />
+                <h3 className="text-xl font-serif font-bold mb-6 relative z-10">Student Services</h3>
+                <ul className="space-y-4 relative z-10">
+                  {[
+                    { label: 'Student Login', href: '/login' },
+                    { label: 'Online Fee Payment', href: '/admissions#fees' },
+                    { label: 'Download Prospectus', href: '/admissions' },
+                    { label: 'TC Verification', href: '/admissions#tc' }
+                  ].map((link, i) => (
+                    <li key={i}>
+                      <Link
+                        to={link.href}
+                        className="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/5 transition-all group/link"
+                      >
+                        <span className="text-sm font-bold">{link.label}</span>
+                        <ChevronRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
-              </div>
+              </motion.div>
             </div>
 
           </div>
