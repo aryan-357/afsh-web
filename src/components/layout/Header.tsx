@@ -143,9 +143,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
       <div className={`text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 ${scrolled ? 'py-1 border-b border-gray-100 dark:border-gray-800' : 'py-0'}`}>
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
           <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
-          <Link to="/contact" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Directory</Link>
-          <Link to="/admissions" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Parents</Link>
-          <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
+          <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
 
           {/* Theme Toggle Button */}
           <button
