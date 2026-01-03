@@ -12,11 +12,20 @@ const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const StudentLifePage = lazy(() => import('./pages/StudentLifePage'));
 const AdmissionPage = lazy(() => import('./pages/AdmissionPage'));
 const AcademicsPage = lazy(() => import('./pages/AcademicsPage'));
+<<<<<<< HEAD
+=======
+const AlumniPage = lazy(() => import('./pages/AlumniPage'));
+const AlumniRegistrationPage = lazy(() => import('./pages/AlumniRegistrationPage'));
+>>>>>>> 167e490 (Adding Files)
 const CalendarPageNew = lazy(() => import('./pages/CalendarPageNew'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const NewsPage = lazy(() => import('./pages/NewsPage'));
 const ScholarsPage = lazy(() => import('./pages/ScholarsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
+<<<<<<< HEAD
+=======
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+>>>>>>> 167e490 (Adding Files)
 
 // Loading spinner component
 const PageLoader = () => (
@@ -48,11 +57,20 @@ root.render(
                         <Route path="/student-life" element={<StudentLifePage />} />
                         <Route path="/admissions" element={<AdmissionPage />} />
                         <Route path="/academics" element={<AcademicsPage />} />
+<<<<<<< HEAD
+=======
+                        <Route path="/alumni" element={<AlumniPage />} />
+                        <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
+>>>>>>> 167e490 (Adding Files)
                         <Route path="/calendar" element={<CalendarPageNew />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/news" element={<NewsPage />} />
                         <Route path="/scholars" element={<ScholarsPage onBack={() => window.history.back()} />} />
                         <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
+<<<<<<< HEAD
+=======
+                        <Route path="/search" element={<SearchPage />} />
+>>>>>>> 167e490 (Adding Files)
                     </Routes>
                 </Suspense>
             </Layout>

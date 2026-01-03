@@ -21,18 +21,28 @@ args = "Frontend"
 name = "Frontend"
 author = "agent"
 
+<<<<<<< HEAD
+=======
+[workflows.workflow.metadata]
+outputType = "webview"
+
+>>>>>>> 167e490 (Adding Files)
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
 
+<<<<<<< HEAD
 [workflows.workflow.metadata]
 outputType = "webview"
 
+=======
+>>>>>>> 167e490 (Adding Files)
 [[ports]]
 localPort = 5000
 externalPort = 80
 
+<<<<<<< HEAD
 [[ports]]
 localPort = 5001
 externalPort = 3000
@@ -41,3 +51,10 @@ externalPort = 3000
 deploymentTarget = "static"
 build = ["npm", "run", "build"]
 publicDir = "dist"
+=======
+[deployment]
+deploymentTarget = "autoscale"
+build = ["npm", "run", "build"]
+publicDir = "dist"
+run = ["node", "./dist/index.cjs"]
+>>>>>>> 167e490 (Adding Files)
