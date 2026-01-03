@@ -1,5 +1,6 @@
 import React from 'react';
-import { Calendar, ChevronRight, Share2, ArrowRight } from 'lucide-react';
+import { Calendar, ChevronRight, Share2, ArrowRight, Clock, User, Tag } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 
 const newsCategories = [
@@ -9,6 +10,34 @@ const newsCategories = [
     { id: 'sports', label: 'Sports' },
     { id: 'circulars', label: 'Circulars' },
 ];
+
+const fadeIn = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromLeft = {
+    initial: { opacity: 0, x: -30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromRight = {
+    initial: { opacity: 0, x: 30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const scaleIn = {
+    initial: { opacity: 0, scale: 0.9 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+};
 
 const featuredNews = {
     id: 1,
@@ -89,26 +118,70 @@ const NewsPage = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
                 </div>
 
-                <div className="container mx-auto px-6 relative z-10 text-center pt-20">
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+                <motion.div 
+                    className="container mx-auto px-6 relative z-10 text-center pt-20"
+                    {...fadeIn}
+                    transition={{ delay: 0.1 }}
+                >
+                    <motion.h1 
+                        className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+                        {...slideInFromLeft}
+                        transition={{ delay: 0.2 }}
+                    >
                         News & <span className="text-af-gold">Chronicles</span>
-                    </h1>
-                    <p className="text-lg text-blue-100 max-w-2xl mx-auto animate-fade-in-up delay-100 drop-shadow">
+                    </motion.h1>
+                    <motion.p 
+                        className="text-lg text-blue-100 max-w-2xl mx-auto drop-shadow"
+                        {...slideInFromRight}
+                        transition={{ delay: 0.3 }}
+                    >
                         Stay updated with the latest happenings, achievements, and announcements from Air Force School Hindan.
-                    </p>
-                    <div className="w-24 h-1 bg-af-gold mx-auto mt-6 animate-fade-in-up delay-200"></div>
-                </div>
+                    </motion.p>
+                    <motion.div 
+                        className="w-24 h-1 bg-af-gold mx-auto mt-6"
+                        initial={{ opacity: 0, scaleX: 0 }}
+                        whileInView={{ opacity: 1, scaleX: 1 }}
+                        viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                    />
+                </motion.div>
             </section>
 
             <div className="container mx-auto px-6">
 
                 {/* Featured Article */}
-                <section className="mb-16">
-                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                        <span className="w-2 h-8 bg-af-gold rounded-full"></span>
+                <motion.section 
+                    className="mb-16"
+                    {...fadeIn}
+                    transition={{ delay: 0.5 }}
+                >
+                    <motion.h2 
+                        className="text-2xl font-bold mb-6 flex items-center gap-2"
+                        {...slideInFromLeft}
+                        transition={{ delay: 0.6 }}
+                    >
+                        <motion.span 
+                            className="w-2 h-8 bg-af-gold rounded-full"
+                            animate={{ 
+                                scale: [1, 1.2, 1],
+                                transition: { 
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }
+                            }}
+                        />
                         Featured Story
-                    </h2>
-                    <div className="grid md:grid-cols-2 gap-8 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 group">
+                    </motion.h2>
+                    <motion.div 
+                        className="grid md:grid-cols-2 gap-8 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 group"
+                        {...scaleIn}
+                        transition={{ delay: 0.7 }}
+                        whileHover={{ 
+                            y: -5,
+                            transition: { duration: 0.3 }
+                        }}
+                    >
                         <div className="relative overflow-hidden h-[300px] md:h-auto">
                             <img
                                 src={featuredNews.image}
@@ -135,32 +208,50 @@ const NewsPage = () => {
                                 Read Full Story <ArrowRight size={16} />
                             </button>
                         </div>
-                    </div>
-                </section>
+                    </motion.div>
+                </motion.section>
 
                 {/* Categories & Filter */}
-                <div className="flex flex-wrap gap-4 mb-8 justify-center md:justify-start">
-                    {newsCategories.map(cat => (
-                        <button
+                <motion.div 
+                    className="flex flex-wrap gap-4 mb-8 justify-center md:justify-start"
+                    {...fadeIn}
+                    transition={{ delay: 0.8 }}
+                >
+                    {newsCategories.map((cat, index) => (
+                        <motion.button
                             key={cat.id}
                             onClick={() => setActiveCategory(cat.id)}
                             className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === cat.id
                                 ? 'bg-af-blue text-white shadow-lg scale-105'
                                 : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
+                            {...scaleIn}
+                            transition={{ delay: 0.9 + index * 0.1 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
                             {cat.label}
-                        </button>
+                        </motion.button>
                     ))}
-                </div>
+                </motion.div>
 
                 {/* News Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <motion.div 
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    {...fadeIn}
+                    transition={{ delay: 1.0 }}
+                >
                     {filteredNews.map((item, idx) => (
-                        <div
+                        <motion.div
                             key={item.id}
-                            className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700 hover:-translate-y-1"
-                            style={{ animationDelay: `${idx * 100}ms` }}
+                            className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700"
+                            {...scaleIn}
+                            transition={{ delay: 1.1 + idx * 0.1 }}
+                            whileHover={{ 
+                                y: -5,
+                                transition: { duration: 0.3 }
+                            }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             <div className="relative h-48 overflow-hidden">
                                 <img
@@ -191,9 +282,9 @@ const NewsPage = () => {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
 
                 {/* Newsletter Signup (Optional Polish) */}
                 <div className="mt-20 bg-gray-900 rounded-2xl p-8 md:p-12 text-center text-white relative overflow-hidden">

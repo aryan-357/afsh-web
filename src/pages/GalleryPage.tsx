@@ -1,5 +1,7 @@
 import React, { useState, Suspense } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Image as ImageIcon, Calendar, MapPin, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 
 interface GalleryItem {
@@ -9,6 +11,34 @@ interface GalleryItem {
   image: string;
   description: string;
 }
+
+const fadeIn = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromLeft = {
+  initial: { opacity: 0, x: -30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromRight = {
+  initial: { opacity: 0, x: 30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.9 },
+  whileInView: { opacity: 1, scale: 1 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
 
 const GalleryPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -208,43 +238,80 @@ const GalleryPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-center pt-20">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+        <motion.div 
+          className="container mx-auto px-4 relative z-10 text-center pt-20"
+          {...fadeIn}
+          transition={{ delay: 0.1 }}
+        >
+          <motion.h1 
+            className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+            {...slideInFromLeft}
+            transition={{ delay: 0.2 }}
+          >
             Our <span className="text-af-gold">Gallery</span>
-          </h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto animate-fade-in-up delay-100 drop-shadow">
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
+            {...slideInFromRight}
+            transition={{ delay: 0.3 }}
+          >
             Explore the vibrant moments, achievements, and activities of Air Force School Hindan
-          </p>
-          <div className="w-24 h-1 bg-af-gold mx-auto mt-6 animate-fade-in-up delay-200"></div>
-        </div>
+          </motion.p>
+          <motion.div 
+            className="w-24 h-1 bg-af-gold mx-auto mt-6"
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          />
+        </motion.div>
       </section>
 
       {/* Category Filter */}
-      <section className="container mx-auto px-4 mb-12">
+      <motion.section 
+        className="container mx-auto px-4 mb-12"
+        {...fadeIn}
+        transition={{ delay: 0.5 }}
+      >
         <div className="flex flex-wrap justify-center gap-3">
-          {categories.map(cat => (
-            <button
+          {categories.map((cat, index) => (
+            <motion.button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-6 py-2 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 transform hover:scale-105 ${selectedCategory === cat.id
+              className={`px-6 py-2 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 transform ${selectedCategory === cat.id
                 ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg scale-105'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
+              {...scaleIn}
+              transition={{ delay: 0.6 + index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <span className="mr-2">{cat.icon}</span>{cat.label}
-            </button>
+            </motion.button>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Gallery Grid */}
-      <section className="container mx-auto px-4">
+      <motion.section 
+        className="container mx-auto px-4"
+        {...fadeIn}
+        transition={{ delay: 0.7 }}
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map((item) => (
-            <div
+          {filteredItems.map((item, index) => (
+            <motion.div
               key={item.id}
               onClick={() => openLightbox(item)}
               className="group relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer h-64"
+              {...scaleIn}
+              transition={{ delay: 0.8 + index * 0.1 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+              whileTap={{ scale: 0.98 }}
             >
               {/* Image Container */}
               <img
@@ -272,7 +339,7 @@ const GalleryPage: React.FC = () => {
                   {categories.find(c => c.id === item.category)?.label}
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -281,7 +348,7 @@ const GalleryPage: React.FC = () => {
             <p className="text-gray-500 dark:text-gray-400 text-lg">No images found in this category.</p>
           </div>
         )}
-      </section>
+      </motion.section>
 
       {/* Stats Section */}
       <section className="container mx-auto px-4 mt-20">
@@ -342,15 +409,49 @@ const GalleryPage: React.FC = () => {
       )}
 
       {/* Call to Action */}
-      <section className="mt-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center">
-        <h2 className="text-3xl font-serif font-bold mb-4">Got Photos to Share?</h2>
-        <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+      <motion.section 
+        className="mt-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center"
+        {...scaleIn}
+        transition={{ delay: 1.2 }}
+        whileHover={{ 
+          y: -5,
+          transition: { duration: 0.3 }
+        }}
+      >
+        <motion.h2 
+          className="text-3xl font-serif font-bold mb-4"
+          {...slideInFromLeft}
+          transition={{ delay: 1.3 }}
+        >
+          Got Photos to Share?
+        </motion.h2>
+        <motion.p 
+          className="text-blue-100 mb-6 max-w-2xl mx-auto"
+          {...slideInFromRight}
+          transition={{ delay: 1.4 }}
+        >
           Have captured memorable moments from school events? We'd love to feature them in our gallery!
-        </p>
-        <button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-bold uppercase tracking-widest transition-colors duration-300">
-          Send Your Photos
-        </button>
-      </section>
+        </motion.p>
+        <motion.div
+          {...fadeIn}
+          transition={{ delay: 1.5 }}
+        >
+          <motion.div
+            whileHover={{ 
+              scale: 1.05,
+              transition: { duration: 0.3 }
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link 
+              to="/alumni/photos"
+              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-bold uppercase tracking-widest transition-colors duration-300 inline-block"
+            >
+              Send Your Photos
+            </Link>
+          </motion.div>
+        </motion.div>
+      </motion.section>
     </div>
   );
 };

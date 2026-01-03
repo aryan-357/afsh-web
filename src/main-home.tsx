@@ -14,6 +14,7 @@ const AdmissionPage = lazy(() => import('./pages/AdmissionPage'));
 const AcademicsPage = lazy(() => import('./pages/AcademicsPage'));
 const AlumniPage = lazy(() => import('./pages/AlumniPage'));
 const AlumniRegistrationPage = lazy(() => import('./pages/AlumniRegistrationPage'));
+const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage'));
 const CalendarPageNew = lazy(() => import('./pages/CalendarPageNew'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const NewsPage = lazy(() => import('./pages/NewsPage'));
@@ -53,6 +54,7 @@ root.render(
                         <Route path="/academics" element={<AcademicsPage />} />
                         <Route path="/alumni" element={<AlumniPage />} />
                         <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
+                        <Route path="/alumni/photos" element={<PhotoUploadPage />} />
                         <Route path="/calendar" element={<CalendarPageNew />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/news" element={<NewsPage />} />

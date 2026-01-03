@@ -4,6 +4,34 @@ import { Link } from 'react-router-dom';
 import { GraduationCap, Users, Heart, Target, Star, Trophy } from 'lucide-react';
 import Silk from '../components/ui/Silk';
 
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.3, ease: "easeOut" as const }
+};
+
+const slideInFromLeft = {
+  initial: { opacity: 0, x: -30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromRight = {
+  initial: { opacity: 0, x: 30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.9 },
+  whileInView: { opacity: 1, scale: 1 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.3, ease: "easeOut" as const }
+};
+
 const alumniTestimonials = [
   {
     name: "Lt. Col. Vikram Rathore",
@@ -57,17 +85,21 @@ const AlumniPage: React.FC = () => {
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.05 }}
             className="text-xl text-blue-100 max-w-2xl mx-auto drop-shadow"
           >
             Connecting generations of students who have walked the halls of Air Force School Hindan.
           </motion.p>
-          <div className="w-24 h-1 bg-af-gold mx-auto mt-6 animate-fade-in-up delay-200"></div>
+          <div className="w-24 h-1 bg-af-gold mx-auto mt-6 animate-fade-in-up delay-100"></div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
+      <motion.section 
+        className="py-16 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300"
+        {...fadeIn}
+        transition={{ delay: 0.2 }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -76,58 +108,218 @@ const AlumniPage: React.FC = () => {
               { label: 'Success Stories', value: '500+', icon: <Trophy className="w-6 h-6" /> },
               { label: 'Years of Legacy', icon: <Star className="w-6 h-6" />, value: '40+' },
             ].map((stat, idx) => (
-              <div key={idx} className="text-center p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 transition-colors">
-                <div className="inline-flex p-3 rounded-full bg-af-blue/10 text-af-blue dark:text-af-light mb-4">
-                  {stat.icon}
-                </div>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-900 dark:text-white mb-16">Distinguished Alumni</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {alumniTestimonials.map((alumnus, idx) => (
               <motion.div 
                 key={idx}
-                whileHover={{ y: -10 }}
-                className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center transition-colors duration-300"
+                {...scaleIn}
+                transition={{ delay: 0.3 + (idx * 0.1) }}
+                whileHover={{ 
+                  y: -10, 
+                  scale: 1.05,
+                  transition: { duration: 0.3 }
+                }}
+                className="text-center p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 transition-all duration-300 hover:shadow-xl hover:bg-gradient-to-br hover:from-af-blue/5 hover:to-af-light/5 border border-transparent hover:border-af-blue/20"
               >
-                <img 
-                  src={alumnus.image} 
-                  alt={alumnus.name}
-                  className="w-24 h-24 rounded-full object-cover mb-6 border-4 border-af-blue/20"
-                />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{alumnus.name}</h3>
-                <p className="text-af-blue dark:text-af-light font-bold text-sm mb-2">Batch of {alumnus.batch}</p>
-                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">{alumnus.achievement}</p>
-                <p className="text-gray-600 dark:text-gray-400 italic text-sm leading-relaxed">"{alumnus.message}"</p>
+                <motion.div 
+                  className="inline-flex p-3 rounded-full bg-af-blue/10 text-af-blue dark:text-af-light mb-4"
+                  whileHover={{ 
+                    rotate: 360,
+                    scale: 1.1,
+                    transition: { duration: 0.6 }
+                  }}
+                >
+                  {stat.icon}
+                </motion.div>
+                <motion.p 
+                  className="text-3xl font-bold text-gray-900 dark:text-white"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ delay: 0.5 + (idx * 0.1) }}
+                >
+                  {stat.value}
+                </motion.p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mt-1">{stat.label}</p>
               </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      {/* Testimonials */}
+      <motion.section 
+        className="py-20"
+        {...fadeIn}
+        transition={{ delay: 0.4 }}
+      >
+        <div className="container mx-auto px-4">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-900 dark:text-white mb-16"
+            {...scaleIn}
+            transition={{ delay: 0.5 }}
+          >
+            Distinguished Alumni
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {alumniTestimonials.map((alumnus, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                transition={{ 
+                  delay: 0.6 + (idx * 0.15),
+                  duration: 0.8,
+                  ease: "easeOut"
+                }}
+                whileHover={{ 
+                  y: -15,
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
+                className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center transition-all duration-300 hover:shadow-2xl hover:bg-gradient-to-br hover:from-af-blue/5 hover:to-af-light/5 group"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ delay: 0.8 + (idx * 0.15) }}
+                  whileHover={{ 
+                    rotate: 5,
+                    scale: 1.1,
+                    transition: { duration: 0.4 }
+                  }}
+                >
+                  <img 
+                    src={alumnus.image} 
+                    alt={alumnus.name}
+                    className="w-24 h-24 rounded-full object-cover mb-6 border-4 border-af-blue/20 group-hover:border-af-blue/40 transition-colors duration-300"
+                  />
+                </motion.div>
+                <motion.h3 
+                  className="text-xl font-bold text-gray-900 dark:text-white mb-1"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ delay: 0.9 + (idx * 0.15) }}
+                >
+                  {alumnus.name}
+                </motion.h3>
+                <motion.p 
+                  className="text-af-blue dark:text-af-light font-bold text-sm mb-2"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ delay: 1.0 + (idx * 0.15) }}
+                >
+                  Batch of {alumnus.batch}
+                </motion.p>
+                <motion.p 
+                  className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ delay: 1.1 + (idx * 0.15) }}
+                >
+                  {alumnus.achievement}
+                </motion.p>
+                <motion.p 
+                  className="text-gray-600 dark:text-gray-400 italic text-sm leading-relaxed"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ delay: 1.2 + (idx * 0.15) }}
+                >
+                  "{alumnus.message}"
+                </motion.p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
 
       {/* Registration CTA */}
-      <section className="py-20 bg-gray-900 text-white text-center">
-        <div className="container mx-auto px-4">
-          <GraduationCap className="w-16 h-16 mx-auto mb-6 text-af-light" />
-          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Are you an Alumnus?</h2>
-          <p className="text-gray-400 max-w-xl mx-auto mb-10">Join our official directory and stay connected with your alma mater, fellow batchmates, and mentor current students.</p>
-          <Link 
-            to="/alumni/register"
-            className="inline-block bg-af-blue hover:bg-af-light text-white px-10 py-4 rounded-full font-bold transition duration-300 uppercase tracking-widest"
+      <motion.section 
+        className="py-20 bg-gray-900 text-white text-center relative overflow-hidden"
+        {...scaleIn}
+        transition={{ delay: 0.8 }}
+      >
+        {/* Background decoration */}
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-af-blue/10 blur-[120px] rounded-full"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ 
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.9 }}
           >
-            Register Now
-          </Link>
+            <motion.div
+              animate={{ 
+                rotate: [0, 10, -10, 0],
+                scale: [1, 1.05, 1]
+              }}
+              transition={{ 
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <GraduationCap className="w-16 h-16 mx-auto mb-6 text-af-light" />
+            </motion.div>
+          </motion.div>
+          
+          <motion.h2 
+            className="text-3xl md:text-4xl font-serif font-bold mb-6"
+            {...slideInFromLeft}
+            transition={{ delay: 1.0 }}
+          >
+            Are you an Alumnus?
+          </motion.h2>
+          
+          <motion.p 
+            className="text-gray-400 max-w-xl mx-auto mb-10"
+            {...slideInFromRight}
+            transition={{ delay: 1.1 }}
+          >
+            Join our official directory and stay connected with your alma mater, fellow batchmates, and mentor current students.
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+            transition={{ delay: 1.2, duration: 0.3 }}
+            whileHover={{ 
+              scale: 1.05,
+              transition: { duration: 0.2 }
+            }}
+          >
+            <Link 
+              to="/alumni/register"
+              className="relative inline-block overflow-hidden bg-af-blue hover:bg-af-light text-white px-10 py-4 rounded-full font-bold transition-all duration-300 uppercase tracking-widest hover:shadow-xl hover:shadow-af-blue/25 group"
+            >
+              <span className="relative z-10">Register Now</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-af-light to-af-blue rounded-full"
+                initial={{ x: "100%" }}
+                whileHover={{ x: "0%" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              />
+            </Link>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

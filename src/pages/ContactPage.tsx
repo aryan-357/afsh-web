@@ -1,5 +1,6 @@
 import React, { useState, Suspense } from 'react';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle, MessageSquare, Users, Building } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 
 const ContactPage: React.FC = () => {
@@ -11,6 +12,34 @@ const ContactPage: React.FC = () => {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+
+  const fadeIn = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
+  const slideInFromLeft = {
+    initial: { opacity: 0, x: -30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
+  const slideInFromRight = {
+    initial: { opacity: 0, x: 30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
+  const scaleIn = {
+    initial: { opacity: 0, scale: 0.9 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -48,23 +77,57 @@ const ContactPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-center pt-20">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+        <motion.div 
+          className="container mx-auto px-4 relative z-10 text-center pt-20"
+          {...fadeIn}
+          transition={{ delay: 0.1 }}
+        >
+          <motion.h1 
+            className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+            {...slideInFromLeft}
+            transition={{ delay: 0.2 }}
+          >
             Get In <span className="text-af-gold">Touch</span>
-          </h1>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto animate-fade-in-up delay-100 drop-shadow">
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-blue-100 max-w-2xl mx-auto drop-shadow"
+            {...slideInFromRight}
+            transition={{ delay: 0.3 }}
+          >
             We'd love to hear from you. Whether you have a question or just want to say hello, feel free to reach out.
-          </p>
-          <div className="w-24 h-1 bg-af-gold mx-auto mt-6 animate-fade-in-up delay-200"></div>
-        </div>
+          </motion.p>
+          <motion.div 
+            className="w-24 h-1 bg-af-gold mx-auto mt-6"
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          />
+        </motion.div>
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-700">
-        <div className="container mx-auto px-4">
+      <motion.section 
+        className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-700"
+        {...fadeIn}
+        transition={{ delay: 0.5 }}
+      >
+        <motion.div 
+          className="container mx-auto px-4"
+          {...slideInFromLeft}
+          transition={{ delay: 0.6 }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Address */}
-            <div className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+            <motion.div 
+              className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
+              {...scaleIn}
+              transition={{ delay: 0.7 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+            >
               <div className="flex items-center justify-center w-12 h-12 bg-af-blue rounded-lg mb-4">
                 <MapPin size={24} className="text-white" />
               </div>
@@ -72,10 +135,18 @@ const ContactPage: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 text-sm">
                 Air Force Station, Hindan<br />Ghaziabad, Uttar Pradesh - 201004<br />India
               </p>
-            </div>
+            </motion.div>
 
             {/* Phone */}
-            <div className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+            <motion.div 
+              className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
+              {...scaleIn}
+              transition={{ delay: 0.8 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+            >
               <div className="flex items-center justify-center w-12 h-12 bg-af-gold rounded-lg mb-4">
                 <Phone size={24} className="text-white" />
               </div>
@@ -85,10 +156,18 @@ const ContactPage: React.FC = () => {
                 +91 8901234567<br />
                 <span className="text-xs text-gray-500 dark:text-gray-400">Mon-Fri, 9am-5pm</span>
               </p>
-            </div>
+            </motion.div>
 
             {/* Email */}
-            <div className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+            <motion.div 
+              className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
+              {...scaleIn}
+              transition={{ delay: 0.9 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+            >
               <div className="flex items-center justify-center w-12 h-12 bg-red-500 rounded-lg mb-4">
                 <Mail size={24} className="text-white" />
               </div>
@@ -101,10 +180,18 @@ const ContactPage: React.FC = () => {
                   info@afschoolhindan.in
                 </a>
               </p>
-            </div>
+            </motion.div>
 
             {/* Hours */}
-            <div className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+            <motion.div 
+              className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
+              {...scaleIn}
+              transition={{ delay: 1.0 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+            >
               <div className="flex items-center justify-center w-12 h-12 bg-green-500 rounded-lg mb-4">
                 <Clock size={24} className="text-white" />
               </div>
@@ -114,18 +201,40 @@ const ContactPage: React.FC = () => {
                 Sat: 9:00am - 1:00pm<br />
                 Sun: Closed
               </p>
-            </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* Contact Form & Map */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
+      <motion.section 
+        className="py-20"
+        {...fadeIn}
+        transition={{ delay: 1.1 }}
+      >
+        <motion.div 
+          className="container mx-auto px-4"
+          {...slideInFromLeft}
+          transition={{ delay: 1.2 }}
+        >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Form */}
-            <div className="bg-white dark:bg-gray-800 p-10 rounded-xl shadow-lg transition-all duration-500">
-              <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-8">Send us a Message</h2>
+            <motion.div 
+              className="bg-white dark:bg-gray-800 p-10 rounded-xl shadow-lg transition-all duration-500"
+              {...scaleIn}
+              transition={{ delay: 1.3 }}
+              whileHover={{ 
+                y: -5,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <motion.h2 
+                className="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-8"
+                {...slideInFromRight}
+                transition={{ delay: 1.4 }}
+              >
+                Send us a Message
+              </motion.h2>
 
               {submitted && (
                 <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center gap-3 animate-in fade-in duration-300">
@@ -208,7 +317,7 @@ const ContactPage: React.FC = () => {
                   Send Message
                 </button>
               </form>
-            </div>
+            </motion.div>
 
             {/* Map & Info */}
             <div className="space-y-8">
@@ -250,8 +359,8 @@ const ContactPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
     </div>
   );
 };
