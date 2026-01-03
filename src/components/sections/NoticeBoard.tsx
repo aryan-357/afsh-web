@@ -215,7 +215,7 @@ const NoticeBoard: React.FC = () => {
                 <h3 className="text-xl font-serif font-bold mb-6 relative z-10">Student Services</h3>
                 <ul className="space-y-4 relative z-10">
                   {[
-                    { label: 'Student Login', href: '/login' },
+                    { label: 'Student Life', href: '/student-life' },
                     { label: 'Online Fee Payment', href: '/admissions#fees' },
                     { label: 'Download Prospectus', href: '/admissions' },
                     { label: 'TC Verification', href: '/admissions#tc' }
