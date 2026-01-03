@@ -48,6 +48,7 @@ const navItems: NavItem[] = [
     subItems: [
       { label: 'Houses', href: '/student-life#houses' },
       { label: 'Clubs & Societies', href: '/student-life#clubs' },
+      { label: 'Scholars', href: '/scholars' },
       { label: 'Sports', href: '/student-life#sports' },
       { label: 'NCC', href: '/student-life#ncc' }
     ]
@@ -70,6 +71,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
 
@@ -104,8 +106,17 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to search results page with query parameter
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
+
   const handleNavClick = (e: React.MouseEvent, item: NavItem, subItem?: NavItem) => {
-    // If it's a subitem that is just a hash, handle scrolling
     const href = subItem ? subItem.href : item.href;
 
     if (href.includes('#')) {
@@ -138,7 +149,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
 
   return (
     <header className={`w-full z-50 fixed top-0 left-0 transition-all duration-500 ease-in-out font-sans ${headerClasses}`}>
-
       {/* Utility Bar */}
       <div className={`text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 ${scrolled ? 'py-1 border-b border-gray-100 dark:border-gray-800' : 'py-0'}`}>
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
@@ -185,11 +195,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
               alt="Air Force School Logo"
               className="w-14 h-14 object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
             />
-            <div className="flex flex-col">
-              <span className={`text-xl md:text-2xl font-serif font-bold leading-tight tracking-tight uppercase transition-colors duration-300 ${logoMainClasses}`}>
+            <div className="flex flex-col whitespace-nowrap">
+              <span className={`text-lg md:text-xl font-serif font-bold leading-none tracking-tight uppercase transition-colors duration-300 ${logoMainClasses}`}>
                 Air Force School
               </span>
-              <span className={`text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${logoSubClasses}`}>
+              <span className={`text-[9px] md:text-[10px] font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${logoSubClasses}`}>
                 Hindan, Ghaziabad
               </span>
             </div>
@@ -197,7 +207,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center h-full">
-            <ul className="flex h-full items-center">
+            <ul className="flex h-full items-center gap-3">
               {navItems.map((item) => (
                 <li
                   key={item.label}
@@ -208,12 +218,15 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                   <Link
                     to={item.href}
                     onClick={(e) => handleNavClick(e, item)}
-                    className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-colors relative z-10 flex items-center gap-1 ${textClasses} ${navHoverClasses}`}
+                    className={`px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors relative z-10 flex items-center gap-2 whitespace-nowrap ${textClasses} ${navHoverClasses}`}
                   >
-                    {item.label}
                     {item.subItems && (
-                      <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
+                      <ChevronDown 
+                        size={14} 
+                        className={`transition-transform duration-300 flex-shrink-0 ${activeSubMenu === item.label ? 'rotate-180' : 'group-hover:rotate-180'}`} 
+                      />
                     )}
+                    {item.label}
                   </Link>
 
                   {/* Dropdown Menu */}
@@ -280,18 +293,33 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
               exit={{ opacity: 0, y: -20 }}
               className="absolute top-full left-0 w-full bg-white dark:bg-gray-800 shadow-md p-6 border-t border-gray-100 dark:border-gray-700 z-40"
             >
-              <div className="container mx-auto flex items-center gap-4">
+              <form onSubmit={handleSearch} className="container mx-auto flex items-center gap-4">
                 <Search className="text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search the site..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 text-lg outline-none text-gray-700 dark:text-gray-200 bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-600"
                   autoFocus
                 />
-                <button onClick={() => setIsSearchOpen(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button 
+                  type="submit"
+                  className="px-4 py-2 bg-af-blue text-white rounded hover:bg-blue-700 transition-colors text-sm font-medium"
+                >
+                  Search
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => {
+                    setIsSearchOpen(false);
+                    setSearchQuery('');
+                  }} 
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                >
                   <X size={24} />
                 </button>
-              </div>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>
@@ -376,7 +404,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                   <Calendar className="text-af-blue dark:text-af-light mb-2" />
                   <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Calendar</span>
                 </Link>
-                <Link to="/gallery" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
+                <Link to="/alumni" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <GraduationCap className="text-af-blue dark:text-af-light mb-2" />
                   <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Alumni</span>
                 </Link>

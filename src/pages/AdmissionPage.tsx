@@ -124,7 +124,7 @@ const AdmissionPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
+      <section className="relative h-[55vh] flex items-center justify-center overflow-hidden mb-20">
         {/* Silk Background */}
         <div className="absolute inset-0 z-0">
           <Silk
@@ -139,7 +139,7 @@ const AdmissionPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-center pt-20">
+        <div className="container mx-auto px-4 relative z-10 text-center pt-24">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
             Join Our <span className="text-af-gold">Institution</span>
           </h1>

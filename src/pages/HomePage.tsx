@@ -123,9 +123,6 @@ const HomePage: React.FC = () => {
                     </Link>
                 </div>
             </motion.section>
-
-            <section id="contact">
-            </section>
         </div>
     );
 };

@@ -6,7 +6,7 @@ interface Topper {
   name: string;
   percentage: number;
   position: number;
-  classStr: string; // Renamed from 'class' to avoid keyword conflict potentially, though TS handles it.
+  classStr: string;
   image: string;
 }
 
@@ -20,7 +20,7 @@ const TopperSection: React.FC = () => {
       percentage: 92.00,
       position: 1,
       classStr: 'Science',
-      image: '/student-placeholder.png'
+      image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&h=400&fit=crop'
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ const TopperSection: React.FC = () => {
       percentage: 91.00,
       position: 2,
       classStr: 'Commerce',
-      image: '/student-placeholder.png'
+      image: 'https://images.unsplash.com/photo-1523240715630-f9d7a0986e8c?w=400&h=400&fit=crop'
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ const TopperSection: React.FC = () => {
       percentage: 90.00,
       position: 3,
       classStr: 'Humanities',
-      image: '/student-placeholder.png'
+      image: 'https://images.unsplash.com/photo-1517673132405-a56a62b1897c?w=400&h=400&fit=crop'
     }
   ];
 
@@ -47,7 +47,7 @@ const TopperSection: React.FC = () => {
       percentage: 98.60,
       position: 1,
       classStr: 'Class X',
-      image: '/student-placeholder.png'
+      image: 'https://images.unsplash.com/photo-1594185230480-bd3c44c689a1?w=400&h=400&fit=crop'
     },
     {
       id: 2,
@@ -55,7 +55,7 @@ const TopperSection: React.FC = () => {
       percentage: 98.00,
       position: 2,
       classStr: 'Class X',
-      image: '/student-placeholder.png'
+      image: 'https://images.unsplash.com/photo-1544117518-30dd54b99bb3?w=400&h=400&fit=crop'
     },
     {
       id: 3,
@@ -63,7 +63,7 @@ const TopperSection: React.FC = () => {
       percentage: 97.40,
       position: 3,
       classStr: 'Class X',
-      image: '/student-placeholder.png'
+      image: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?w=400&h=400&fit=crop'
     }
   ];
 
@@ -220,4 +220,3 @@ const TopperSection: React.FC = () => {
 };
 
 export default TopperSection;
-
