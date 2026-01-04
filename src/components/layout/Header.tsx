@@ -57,10 +57,7 @@ const navItems: NavItem[] = [
     label: 'News',
     href: '/news'
   },
-  {
-    label: 'Gallery',
-    href: '/gallery'
-  },
+
   {
     label: 'Contact',
     href: '/contact'
@@ -154,6 +151,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
           <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
           <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
+          <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Gallery</Link>
 
           {/* Theme Toggle Button */}
           <button
@@ -221,9 +219,9 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                     className={`px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors relative z-10 flex items-center gap-2 whitespace-nowrap ${textClasses} ${navHoverClasses}`}
                   >
                     {item.subItems && (
-                      <ChevronDown 
-                        size={14} 
-                        className={`transition-transform duration-300 flex-shrink-0 ${activeSubMenu === item.label ? 'rotate-180' : 'group-hover:rotate-180'}`} 
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 flex-shrink-0 ${activeSubMenu === item.label ? 'rotate-180' : 'group-hover:rotate-180'}`}
                       />
                     )}
                     {item.label}
@@ -303,18 +301,18 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                   className="flex-1 text-lg outline-none text-gray-700 dark:text-gray-200 bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-600"
                   autoFocus
                 />
-                <button 
+                <button
                   type="submit"
                   className="px-4 py-2 bg-af-blue text-white rounded hover:bg-blue-700 transition-colors text-sm font-medium"
                 >
                   Search
                 </button>
-                <button 
+                <button
                   type="button"
                   onClick={() => {
                     setIsSearchOpen(false);
                     setSearchQuery('');
-                  }} 
+                  }}
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                 >
                   <X size={24} />
@@ -407,6 +405,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                 <Link to="/alumni" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <GraduationCap className="text-af-blue dark:text-af-light mb-2" />
                   <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Alumni</span>
+                </Link>
+                <Link to="/gallery" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
+                  <span className="text-2xl mb-1">🖼️</span>
+                  <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Gallery</span>
                 </Link>
                 <Link to="/contact" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <MapPin className="text-af-blue dark:text-af-light mb-2" />
