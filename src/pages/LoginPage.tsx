@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, User, Lock, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Silk from '../components/ui/Silk';
 
 interface LoginPageProps {
@@ -30,6 +31,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
         }, 1500);
     };
 
+    const fadeIn = {
+        initial: { opacity: 0, y: 30 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.5, ease: "easeOut" }
+    };
+
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-gray-900 relative overflow-hidden font-sans">
             {/* Silk Background */}
@@ -46,14 +53,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
             </div>
 
             <div className="relative z-10 w-full max-w-md px-6">
-                <button
+                <motion.button
                     onClick={onBack}
                     className="flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors text-sm font-medium uppercase tracking-wide group"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
                 >
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to School
-                </button>
+                </motion.button>
 
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl animate-fade-in-up">
+                <motion.div
+                    className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl"
+                    {...fadeIn}
+                >
                     <div className="text-center mb-8">
                         <img src="https://ecolearn.pages.dev/img/logo.png" alt="Logo" className="w-16 h-16 mx-auto mb-4 drop-shadow-lg" />
                         <h2 className="text-2xl font-serif font-bold text-white mb-1">Student Portal</h2>
@@ -62,9 +75,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {error && (
-                            <div className="bg-red-500/20 border border-red-500/50 text-red-200 text-xs p-3 rounded text-center animate-fade-in">
+                            <motion.div
+                                className="bg-red-500/20 border border-red-500/50 text-red-200 text-xs p-3 rounded text-center"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                            >
                                 {error}
-                            </div>
+                            </motion.div>
                         )}
                         <div className="space-y-2">
                             <label className="text-xs font-bold uppercase text-blue-200 tracking-wider ml-1">Username</label>
@@ -93,23 +110,25 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                             </div>
                         </div>
 
-                        <button
+                        <motion.button
                             type="submit"
                             disabled={isLoading}
                             className="w-full bg-af-blue hover:bg-blue-600 text-white font-bold py-3.5 rounded-lg shadow-lg shadow-blue-900/50 transition-all transform hover:translate-y-[-1px] active:translate-y-[1px] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             {isLoading ? (
                                 <> <Loader2 size={18} className="animate-spin" /> Authenticating... </>
                             ) : (
                                 'Login Securely'
                             )}
-                        </button>
+                        </motion.button>
                     </form>
 
                     <div className="mt-6 text-center">
                         <a href="#" className="text-xs text-white/50 hover:text-af-gold transition-colors">Forgot Password?</a>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
     );

@@ -6,7 +6,7 @@ interface Topper {
   name: string;
   percentage: number;
   position: number;
-  classStr: string; // Renamed from 'class' to avoid keyword conflict potentially, though TS handles it.
+  classStr: string;
   image: string;
 }
 
@@ -20,7 +20,7 @@ const TopperSection: React.FC = () => {
       percentage: 92.00,
       position: 1,
       classStr: 'Science',
-      image: '/student-placeholder.png'
+      image: 'https://picsum.photos/seed/topper1/400/400'
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ const TopperSection: React.FC = () => {
       percentage: 91.00,
       position: 2,
       classStr: 'Commerce',
-      image: '/student-placeholder.png'
+      image: 'https://picsum.photos/seed/topper2/400/400'
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ const TopperSection: React.FC = () => {
       percentage: 90.00,
       position: 3,
       classStr: 'Humanities',
-      image: '/student-placeholder.png'
+      image: 'https://picsum.photos/seed/topper3/400/400'
     }
   ];
 
@@ -47,7 +47,7 @@ const TopperSection: React.FC = () => {
       percentage: 98.60,
       position: 1,
       classStr: 'Class X',
-      image: '/student-placeholder.png'
+      image: 'https://picsum.photos/seed/topper4/400/400'
     },
     {
       id: 2,
@@ -55,7 +55,7 @@ const TopperSection: React.FC = () => {
       percentage: 98.00,
       position: 2,
       classStr: 'Class X',
-      image: '/student-placeholder.png'
+      image: 'https://picsum.photos/seed/topper5/400/400'
     },
     {
       id: 3,
@@ -63,7 +63,7 @@ const TopperSection: React.FC = () => {
       percentage: 97.40,
       position: 3,
       classStr: 'Class X',
-      image: '/student-placeholder.png'
+      image: 'https://picsum.photos/seed/topper6/400/400'
     }
   ];
 
@@ -220,4 +220,3 @@ const TopperSection: React.FC = () => {
 };
 
 export default TopperSection;
-

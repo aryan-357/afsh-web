@@ -1,5 +1,8 @@
 import React, { useState, useMemo, Suspense } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CalendarCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import Silk from '@/src/components/ui/Silk';
 
 interface CalendarEvent {
@@ -12,9 +15,10 @@ interface CalendarEvent {
 }
 
 const CalendarPageNew: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 3, 1));
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [googleEvents, setGoogleEvents] = useState<CalendarEvent[]>([]);
 
-  const events: CalendarEvent[] = [
+  const initialEvents: CalendarEvent[] = [
     { date: 15, month: 3, year: 2024, title: 'Math Olympiad', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
     { date: 20, month: 3, year: 2024, title: 'Science Fair', type: 'event', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
     { date: 25, month: 3, year: 2024, title: 'Sports Day', type: 'activity', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
@@ -32,6 +36,45 @@ const CalendarPageNew: React.FC = () => {
     { date: 25, month: 11, year: 2024, title: 'Annual Day', type: 'event', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
     { date: 1, month: 12, year: 2024, title: 'Final Exams Begin', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
   ];
+
+  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await axios.get(
+          'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+          {
+            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+            params: {
+              timeMin: new Date(new Date().getFullYear(), 0, 1).toISOString(),
+              showDeleted: false,
+              singleEvents: true,
+              orderBy: 'startTime',
+            }
+          }
+        );
+
+        const formattedEvents: CalendarEvent[] = response.data.items.map((event: any) => {
+          const startDate = new Date(event.start.dateTime || event.start.date);
+          return {
+            date: startDate.getDate(),
+            month: startDate.getMonth(),
+            year: startDate.getFullYear(),
+            title: event.summary,
+            type: 'event', // Default type for Google Calendar events
+            color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' // Default color
+          };
+        });
+
+        setGoogleEvents(formattedEvents);
+        setEvents(prev => [...prev, ...formattedEvents]);
+      } catch (error) {
+        console.error('Error fetching Google Calendar events:', error);
+      }
+    },
+    scope: 'https://www.googleapis.com/auth/calendar.events.readonly',
+  });
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -55,6 +98,34 @@ const CalendarPageNew: React.FC = () => {
   const prevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
   const nextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
 
+  const fadeIn = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
+  const slideInFromLeft = {
+    initial: { opacity: 0, x: -30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
+  const slideInFromRight = {
+    initial: { opacity: 0, x: 30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
+  const scaleIn = {
+    initial: { opacity: 0, scale: 0.9 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.4, ease: "easeOut" as const }
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 pb-20 transition-colors duration-700">
       {/* Hero Section */}
@@ -73,31 +144,82 @@ const CalendarPageNew: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-center pt-20">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+        <motion.div
+          className="container mx-auto px-4 relative z-10 text-center pt-20"
+          {...fadeIn}
+          transition={{ delay: 0.1 }}
+        >
+          <motion.h1
+            className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+            {...slideInFromLeft}
+            transition={{ delay: 0.2 }}
+          >
             Academic <span className="text-af-gold">Calendar</span>
-          </h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto animate-fade-in-up delay-100 drop-shadow">
+          </motion.h1>
+          <motion.p
+            className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
+            {...slideInFromRight}
+            transition={{ delay: 0.3 }}
+          >
             All important dates, events, and examinations at a glance
-          </p>
-          <div className="w-24 h-1 bg-af-gold mx-auto mt-6 animate-fade-in-up delay-200"></div>
-        </div>
+          </motion.p>
+          <motion.div
+            className="w-24 h-1 bg-af-gold mx-auto mt-6"
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          />
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <button
+              onClick={() => login()}
+              className="flex items-center gap-2 mx-auto px-6 py-3 bg-white text-af-blue font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <CalendarCheck size={20} />
+              Sync with Google Calendar
+            </button>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Calendar */}
-      <div className="container mx-auto px-4 max-w-6xl">
+      <motion.div
+        className="container mx-auto px-4 max-w-6xl"
+        {...fadeIn}
+        transition={{ delay: 0.5 }}
+      >
         {/* Month Navigation */}
-        <div className="flex items-center justify-between mb-8 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-          <button onClick={prevMonth} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300 transform hover:scale-110">
+        <motion.div
+          className="flex items-center justify-between mb-8 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg"
+          {...scaleIn}
+          transition={{ delay: 0.6 }}
+        >
+          <motion.button
+            onClick={prevMonth}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <ChevronLeft className="text-af-blue dark:text-af-light" size={28} />
-          </button>
+          </motion.button>
           <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white min-w-96 text-center">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
-          <button onClick={nextMonth} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300 transform hover:scale-110">
+          <motion.button
+            onClick={nextMonth}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <ChevronRight className="text-af-blue dark:text-af-light" size={28} />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Weekday Headers */}
         <div className="grid grid-cols-7 gap-1 mb-2">
@@ -113,12 +235,20 @@ const CalendarPageNew: React.FC = () => {
           {calendarDays.map((day, idx) => {
             const dayEvents = day ? getEventsForDate(day) : [];
             return (
-              <div
+              <motion.div
                 key={idx}
                 className={`min-h-32 p-2 rounded-lg border transition-all duration-300 ${day
-                  ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-af-blue dark:hover:border-af-light cursor-pointer transform hover:scale-105'
+                  ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 cursor-pointer'
                   : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
                   }`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.05 * (idx % 7) }}
+                whileHover={day ? {
+                  scale: 1.02,
+                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+                  borderColor: "#3b82f6"
+                } : {}}
               >
                 {day && (
                   <>
@@ -139,13 +269,17 @@ const CalendarPageNew: React.FC = () => {
                     </div>
                   </>
                 )}
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Events Legend */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <motion.div
+          className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4"
+          {...fadeIn}
+          transition={{ delay: 0.8 }}
+        >
           <div className="flex items-center gap-3 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
             <div className="w-4 h-4 bg-red-500 rounded"></div>
             <span className="font-semibold text-gray-700 dark:text-gray-300">Exams</span>
@@ -162,17 +296,27 @@ const CalendarPageNew: React.FC = () => {
             <div className="w-4 h-4 bg-yellow-500 rounded"></div>
             <span className="font-semibold text-gray-700 dark:text-gray-300">Holidays</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Upcoming Events */}
-        <div className="mt-12">
+        <motion.div
+          className="mt-12"
+          {...slideInFromLeft}
+          transition={{ delay: 0.9 }}
+        >
           <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6">Upcoming Events This Month</h3>
           <div className="space-y-3">
             {events
               .filter(e => e.month === currentDate.getMonth() && e.year === currentDate.getFullYear())
               .sort((a, b) => a.date - b.date)
               .map((event, idx) => (
-                <div key={idx} className={`p-4 rounded-lg border-l-4 flex items-center justify-between transition-all duration-300 hover:shadow-lg transform hover:translate-x-1 ${event.color}`}>
+                <motion.div
+                  key={idx}
+                  className={`p-4 rounded-lg border-l-4 flex items-center justify-between transition-all duration-300 ${event.color}`}
+                  {...scaleIn}
+                  transition={{ delay: 1.0 + idx * 0.1 }}
+                  whileHover={{ x: 5, boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)" }}
+                >
                   <div>
                     <div className="font-bold text-lg">{event.title}</div>
                     <div className="text-sm opacity-75">{monthNames[event.month]} {event.date}, {event.year}</div>
@@ -180,11 +324,11 @@ const CalendarPageNew: React.FC = () => {
                   <div className="px-4 py-2 bg-white/50 dark:bg-black/30 rounded font-semibold text-sm uppercase tracking-widest">
                     {event.type}
                   </div>
-                </div>
+                </motion.div>
               ))}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

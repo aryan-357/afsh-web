@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { BlogPost } from '../types/blog';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const PostDetails = () => {
     const { slug } = useParams();
@@ -32,6 +33,19 @@ const PostDetails = () => {
         return `${API_URL}${url}`;
     };
 
+    const fadeIn = {
+        initial: { opacity: 0, y: 30 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.5, ease: "easeOut" }
+    };
+
+    const slideInFromLeft = {
+        initial: { opacity: 0, x: -30 },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: 0.4, ease: "easeOut" as const }
+    };
+
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-af-blue"></div>
@@ -49,21 +63,41 @@ const PostDetails = () => {
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-20">
             {/* Hero Image */}
             <div className="h-[400px] md:h-[500px] w-full relative">
-                <img
+                <motion.img
                     src={getImageUrl(post.cover?.url)}
                     alt={post.title}
                     className="w-full h-full object-cover"
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-16">
                     <div className="container mx-auto">
                         <Link to="/blog" className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors">
-                            <ArrowLeft className="mr-2" size={20} /> Back to News
+                            <motion.span
+                                className="flex items-center"
+                                initial={{ x: -10, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                <ArrowLeft className="mr-2" size={20} /> Back to News
+                            </motion.span>
                         </Link>
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 leading-tight">
+                        <motion.h1
+                            className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 leading-tight"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                        >
                             {post.title}
-                        </h1>
-                        <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm md:text-base">
+                        </motion.h1>
+                        <motion.div
+                            className="flex flex-wrap items-center gap-6 text-white/90 text-sm md:text-base"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                        >
                             <span className="flex items-center gap-2">
                                 <Calendar size={18} /> {new Date(post.publishedAt).toLocaleDateString()}
                             </span>
@@ -75,20 +109,25 @@ const PostDetails = () => {
                                     {post.category.name}
                                 </span>
                             )}
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>
 
             {/* Content */}
-            <article className="container mx-auto px-6 -mt-10 relative z-10">
+            <motion.article
+                className="container mx-auto px-6 -mt-10 relative z-10"
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+            >
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 md:p-12 max-w-4xl mx-auto">
                     <div
                         className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-bold prose-img:rounded-xl prose-a:text-af-blue hover:prose-a:text-blue-700"
                         dangerouslySetInnerHTML={{ __html: post.content }}
                     />
                 </div>
-            </article>
+            </motion.article>
         </div>
     );
 };
