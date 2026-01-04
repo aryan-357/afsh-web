@@ -101,7 +101,10 @@ const CalendarPageNew: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [googleEvents, setGoogleEvents] = useState<CalendarEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [debugError, setDebugError] = useState<string | null>(null);
+  const [loadedIds, setLoadedIds] = useState<string[]>([]);
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
   const publicCalendarIds = import.meta.env.VITE_PUBLIC_CALENDAR_ID; // Can be comma separated
 
@@ -129,7 +132,8 @@ const CalendarPageNew: React.FC = () => {
   // Auto-fetch public calendar events on mount
   React.useEffect(() => {
     if (apiKey && publicCalendarIds) {
-      const calendarIds = publicCalendarIds.split(',').map((id: string) => id.trim());
+      const calendarIds = publicCalendarIds.split(',').map((id: string) => id.trim().replace(/^['"]|['"]$/g, '')); // Remove extra quotes if present
+      setLoadedIds(calendarIds);
 
       const fetchPublicEvents = async () => {
         try {
@@ -148,8 +152,10 @@ const CalendarPageNew: React.FC = () => {
                 }
               );
               return response.data;
-            } catch (e) {
+            } catch (e: any) {
+              const msg = e.response?.data?.error?.message || e.message;
               console.warn(`Failed to fetch events for calendar ${calendarId}`, e);
+              setDebugError(prev => (prev ? `${prev} | ${calendarId}: ${msg}` : `${calendarId}: ${msg}`));
               return null;
             }
           });
@@ -182,8 +188,9 @@ const CalendarPageNew: React.FC = () => {
           setGoogleEvents(allNewEvents);
           // Merge with initial hardcoded events (deduplication logic skipped for simplicity, but could be added based on ID)
           setEvents(prev => [...initialEvents, ...allNewEvents]);
-        } catch (error) {
+        } catch (error: any) {
           console.error('Error fetching public calendar events:', error);
+          setDebugError(error.message);
         }
       };
 
@@ -299,8 +306,16 @@ const CalendarPageNew: React.FC = () => {
                 ⚠️ API Key or Public Calendar ID missing in .env
               </p>
             ) : (
-              <div className="text-sm font-semibold text-af-blue dark:text-blue-200 bg-white/10 px-6 py-2 rounded-full inline-block border border-white/20">
-                Showing events from Public Calendar
+              <div className="flex flex-col gap-2 items-center">
+                <div className="text-sm font-semibold text-af-blue dark:text-blue-200 bg-white/10 px-6 py-2 rounded-full inline-block border border-white/20">
+                  Showing events from Public Calendar
+                </div>
+                {/* Debug Info - Remove before production */}
+                <div className="text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 p-2 rounded max-w-lg text-left overflow-auto">
+                  <p><strong>Debug Info:</strong></p>
+                  <p>Loaded IDs: {loadedIds.join(', ')}</p>
+                  {debugError && <p className="text-red-500 font-bold mt-1">Error: {debugError}</p>}
+                </div>
               </div>
             )}
           </motion.div>
