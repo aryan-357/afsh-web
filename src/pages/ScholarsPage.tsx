@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { ArrowLeft, Info, Trophy } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 
 interface ScholarsPageProps {
@@ -16,8 +17,21 @@ interface ScholarsPageProps {
 const YOUR_PHOTO_URL = "https://i.postimg.cc/WbDtxMjL/upscalemedia-transformed.webp";
 // ==================================================================================
 
-
 const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
+    const fadeIn = {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: 0.4, ease: "easeOut" as const }
+    };
+
+    const scaleIn = {
+        initial: { opacity: 0, scale: 0.9 },
+        whileInView: { opacity: 1, scale: 1 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: 0.4, ease: "easeOut" as const }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             {/* Hero Section */}
@@ -36,26 +50,48 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
                 </div>
 
-                <div className="container mx-auto px-4 relative z-10 text-center pt-16">
-                    <Trophy className="w-16 h-16 mx-auto mb-4 text-af-gold drop-shadow-lg" />
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+                <motion.div
+                    className="container mx-auto px-4 relative z-10 text-center pt-16"
+                    {...fadeIn}
+                >
+                    <motion.div
+                        animate={{
+                            rotate: [0, 10, -10, 0],
+                            scale: [1, 1.1, 1]
+                        }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <Trophy className="w-16 h-16 mx-auto mb-4 text-af-gold drop-shadow-lg" />
+                    </motion.div>
+
+                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg">
                         Academic <span className="text-af-gold">Achievers</span>
                     </h1>
-                    <p className="text-xl text-blue-100 max-w-3xl mx-auto animate-fade-in-up delay-100 drop-shadow">
+                    <p className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow">
                         Celebrating excellence and outstanding performance
                     </p>
-                </div>
+                </motion.div>
             </section>
 
             <div className="container mx-auto px-4 pb-12">
-                <button
+                <motion.button
                     onClick={onBack}
                     className="flex items-center gap-2 text-af-blue dark:text-af-light hover:underline mb-8 font-medium group"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
                 >
                     <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Back to Home
-                </button>
+                </motion.button>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden border-t-4 border-af-gold animate-fade-in-up">
+                <motion.div
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden border-t-4 border-af-gold"
+                    {...scaleIn}
+                >
                     <div className="p-6 md:p-12 text-center text-gray-900 dark:text-white">
 
                         {/* Class 10th Section */}
@@ -71,7 +107,11 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                         Enhanced Photo Frame 
                         Uses a blurred backdrop to make low-quality or different aspect ratio images look professional.
                     */}
-                            <div className="bg-white dark:bg-gray-700 p-2 md:p-4 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600">
+                            <motion.div
+                                className="bg-white dark:bg-gray-700 p-2 md:p-4 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600"
+                                whileHover={{ scale: 1.02 }}
+                                transition={{ duration: 0.4 }}
+                            >
                                 <div className="relative w-full aspect-video bg-gray-900 rounded-lg overflow-hidden group">
 
                                     {/* 1. Blurred Background Layer (Ambience) */}
@@ -110,10 +150,10 @@ const ScholarsPage: React.FC<ScholarsPageProps> = ({ onBack }) => {
                                         The school administration congratulates our brilliant students.
                                     </p>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
