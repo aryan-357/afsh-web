@@ -1,7 +1,6 @@
 import React, { useState, useMemo, Suspense } from 'react';
 import { ChevronLeft, ChevronRight, CalendarCheck, X, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Silk from '@/src/components/ui/Silk';
 
@@ -192,72 +191,7 @@ const CalendarPageNew: React.FC = () => {
     }
   }, [apiKey, publicCalendarIds]);
 
-  const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        // 1. Fetch list of all calendars
-        const calendarListResponse = await axios.get(
-          'https://www.googleapis.com/calendar/v3/users/me/calendarList',
-          {
-            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-          }
-        );
 
-        const calendars = calendarListResponse.data.items;
-        const allEvents: CalendarEvent[] = [];
-
-        // 2. Fetch events for each calendar
-        const fetchPromises = calendars.map(async (calendar: any) => {
-          try {
-            const response = await axios.get(
-              `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events`,
-              {
-                headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-                params: {
-                  timeMin: new Date(new Date().getFullYear(), 0, 1).toISOString(),
-                  showDeleted: false,
-                  singleEvents: true,
-                  orderBy: 'startTime',
-                }
-              }
-            );
-
-            return response.data.items.map((event: any) => {
-              const startDate = new Date(event.start.dateTime || event.start.date);
-              // Use calendar background color if available, or fallback
-              const eventColor = calendar.backgroundColor
-                ? `bg-[${calendar.backgroundColor}] text-white` // Note: arbitrary values might need safelisting in Tailwind or style prop
-                : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300';
-
-              // Map to our event structure
-              return {
-                date: startDate.getDate(),
-                month: startDate.getMonth(),
-                year: startDate.getFullYear(),
-                title: event.summary,
-                type: 'event',
-                color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' // Keeping consistent styling for now
-              };
-            });
-          } catch (e) {
-            console.warn(`Failed to fetch events for calendar ${calendar.summary}`, e);
-            return [];
-          }
-        });
-
-        const results = await Promise.all(fetchPromises);
-        results.forEach(calendarEvents => {
-          allEvents.push(...calendarEvents);
-        });
-
-        setGoogleEvents(allEvents);
-        setEvents(prev => [...prev, ...allEvents]);
-      } catch (error) {
-        console.error('Error fetching Google Calendar events:', error);
-      }
-    },
-    scope: 'https://www.googleapis.com/auth/calendar.readonly',
-  });
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -360,15 +294,14 @@ const CalendarPageNew: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <button
-              onClick={() => login()}
-              className="flex items-center gap-2 mx-auto px-6 py-3 bg-white text-af-blue font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-            >
-              <CalendarCheck size={20} />
-              Sync (Admin Only)
-            </button>
-            {(!apiKey || !publicCalendarIds) && (
-              <p className="text-xs text-red-400 mt-2">API Key or Public Calendar ID missing in .env</p>
+            {(!apiKey || !publicCalendarIds) ? (
+              <p className="text-sm font-semibold text-red-400 bg-red-900/20 px-4 py-2 rounded-full inline-block">
+                ⚠️ API Key or Public Calendar ID missing in .env
+              </p>
+            ) : (
+              <div className="text-sm font-semibold text-af-blue dark:text-blue-200 bg-white/10 px-6 py-2 rounded-full inline-block border border-white/20">
+                Showing events from Public Calendar
+              </div>
             )}
           </motion.div>
         </motion.div>
