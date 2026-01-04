@@ -1,6 +1,6 @@
 import React, { useState, useMemo, Suspense } from 'react';
-import { ChevronLeft, ChevronRight, CalendarCheck } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, CalendarCheck, X, Clock } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Silk from '@/src/components/ui/Silk';
@@ -12,11 +12,99 @@ interface CalendarEvent {
   title: string;
   type: 'exam' | 'event' | 'activity' | 'holiday';
   color: string;
+  startTime?: string;
+  endTime?: string;
+  allDay?: boolean;
 }
+
+interface DayViewModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  date: Date;
+  events: CalendarEvent[];
+}
+
+const DayViewModal: React.FC<DayViewModalProps> = ({ isOpen, onClose, date, events }) => {
+  if (!isOpen) return null;
+
+  const sortedEvents = [...events].sort((a, b) => {
+    if (a.allDay && !b.allDay) return -1;
+    if (!a.allDay && b.allDay) return 1;
+    return (a.startTime || '').localeCompare(b.startTime || '');
+  });
+
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700 max-h-[80vh] flex flex-col"
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
+            <div>
+              <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white">
+                {date.toLocaleDateString('en-US', { weekday: 'long' })}
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                {date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              </p>
+            </div>
+            <button onClick={onClose} className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full transition-colors">
+              <X size={20} className="text-gray-500 dark:text-gray-400" />
+            </button>
+          </div>
+
+          {/* Body */}
+          <div className="p-6 overflow-y-auto flex-1">
+            {sortedEvents.length === 0 ? (
+              <div className="text-center py-10 opacity-50">
+                <CalendarCheck className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                <p>No events scheduled for this day.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {sortedEvents.map((event, idx) => (
+                  <div key={idx} className={`p-4 rounded-xl border-l-4 ${event.color} bg-opacity-10 dark:bg-opacity-20 flex gap-4`}>
+                    <div className="flex-shrink-0 pt-1">
+                      {event.allDay ? (
+                        <span className="text-xs font-bold uppercase tracking-wider bg-white/50 dark:bg-black/20 px-2 py-1 rounded">All Day</span>
+                      ) : (
+                        <div className="flex items-center gap-1 text-sm font-semibold opacity-80">
+                          <Clock size={14} />
+                          {new Date(event.startTime!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg leading-tight mb-1">{event.title}</h3>
+                      {(event.startTime && event.endTime && !event.allDay) && (
+                        <p className="text-xs opacity-70">
+                          {new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(event.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+};
 
 const CalendarPageNew: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [googleEvents, setGoogleEvents] = useState<CalendarEvent[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+  const publicCalendarIds = import.meta.env.VITE_PUBLIC_CALENDAR_ID; // Can be comma separated
 
   const initialEvents: CalendarEvent[] = [
     { date: 15, month: 3, year: 2024, title: 'Math Olympiad', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
@@ -39,41 +127,136 @@ const CalendarPageNew: React.FC = () => {
 
   const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
 
+  // Auto-fetch public calendar events on mount
+  React.useEffect(() => {
+    if (apiKey && publicCalendarIds) {
+      const calendarIds = publicCalendarIds.split(',').map((id: string) => id.trim());
+
+      const fetchPublicEvents = async () => {
+        try {
+          const fetchPromises = calendarIds.map(async (calendarId: string) => {
+            try {
+              const response = await axios.get(
+                `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`,
+                {
+                  params: {
+                    key: apiKey,
+                    timeMin: new Date(new Date().getFullYear(), 0, 1).toISOString(),
+                    showDeleted: false,
+                    singleEvents: true,
+                    orderBy: 'startTime',
+                  }
+                }
+              );
+              return response.data;
+            } catch (e) {
+              console.warn(`Failed to fetch events for calendar ${calendarId}`, e);
+              return null;
+            }
+          });
+
+          const results = await Promise.all(fetchPromises);
+          const allNewEvents: CalendarEvent[] = [];
+
+          results.forEach((data) => {
+            if (data && data.items) {
+              const calendarEvents = data.items.map((event: any) => {
+                const startDate = new Date(event.start.dateTime || event.start.date);
+                const isAllDay = !event.start.dateTime;
+
+                return {
+                  date: startDate.getDate(),
+                  month: startDate.getMonth(),
+                  year: startDate.getFullYear(),
+                  title: event.summary,
+                  type: 'event',
+                  color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+                  startTime: event.start.dateTime || event.start.date,
+                  endTime: event.end.dateTime || event.end.date,
+                  allDay: isAllDay
+                };
+              });
+              allNewEvents.push(...calendarEvents);
+            }
+          });
+
+          setGoogleEvents(allNewEvents);
+          // Merge with initial hardcoded events (deduplication logic skipped for simplicity, but could be added based on ID)
+          setEvents(prev => [...initialEvents, ...allNewEvents]);
+        } catch (error) {
+          console.error('Error fetching public calendar events:', error);
+        }
+      };
+
+      fetchPublicEvents();
+    }
+  }, [apiKey, publicCalendarIds]);
+
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const response = await axios.get(
-          'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+        // 1. Fetch list of all calendars
+        const calendarListResponse = await axios.get(
+          'https://www.googleapis.com/calendar/v3/users/me/calendarList',
           {
             headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-            params: {
-              timeMin: new Date(new Date().getFullYear(), 0, 1).toISOString(),
-              showDeleted: false,
-              singleEvents: true,
-              orderBy: 'startTime',
-            }
           }
         );
 
-        const formattedEvents: CalendarEvent[] = response.data.items.map((event: any) => {
-          const startDate = new Date(event.start.dateTime || event.start.date);
-          return {
-            date: startDate.getDate(),
-            month: startDate.getMonth(),
-            year: startDate.getFullYear(),
-            title: event.summary,
-            type: 'event', // Default type for Google Calendar events
-            color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' // Default color
-          };
+        const calendars = calendarListResponse.data.items;
+        const allEvents: CalendarEvent[] = [];
+
+        // 2. Fetch events for each calendar
+        const fetchPromises = calendars.map(async (calendar: any) => {
+          try {
+            const response = await axios.get(
+              `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events`,
+              {
+                headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                params: {
+                  timeMin: new Date(new Date().getFullYear(), 0, 1).toISOString(),
+                  showDeleted: false,
+                  singleEvents: true,
+                  orderBy: 'startTime',
+                }
+              }
+            );
+
+            return response.data.items.map((event: any) => {
+              const startDate = new Date(event.start.dateTime || event.start.date);
+              // Use calendar background color if available, or fallback
+              const eventColor = calendar.backgroundColor
+                ? `bg-[${calendar.backgroundColor}] text-white` // Note: arbitrary values might need safelisting in Tailwind or style prop
+                : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300';
+
+              // Map to our event structure
+              return {
+                date: startDate.getDate(),
+                month: startDate.getMonth(),
+                year: startDate.getFullYear(),
+                title: event.summary,
+                type: 'event',
+                color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' // Keeping consistent styling for now
+              };
+            });
+          } catch (e) {
+            console.warn(`Failed to fetch events for calendar ${calendar.summary}`, e);
+            return [];
+          }
         });
 
-        setGoogleEvents(formattedEvents);
-        setEvents(prev => [...prev, ...formattedEvents]);
+        const results = await Promise.all(fetchPromises);
+        results.forEach(calendarEvents => {
+          allEvents.push(...calendarEvents);
+        });
+
+        setGoogleEvents(allEvents);
+        setEvents(prev => [...prev, ...allEvents]);
       } catch (error) {
         console.error('Error fetching Google Calendar events:', error);
       }
     },
-    scope: 'https://www.googleapis.com/auth/calendar.events.readonly',
+    scope: 'https://www.googleapis.com/auth/calendar.readonly',
   });
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -182,11 +365,24 @@ const CalendarPageNew: React.FC = () => {
               className="flex items-center gap-2 mx-auto px-6 py-3 bg-white text-af-blue font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               <CalendarCheck size={20} />
-              Sync with Google Calendar
+              Sync (Admin Only)
             </button>
+            {(!apiKey || !publicCalendarIds) && (
+              <p className="text-xs text-red-400 mt-2">API Key or Public Calendar ID missing in .env</p>
+            )}
           </motion.div>
         </motion.div>
       </section>
+
+      {/* Day View Modal */}
+      {selectedDate && (
+        <DayViewModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          date={selectedDate}
+          events={getEventsForDate(selectedDate.getDate()).filter(e => e.month === selectedDate.getMonth() && e.year === selectedDate.getFullYear())}
+        />
+      )}
 
       {/* Calendar */}
       <motion.div
@@ -249,6 +445,12 @@ const CalendarPageNew: React.FC = () => {
                   boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
                   borderColor: "#3b82f6"
                 } : {}}
+                onClick={() => {
+                  if (day) {
+                    setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
+                    setIsModalOpen(true);
+                  }
+                }}
               >
                 {day && (
                   <>
