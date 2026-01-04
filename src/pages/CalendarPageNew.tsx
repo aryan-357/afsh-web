@@ -163,8 +163,11 @@ const CalendarPageNew: React.FC = () => {
           const results = await Promise.all(fetchPromises);
           const allNewEvents: CalendarEvent[] = [];
 
-          results.forEach((data) => {
+          results.forEach((data, index) => {
             if (data && data.items) {
+              const calendarId = calendarIds[index];
+              const isHoliday = calendarId.includes('holiday') || calendarId.includes('en.indian');
+
               const calendarEvents = data.items.map((event: any) => {
                 const startDate = new Date(event.start.dateTime || event.start.date);
                 const isAllDay = !event.start.dateTime;
@@ -174,8 +177,10 @@ const CalendarPageNew: React.FC = () => {
                   month: startDate.getMonth(),
                   year: startDate.getFullYear(),
                   title: event.summary,
-                  type: 'event',
-                  color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+                  type: isHoliday ? 'holiday' : 'event',
+                  color: isHoliday
+                    ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300'
+                    : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
                   startTime: event.start.dateTime || event.start.date,
                   endTime: event.end.dateTime || event.end.date,
                   allDay: isAllDay
