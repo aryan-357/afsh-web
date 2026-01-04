@@ -108,26 +108,7 @@ const CalendarPageNew: React.FC = () => {
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
   const publicCalendarIds = import.meta.env.VITE_PUBLIC_CALENDAR_ID; // Can be comma separated
 
-  const initialEvents: CalendarEvent[] = [
-    { date: 15, month: 3, year: 2024, title: 'Math Olympiad', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
-    { date: 20, month: 3, year: 2024, title: 'Science Fair', type: 'event', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
-    { date: 25, month: 3, year: 2024, title: 'Sports Day', type: 'activity', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
-    { date: 1, month: 4, year: 2024, title: 'Academic Year Begins', type: 'holiday', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' },
-    { date: 10, month: 4, year: 2024, title: 'Mid-Term Exams Start', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
-    { date: 18, month: 4, year: 2024, title: 'Cultural Program', type: 'event', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' },
-    { date: 5, month: 5, year: 2024, title: 'Summer Camp Begins', type: 'activity', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300' },
-    { date: 15, month: 5, year: 2024, title: 'Annual Awards', type: 'event', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300' },
-    { date: 20, month: 6, year: 2024, title: 'Summer Vacation Begins', type: 'holiday', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' },
-    { date: 1, month: 8, year: 2024, title: 'New Session Starts', type: 'holiday', color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' },
-    { date: 15, month: 9, year: 2024, title: 'Periodic Assessment 1', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
-    { date: 25, month: 10, year: 2024, title: 'Foundation Day', type: 'event', color: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300' },
-    { date: 5, month: 11, year: 2024, title: 'Diwali Celebration', type: 'event', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' },
-    { date: 15, month: 11, year: 2024, title: 'Mid-Term Exams', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
-    { date: 25, month: 11, year: 2024, title: 'Annual Day', type: 'event', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
-    { date: 1, month: 12, year: 2024, title: 'Final Exams Begin', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
-  ];
-
-  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   // Auto-fetch public calendar events on mount
   React.useEffect(() => {
@@ -192,7 +173,7 @@ const CalendarPageNew: React.FC = () => {
 
           setGoogleEvents(allNewEvents);
           // Merge with initial hardcoded events (deduplication logic skipped for simplicity, but could be added based on ID)
-          setEvents(prev => [...initialEvents, ...allNewEvents]);
+          setEvents(allNewEvents);
         } catch (error: any) {
           console.error('Error fetching public calendar events:', error);
           setDebugError(error.message);
@@ -388,7 +369,7 @@ const CalendarPageNew: React.FC = () => {
                 key={idx}
                 className={`min-h-32 p-2 rounded-lg border transition-all duration-300 ${day
                   ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 cursor-pointer'
-                  : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                  : 'bg-transparent border-transparent opacity-0 pointer-events-none'
                   }`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
