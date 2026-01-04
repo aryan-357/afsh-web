@@ -1,6 +1,8 @@
 import React, { useState, useMemo, Suspense } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CalendarCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import Silk from '@/src/components/ui/Silk';
 
 interface CalendarEvent {
@@ -13,9 +15,10 @@ interface CalendarEvent {
 }
 
 const CalendarPageNew: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 3, 1));
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [googleEvents, setGoogleEvents] = useState<CalendarEvent[]>([]);
 
-  const events: CalendarEvent[] = [
+  const initialEvents: CalendarEvent[] = [
     { date: 15, month: 3, year: 2024, title: 'Math Olympiad', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
     { date: 20, month: 3, year: 2024, title: 'Science Fair', type: 'event', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
     { date: 25, month: 3, year: 2024, title: 'Sports Day', type: 'activity', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
@@ -33,6 +36,45 @@ const CalendarPageNew: React.FC = () => {
     { date: 25, month: 11, year: 2024, title: 'Annual Day', type: 'event', color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
     { date: 1, month: 12, year: 2024, title: 'Final Exams Begin', type: 'exam', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' },
   ];
+
+  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await axios.get(
+          'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+          {
+            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+            params: {
+              timeMin: new Date(new Date().getFullYear(), 0, 1).toISOString(),
+              showDeleted: false,
+              singleEvents: true,
+              orderBy: 'startTime',
+            }
+          }
+        );
+
+        const formattedEvents: CalendarEvent[] = response.data.items.map((event: any) => {
+          const startDate = new Date(event.start.dateTime || event.start.date);
+          return {
+            date: startDate.getDate(),
+            month: startDate.getMonth(),
+            year: startDate.getFullYear(),
+            title: event.summary,
+            type: 'event', // Default type for Google Calendar events
+            color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' // Default color
+          };
+        });
+
+        setGoogleEvents(formattedEvents);
+        setEvents(prev => [...prev, ...formattedEvents]);
+      } catch (error) {
+        console.error('Error fetching Google Calendar events:', error);
+      }
+    },
+    scope: 'https://www.googleapis.com/auth/calendar.events.readonly',
+  });
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -128,6 +170,21 @@ const CalendarPageNew: React.FC = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           />
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <button
+              onClick={() => login()}
+              className="flex items-center gap-2 mx-auto px-6 py-3 bg-white text-af-blue font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <CalendarCheck size={20} />
+              Sync with Google Calendar
+            </button>
+          </motion.div>
         </motion.div>
       </section>
 
