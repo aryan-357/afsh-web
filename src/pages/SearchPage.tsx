@@ -5,6 +5,34 @@ import { Search, FileText, Calendar, Users, Image, BookOpen, ArrowLeft } from 'l
 import { Link } from 'react-router-dom';
 import Silk from '../components/ui/Silk';
 
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.3, ease: "easeOut" as const }
+};
+
+const slideInFromLeft = {
+  initial: { opacity: 0, x: -30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromRight = {
+  initial: { opacity: 0, x: 30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.9 },
+  whileInView: { opacity: 1, scale: 1 },
+  viewport: { once: true, amount: 0.2, margin: "-100px" },
+  transition: { duration: 0.3, ease: "easeOut" as const }
+};
+
 interface SearchResult {
   id: string;
   title: string;
@@ -144,75 +172,158 @@ const SearchPage: React.FC = () => {
         <div className="container mx-auto px-4 relative z-10 text-center pt-20">
           <motion.div {...fadeIn}>
             <div className="flex items-center gap-3 mb-8">
-              <Link
-                to="/"
-                className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                transition={{ delay: 0.1, duration: 0.4 }}
               >
-                <ArrowLeft size={20} />
-                Back to Home
-              </Link>
+                <Link
+                  to="/"
+                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+                >
+                  <ArrowLeft size={20} />
+                  Back to Home
+                </Link>
+              </motion.div>
             </div>
-            <div className="flex items-center gap-4 mb-6">
-              <Search size={32} className="text-white" />
+            <motion.div 
+              className="flex items-center gap-4 mb-6"
+              {...slideInFromLeft}
+              transition={{ delay: 0.2 }}
+            >
+              <motion.div
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <Search size={32} className="text-white" />
+              </motion.div>
               <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">
                 Search Results
               </h1>
-            </div>
-            <p className="text-xl text-white">
+            </motion.div>
+            <motion.p 
+              className="text-xl text-white"
+              {...slideInFromRight}
+              transition={{ delay: 0.3 }}
+            >
               {query && `Showing results for "${query}"`}
-            </p>
+            </motion.p>
           </motion.div>
         </div>
       </section>
 
       {/* Results Section */}
-      <section className="container mx-auto px-4 py-32">
+      <motion.section 
+        className="container mx-auto px-4 py-32"
+        {...fadeIn}
+        transition={{ delay: 0.4 }}
+      >
         {isSearching ? (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+            transition={{ duration: 0.3 }}
             className="text-center py-20"
           >
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-af-blue border-t-transparent"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Searching...</p>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="inline-block rounded-full h-12 w-12 border-4 border-af-blue border-t-transparent"
+            ></motion.div>
+            <motion.p 
+              className="mt-4 text-gray-600 dark:text-gray-400"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+              transition={{ delay: 0.2 }}
+            >
+              Searching...
+            </motion.p>
           </motion.div>
         ) : query && searchResults.length > 0 ? (
           <motion.div {...fadeIn}>
-            <div className="mb-8">
+            <motion.div 
+              className="mb-8"
+              {...scaleIn}
+              transition={{ delay: 0.5 }}
+            >
               <p className="text-gray-600 dark:text-gray-400">
                 Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{query}"
               </p>
-            </div>
+            </motion.div>
             <div className="space-y-6">
               {searchResults.map((result, index) => (
                 <motion.div
                   key={result.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-100 dark:border-gray-700"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
+                  transition={{ 
+                    delay: 0.6 + (index * 0.1),
+                    duration: 0.4,
+                    ease: "easeOut"
+                  }}
+                  whileHover={{ 
+                    y: -5,
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:bg-gradient-to-r hover:from-af-blue/5 hover:to-af-light/5 group"
                 >
                   <Link to={result.url} className="block group">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-af-blue dark:text-af-light group-hover:bg-af-blue group-hover:text-white transition-colors">
+                      <motion.div 
+                        className="flex-shrink-0 w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-af-blue dark:text-af-light group-hover:bg-af-blue group-hover:text-white transition-all duration-300"
+                        whileHover={{ 
+                          rotate: 360,
+                          scale: 1.1,
+                          transition: { duration: 0.6 }
+                        }}
+                      >
                         {result.icon}
-                      </div>
+                      </motion.div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-af-blue dark:group-hover:text-af-light transition-colors">
                             {result.title}
                           </h3>
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getCategoryColor(result.category)}`}>
+                          <motion.span 
+                            className={`px-2 py-1 text-xs font-medium rounded-full ${getCategoryColor(result.category)}`}
+                            whileHover={{ 
+                              scale: 1.1,
+                              transition: { duration: 0.2 }
+                            }}
+                          >
                             {result.category}
-                          </span>
+                          </motion.span>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 mb-3">
                           {result.description}
                         </p>
-                        <div className="flex items-center gap-2 text-af-blue dark:text-af-light text-sm font-medium">
+                        <motion.div 
+                          className="flex items-center gap-2 text-af-blue dark:text-af-light text-sm font-medium"
+                          whileHover={{ 
+                            x: 5,
+                            transition: { duration: 0.3 }
+                          }}
+                        >
                           <span>Visit Page</span>
-                          <span className="group-hover:translate-x-1 transition-transform">→</span>
-                        </div>
+                          <motion.span
+                            animate={{ x: [0, 5, 0] }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                          >
+                            →
+                          </motion.span>
+                        </motion.div>
                       </div>
                     </div>
                   </Link>
@@ -250,7 +361,7 @@ const SearchPage: React.FC = () => {
             </p>
           </motion.div>
         )}
-      </section>
+      </motion.section>
     </div>
   );
 };
