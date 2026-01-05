@@ -80,7 +80,6 @@ const AlumniRegistrationPage: React.FC = () => {
     newsletter: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string>('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -140,97 +139,26 @@ const AlumniRegistrationPage: React.FC = () => {
       return;
     }
     
-    setIsSubmitting(true);
+    // TODO: Add your backend API call here
+    console.log('Form data ready for backend:', formData);
     
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Simulate successful submission
-      setIsSubmitted(true);
-      // Reset form
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        batchYear: '',
-        passingYear: '',
-        currentOccupation: '',
-        company: '',
-        designation: '',
-        address: '',
-        city: '',
-        state: '',
-        country: '',
-        pinCode: '',
-        linkedInProfile: '',
-        achievements: '',
-        memories: '',
-        allowContact: false,
-        newsletter: false
-      });
-      setFieldErrors({});
-        
-      // Redirect after 3 seconds
-      setTimeout(() => {
-        navigate('/alumni');
-      }, 3000);
-    } catch (error) {
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Placeholder for your backend implementation
+    // Example:
+    // try {
+    //   const response = await fetch('/api/alumni/register', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(formData)
+    //   });
+    //   const result = await response.json();
+    //   if (result.success) {
+    //     setIsSubmitted(true);
+    //     // Handle success
+    //   }
+    // } catch (error) {
+    //   setError('Registration failed. Please try again.');
+    // }
   };
-
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.2, margin: "-100px" }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="text-center p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-md"
-        >
-          <motion.div
-            animate={{ 
-              scale: [1, 1.1, 1],
-              rotate: [0, 5, -5, 0]
-            }}
-            transition={{ 
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
-          </motion.div>
-          <motion.h2 
-            className="text-3xl font-bold text-gray-900 dark:text-white mb-4"
-            {...slideInFromLeft}
-            transition={{ delay: 0.2 }}
-          >
-            Registration Successful!
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 dark:text-gray-400 mb-6"
-            {...slideInFromRight}
-            transition={{ delay: 0.3 }}
-          >
-            Thank you for registering. We'll review your information and get back to you soon.
-          </motion.p>
-          <motion.p 
-            className="text-sm text-gray-500"
-            {...fadeIn}
-            transition={{ delay: 0.4 }}
-          >
-            Redirecting to Alumni page...
-          </motion.p>
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">

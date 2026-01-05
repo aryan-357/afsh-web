@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
@@ -14,7 +14,13 @@ import {
     Wifi,
     Shield,
     Bus,
-    Award
+    Award,
+    Camera,
+    Image as ImageIcon,
+    Maximize2,
+    ArrowLeft,
+    ArrowRight,
+    X
 } from 'lucide-react';
 import Silk from '../components/ui/Silk';
 
@@ -25,74 +31,171 @@ const fadeIn = {
     transition: { duration: 0.6, ease: "easeOut" as const }
 };
 
+const slideInFromLeft = {
+    initial: { opacity: 0, x: -50 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: "easeOut" as const }
+};
+
+const slideInFromRight = {
+    initial: { opacity: 0, x: 50 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: "easeOut" as const }
+};
+
+const scaleIn = {
+    initial: { opacity: 0, scale: 0.9 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: "easeOut" as const }
+};
+
 const FacilitiesPage: React.FC = () => {
+    const [selectedGallery, setSelectedGallery] = useState<string | null>(null);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const facilities = [
         {
             icon: Building,
             title: "Smart Classrooms",
             description: "Modern, technology-enabled classrooms with interactive whiteboards and digital learning tools.",
             features: ["Interactive Boards", "Projectors", "Audio Systems", "High-Speed WiFi", "Digital Learning Platforms"],
-            highlight: "50+ smart classrooms equipped with latest educational technology"
+            highlight: "50+ smart classrooms equipped with latest educational technology",
+            images: [
+                "https://picsum.photos/seed/smart-classroom-1/800/600",
+                "https://picsum.photos/seed/smart-classroom-2/800/600",
+                "https://picsum.photos/seed/smart-classroom-3/800/600",
+                "https://picsum.photos/seed/smart-classroom-4/800/600"
+            ]
         },
         {
             icon: BookOpen,
             title: "Library & Resource Center",
             description: "Well-stocked library with thousands of books, journals, and digital resources for research and learning.",
             features: ["10,000+ Books", "Digital Library", "Reading Rooms", "Research Facilities", "E-Resource Access"],
-            highlight: "Digital catalog with 24/7 online access to educational resources"
+            highlight: "Digital catalog with 24/7 online access to educational resources",
+            images: [
+                "https://picsum.photos/seed/library-1/800/600",
+                "https://picsum.photos/seed/library-2/800/600",
+                "https://picsum.photos/seed/library-3/800/600",
+                "https://picsum.photos/seed/library-4/800/600"
+            ]
         },
         {
             icon: Beaker,
             title: "Science Laboratories",
             description: "Fully equipped physics, chemistry, and biology labs for hands-on experimental learning.",
             features: ["Physics Lab", "Chemistry Lab", "Biology Lab", "Computer Lab", "Safety Equipment"],
-            highlight: "Advanced lab equipment following CBSE safety standards"
+            highlight: "Advanced lab equipment following CBSE safety standards",
+            images: [
+                "https://picsum.photos/seed/physics-lab/800/600",
+                "https://picsum.photos/seed/chemistry-lab/800/600",
+                "https://picsum.photos/seed/biology-lab/800/600",
+                "https://picsum.photos/seed/computer-lab/800/600"
+            ]
         },
         {
             icon: Dumbbell,
             title: "Sports Complex",
             description: "Comprehensive sports facilities including grounds, courts, and equipment for various sports.",
             features: ["Football Ground", "Basketball Courts", "Volleyball Courts", "Athletics Track", "Gymnasium"],
-            highlight: "Professional coaching for 15+ sports disciplines"
+            highlight: "Professional coaching for 15+ sports disciplines",
+            images: [
+                "https://picsum.photos/seed/football-ground/800/600",
+                "https://picsum.photos/seed/basketball-court/800/600",
+                "https://picsum.photos/seed/athletics-track/800/600",
+                "https://picsum.photos/seed/gymnasium/800/600"
+            ]
         },
         {
             icon: Computer,
             title: "Computer Labs",
             description: "State-of-the-art computer labs with latest hardware and software for digital literacy.",
             features: ["100+ Systems", "High-Speed Internet", "Latest Software", "Technical Support", "Programming Labs"],
-            highlight: "1:1 student-computer ratio with industry-standard software"
+            highlight: "1:1 student-computer ratio with industry-standard software",
+            images: [
+                "https://picsum.photos/seed/computer-lab-1/800/600",
+                "https://picsum.photos/seed/computer-lab-2/800/600",
+                "https://picsum.photos/seed/computer-lab-3/800/600",
+                "https://picsum.photos/seed/computer-lab-4/800/600"
+            ]
         },
         {
             icon: Music,
             title: "Performing Arts",
             description: "Dedicated spaces for music, dance, and drama to nurture artistic talents.",
             features: ["Music Room", "Dance Studio", "Auditorium", "Practice Rooms", "Sound Equipment"],
-            highlight: "300-seat auditorium with professional acoustics"
+            highlight: "300-seat auditorium with professional acoustics",
+            images: [
+                "https://picsum.photos/seed/music-room/800/600",
+                "https://picsum.photos/seed/dance-studio/800/600",
+                "https://picsum.photos/seed/auditorium/800/600",
+                "https://picsum.photos/seed/practice-room/800/600"
+            ]
         },
         {
             icon: Palette,
             title: "Art & Craft Studios",
             description: "Creative spaces for visual arts, crafts, and design activities.",
             features: ["Art Studio", "Craft Room", "Exhibition Area", "Storage Facilities", "Pottery Wheel"],
-            highlight: "Regular art exhibitions and inter-school competitions"
+            highlight: "Regular art exhibitions and inter-school competitions",
+            images: [
+                "https://picsum.photos/seed/art-studio/800/600",
+                "https://picsum.photos/seed/craft-room/800/600",
+                "https://picsum.photos/seed/exhibition-area/800/600",
+                "https://picsum.photos/seed/pottery-wheel/800/600"
+            ]
         },
         {
             icon: Trophy,
             title: "Indoor Sports",
             description: "Indoor facilities for table tennis, chess, carrom, and other indoor games.",
             features: ["Table Tennis", "Chess Room", "Carrom", "Badminton Court", "Yoga Studio"],
-            highlight: "Climate-controlled indoor sports complex"
+            highlight: "Climate-controlled indoor sports complex",
+            images: [
+                "https://picsum.photos/seed/table-tennis/800/600",
+                "https://picsum.photos/seed/chess-room/800/600",
+                "https://picsum.photos/seed/badminton-court/800/600",
+                "https://picsum.photos/seed/yoga-studio/800/600"
+            ]
         }
     ];
 
     const amenities = [
-        { icon: Wifi, title: "High-Speed WiFi Campus", description: "Seamless internet connectivity throughout the campus with 1Gbps backbone", detail: "Covering all classrooms, labs, library, and common areas" },
-        { icon: Shield, title: "24/7 Security", description: "CCTV surveillance and trained security personnel", detail: "150+ CCTV cameras with facial recognition and emergency response team" },
-        { icon: Bus, title: "Transport Facility", description: "Safe and reliable bus services covering major routes", detail: "15 bus routes covering 25+ km radius with GPS tracking" },
-        { icon: Users, title: "Counseling Center", description: "Professional counseling and guidance services", detail: "Dedicated counselors for academic and personal development" },
-        { icon: Award, title: "Medical Facility", description: "Well-equipped infirmary with qualified medical staff", detail: "Full-time nurse and monthly doctor visits with emergency response" },
-        { icon: Building, title: "Cafeteria", description: "Hygienic and nutritious food options for students", detail: "ISO certified kitchen with diverse menu options" }
+        { icon: Wifi, title: "High-Speed WiFi Campus", description: "Seamless internet connectivity throughout the campus with 1Gbps backbone", detail: "Covering all classrooms, labs, library, and common areas", image: "https://picsum.photos/seed/wifi-campus/400/300" },
+        { icon: Shield, title: "24/7 Security", description: "CCTV surveillance and trained security personnel", detail: "150+ CCTV cameras with facial recognition and emergency response team", image: "https://picsum.photos/seed/security/400/300" },
+        { icon: Bus, title: "Transport Facility", description: "Safe and reliable bus services covering major routes", detail: "15 bus routes covering 25+ km radius with GPS tracking", image: "https://picsum.photos/seed/transport/400/300" },
+        { icon: Users, title: "Counseling Center", description: "Professional counseling and guidance services", detail: "Dedicated counselors for academic and personal development", image: "https://picsum.photos/seed/counseling/400/300" },
+        { icon: Award, title: "Medical Facility", description: "Well-equipped infirmary with qualified medical staff", detail: "Full-time nurse and monthly doctor visits with emergency response", image: "https://picsum.photos/seed/medical/400/300" },
+        { icon: Building, title: "Cafeteria", description: "Hygienic and nutritious food options for students", detail: "ISO certified kitchen with diverse menu options", image: "https://picsum.photos/seed/cafeteria/400/300" }
     ];
+
+    const openGallery = (facilityTitle: string) => {
+        setSelectedGallery(facilityTitle);
+        setCurrentImageIndex(0);
+    };
+
+    const closeGallery = () => {
+        setSelectedGallery(null);
+        setCurrentImageIndex(0);
+    };
+
+    const nextImage = () => {
+        const facility = facilities.find(f => f.title === selectedGallery);
+        if (facility) {
+            setCurrentImageIndex((prev) => (prev + 1) % facility.images.length);
+        }
+    };
+
+    const prevImage = () => {
+        const facility = facilities.find(f => f.title === selectedGallery);
+        if (facility) {
+            setCurrentImageIndex((prev) => (prev - 1 + facility.images.length) % facility.images.length);
+        }
+    };
+
+    const currentFacility = facilities.find(f => f.title === selectedGallery);
 
     return (
         <div className="bg-white dark:bg-gray-900">
@@ -152,38 +255,83 @@ const FacilitiesPage: React.FC = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                         {facilities.map((facility, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                                whileHover={{ y: -10 }}
-                                className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
+                                className="bg-white dark:bg-gray-900 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden group"
                             >
-                                <div className="w-16 h-16 bg-af-blue/10 dark:bg-af-light/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-af-blue dark:group-hover:bg-af-light transition-colors duration-300">
-                                    <facility.icon className="w-8 h-8 text-af-blue dark:text-af-light group-hover:text-white transition-colors duration-300" />
+                                {/* Image Gallery */}
+                                <div className="relative h-64 overflow-hidden">
+                                    <img 
+                                        src={facility.images[0]} 
+                                        alt={facility.title}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                    
+                                    {/* Gallery Controls */}
+                                    <div className="absolute top-4 right-4 flex gap-2">
+                                        <button
+                                            onClick={() => openGallery(facility.title)}
+                                            className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800 transition-colors duration-300"
+                                        >
+                                            <Camera className="w-4 h-4 text-gray-900 dark:text-white" />
+                                        </button>
+                                        <button className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full backdrop-blur-sm hover:bg-white dark:hover:bg-gray-800 transition-colors duration-300">
+                                            <ImageIcon className="w-4 h-4 text-gray-900 dark:text-white" />
+                                        </button>
+                                    </div>
+                                    
+                                    {/* Image Counter */}
+                                    <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+                                        {facility.images.length} Photos
+                                    </div>
+                                    
+                                    {/* Facility Icon */}
+                                    <div className="absolute bottom-4 right-4 w-12 h-12 bg-af-blue rounded-2xl flex items-center justify-center shadow-lg">
+                                        <facility.icon className="w-6 h-6 text-white" />
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-af-blue dark:group-hover:text-af-light transition-colors duration-300">
-                                    {facility.title}
-                                </h3>
-                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
-                                    {facility.description}
-                                </p>
-                                <ul className="space-y-2">
-                                    {facility.features.map((feature, idx) => (
-                                        <li key={idx} className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                                            <div className="w-1.5 h-1.5 bg-af-blue dark:bg-af-light rounded-full mr-2"></div>
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                                    <p className="text-xs font-semibold text-af-blue dark:text-af-light">
-                                        {facility.highlight}
+
+                                {/* Content */}
+                                <div className="p-8">
+                                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-af-blue dark:group-hover:text-af-light transition-colors duration-300">
+                                        {facility.title}
+                                    </h3>
+                                    <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                                        {facility.description}
                                     </p>
+                                    
+                                    {/* Features Grid */}
+                                    <div className="grid grid-cols-2 gap-3 mb-6">
+                                        {facility.features.slice(0, 4).map((feature, idx) => (
+                                            <div key={idx} className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                                <div className="w-2 h-2 bg-af-blue dark:bg-af-light rounded-full mr-2"></div>
+                                                {feature}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    
+                                    {/* Highlight */}
+                                    <div className="pt-6 border-t border-gray-100 dark:border-gray-700">
+                                        <p className="text-sm font-semibold text-af-blue dark:text-af-light">
+                                            {facility.highlight}
+                                        </p>
+                                    </div>
+                                    
+                                    {/* View Gallery Button */}
+                                    <button
+                                        onClick={() => openGallery(facility.title)}
+                                        className="mt-6 w-full py-3 bg-af-blue dark:bg-af-light text-white rounded-xl font-semibold hover:bg-af-blue/90 dark:hover:bg-af-light/90 transition-colors duration-300 flex items-center justify-center gap-2"
+                                    >
+                                        <Maximize2 className="w-4 h-4" />
+                                        View Gallery
+                                    </button>
                                 </div>
                             </motion.div>
                         ))}
@@ -208,7 +356,7 @@ const FacilitiesPage: React.FC = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {amenities.map((amenity, index) => (
                             <motion.div
                                 key={index}
@@ -216,25 +364,119 @@ const FacilitiesPage: React.FC = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                                className="text-center p-8 rounded-2xl bg-gradient-to-br from-af-blue/5 to-af-light/5 dark:from-af-blue/10 dark:to-af-light/10 border border-af-blue/20 dark:border-af-light/20 hover:shadow-xl transition-all duration-300"
+                                className="group bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500"
                             >
-                                <div className="w-20 h-20 bg-af-blue dark:bg-af-light rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                                    <amenity.icon className="w-10 h-10 text-white" />
+                                {/* Image */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <img 
+                                        src={amenity.image} 
+                                        alt={amenity.title}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                    
+                                    {/* Icon Overlay */}
+                                    <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 dark:bg-gray-800/90 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                        <amenity.icon className="w-6 h-6 text-af-blue dark:text-af-light" />
+                                    </div>
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
-                                    {amenity.title}
-                                </h3>
-                                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-3">
-                                    {amenity.description}
-                                </p>
-                                <p className="text-xs text-gray-500 dark:text-gray-500 italic">
-                                    {amenity.detail}
-                                </p>
+
+                                {/* Content */}
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-af-blue dark:group-hover:text-af-light transition-colors duration-300">
+                                        {amenity.title}
+                                    </h3>
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-3">
+                                        {amenity.description}
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-500 italic">
+                                        {amenity.detail}
+                                    </p>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </motion.section>
+
+            {/* Image Gallery Modal */}
+            {selectedGallery && currentFacility && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+                    onClick={closeGallery}
+                >
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.9, opacity: 0 }}
+                        className="relative max-w-6xl w-full"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={closeGallery}
+                            className="absolute -top-12 right-0 p-2 text-white hover:text-af-gold transition-colors duration-300"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+
+                        {/* Main Image */}
+                        <div className="relative">
+                            <img 
+                                src={currentFacility.images[currentImageIndex]} 
+                                alt={currentFacility.title}
+                                className="w-full h-auto max-h-[70vh] object-contain rounded-2xl"
+                            />
+                            
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={prevImage}
+                                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 dark:bg-gray-800/20 rounded-full backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
+                            >
+                                <ArrowLeft className="w-6 h-6 text-white" />
+                            </button>
+                            <button
+                                onClick={nextImage}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 dark:bg-gray-800/20 rounded-full backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
+                            >
+                                <ArrowRight className="w-6 h-6 text-white" />
+                            </button>
+                        </div>
+
+                        {/* Image Counter and Title */}
+                        <div className="mt-4 text-center">
+                            <h3 className="text-2xl font-bold text-white mb-2">{currentFacility.title}</h3>
+                            <p className="text-gray-300">
+                                {currentImageIndex + 1} / {currentFacility.images.length}
+                            </p>
+                        </div>
+
+                        {/* Thumbnail Strip */}
+                        <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
+                            {currentFacility.images.map((image, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentImageIndex(index)}
+                                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                        index === currentImageIndex 
+                                            ? 'border-af-gold scale-110' 
+                                            : 'border-transparent hover:border-white/50'
+                                    }`}
+                                >
+                                    <img 
+                                        src={image} 
+                                        alt={`${currentFacility.title} ${index + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
 
             {/* CTA Section */}
             <motion.section 
