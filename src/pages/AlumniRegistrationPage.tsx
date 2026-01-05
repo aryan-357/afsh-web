@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { GraduationCap, ArrowLeft, CheckCircle, Mail, Phone, MapPin, Calendar, Briefcase, Award, AlertCircle } from 'lucide-react';
 import Silk from '../components/ui/Silk';
-import { alumniApi, AlumniRegistrationData, ApiResponse } from '../services/alumniApi';
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -35,7 +34,31 @@ const scaleIn = {
 
 const AlumniRegistrationPage: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<AlumniRegistrationData>({
+  
+  // Local interface for form data
+  interface AlumniFormData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    batchYear: string;
+    passingYear: string;
+    currentOccupation: string;
+    company: string;
+    designation: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    pinCode: string;
+    linkedInProfile: string;
+    achievements: string;
+    memories: string;
+    allowContact: boolean;
+    newsletter: boolean;
+  }
+
+  const [formData, setFormData] = useState<AlumniFormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -49,8 +72,12 @@ const AlumniRegistrationPage: React.FC = () => {
     city: '',
     state: '',
     country: '',
+    pinCode: '',
+    linkedInProfile: '',
     achievements: '',
-    message: ''
+    memories: '',
+    allowContact: false,
+    newsletter: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -58,10 +85,19 @@ const AlumniRegistrationPage: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value, type } = e.target as HTMLInputElement;
+    
+    if (type === 'checkbox') {
+      setFormData({
+        ...formData,
+        [name]: (e.target as HTMLInputElement).checked
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
 
   const validateForm = (): boolean => {
@@ -107,40 +143,41 @@ const AlumniRegistrationPage: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      const response: ApiResponse = await alumniApi.registerAlumni(formData);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      if (response.success) {
-        setIsSubmitted(true);
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          batchYear: '',
-          passingYear: '',
-          currentOccupation: '',
-          company: '',
-          designation: '',
-          address: '',
-          city: '',
-          state: '',
-          country: '',
-          achievements: '',
-          message: ''
-        });
-        setFieldErrors({});
+      // Simulate successful submission
+      setIsSubmitted(true);
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        batchYear: '',
+        passingYear: '',
+        currentOccupation: '',
+        company: '',
+        designation: '',
+        address: '',
+        city: '',
+        state: '',
+        country: '',
+        pinCode: '',
+        linkedInProfile: '',
+        achievements: '',
+        memories: '',
+        allowContact: false,
+        newsletter: false
+      });
+      setFieldErrors({});
         
-        // Redirect after 3 seconds
-        setTimeout(() => {
-          navigate('/alumni');
-        }, 3000);
-      } else {
-        setError(response.message || 'Registration failed. Please try again.');
-      }
+      // Redirect after 3 seconds
+      setTimeout(() => {
+        navigate('/alumni');
+      }, 3000);
     } catch (error) {
       setError('An unexpected error occurred. Please try again.');
-      console.error('Registration error:', error);
     } finally {
       setIsSubmitting(false);
     }
