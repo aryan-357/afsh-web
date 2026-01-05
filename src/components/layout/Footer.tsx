@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
                 { label: 'Admission Procedure', href: '/admissions#procedure' },
                 { label: 'Fee Structure', href: '/admissions#fees' },
                 { label: 'Academic Calendar', href: '/calendar' },
-                { label: 'Mandatory Disclosure', href: '/admissions#disclosure' },
+                { label: 'Mandatory Disclosure', href: '/mandatory-disclosure' },
               ].map((link, i) => (
                 <li key={i}>
                   <Link to={link.href} className="hover:text-af-light flex items-center gap-2 group transition-colors">

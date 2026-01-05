@@ -15,11 +15,12 @@ const AdmissionPage = lazy(() => import('./pages/AdmissionPage'));
 const AcademicsPage = lazy(() => import('./pages/AcademicsPage'));
 const AlumniPage = lazy(() => import('./pages/AlumniPage'));
 const AlumniRegistrationPage = lazy(() => import('./pages/AlumniRegistrationPage'));
-const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage'));
 const CalendarPageNew = lazy(() => import('./pages/CalendarPageNew'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
+const MandatoryDisclosurePage = lazy(() => import('./pages/MandatoryDisclosurePage'));
+const FacilitiesPage = lazy(() => import('./pages/FacilitiesPage'));
 const NewsPage = lazy(() => import('./pages/NewsPage'));
-const ScholarsPage = lazy(() => import('./pages/ScholarsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 
@@ -55,11 +56,12 @@ root.render(
                         <Route path="/academics" element={<AcademicsPage />} />
                         <Route path="/alumni" element={<AlumniPage />} />
                         <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
-                        <Route path="/alumni/photos" element={<PhotoUploadPage />} />
                         <Route path="/calendar" element={<CalendarPageNew />} />
                         <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/achievements" element={<AchievementsPage />} />
+                        <Route path="/mandatory-disclosure" element={<MandatoryDisclosurePage />} />
+                        <Route path="/facilities" element={<FacilitiesPage />} />
                         <Route path="/news" element={<NewsPage />} />
-                        <Route path="/scholars" element={<ScholarsPage onBack={() => window.history.back()} />} />
                         <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
                         <Route path="/search" element={<SearchPage />} />
                     </Routes>

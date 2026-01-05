@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { GraduationCap, ArrowLeft, CheckCircle, Mail, Phone, MapPin, Calendar, Briefcase, Award } from 'lucide-react';
+import { GraduationCap, ArrowLeft, CheckCircle, Mail, Phone, MapPin, Calendar, Briefcase, Award, AlertCircle } from 'lucide-react';
 import Silk from '../components/ui/Silk';
+import { alumniApi, AlumniRegistrationData, ApiResponse } from '../services/alumniApi';
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -34,7 +35,7 @@ const scaleIn = {
 
 const AlumniRegistrationPage: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AlumniRegistrationData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -53,6 +54,8 @@ const AlumniRegistrationPage: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string>('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -61,20 +64,86 @@ const AlumniRegistrationPage: React.FC = () => {
     });
   };
 
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    // Required field validations
+    if (!formData.firstName.trim()) errors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = 'Invalid email format';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+    else if (!/^[+]?[\d\s\-\(\)]+$/.test(formData.phone)) errors.phone = 'Invalid phone format';
+    if (!formData.batchYear) errors.batchYear = 'Batch year is required';
+    if (!formData.passingYear) errors.passingYear = 'Passing year is required';
+    if (!formData.currentOccupation.trim()) errors.currentOccupation = 'Current occupation is required';
+    if (!formData.address.trim()) errors.address = 'Address is required';
+    if (!formData.city.trim()) errors.city = 'City is required';
+    if (!formData.state.trim()) errors.state = 'State is required';
+    if (!formData.country.trim()) errors.country = 'Country is required';
+    
+    // Year validations
+    const currentYear = new Date().getFullYear();
+    if (formData.batchYear && (parseInt(formData.batchYear) < 1950 || parseInt(formData.batchYear) > currentYear)) {
+      errors.batchYear = 'Invalid batch year';
+    }
+    if (formData.passingYear && (parseInt(formData.passingYear) < parseInt(formData.batchYear) || parseInt(formData.passingYear) > currentYear)) {
+      errors.passingYear = 'Invalid passing year';
+    }
+    
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    
+    if (!validateForm()) {
+      setError('Please fix the errors below');
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 3 seconds and redirect
-    setTimeout(() => {
-      navigate('/alumni');
-    }, 3000);
+    try {
+      const response: ApiResponse = await alumniApi.registerAlumni(formData);
+      
+      if (response.success) {
+        setIsSubmitted(true);
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          batchYear: '',
+          passingYear: '',
+          currentOccupation: '',
+          company: '',
+          designation: '',
+          address: '',
+          city: '',
+          state: '',
+          country: '',
+          achievements: '',
+          message: ''
+        });
+        setFieldErrors({});
+        
+        // Redirect after 3 seconds
+        setTimeout(() => {
+          navigate('/alumni');
+        }, 3000);
+      } else {
+        setError(response.message || 'Registration failed. Please try again.');
+      }
+    } catch (error) {
+      setError('An unexpected error occurred. Please try again.');
+      console.error('Registration error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -223,6 +292,21 @@ const AlumniRegistrationPage: React.FC = () => {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12"
           >
             <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Error Display */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-start gap-3"
+                >
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-red-800 dark:text-red-200 font-medium">Error</p>
+                    <p className="text-red-600 dark:text-red-300 text-sm">{error}</p>
+                  </div>
+                </motion.div>
+              )}
+              
               {/* Personal Information */}
               <motion.div
                 {...fadeIn}
@@ -256,8 +340,13 @@ const AlumniRegistrationPage: React.FC = () => {
                       onChange={handleChange}
                       required
                       placeholder="Enter your first name"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                        fieldErrors.firstName ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                      }`}
                     />
+                    {fieldErrors.firstName && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{fieldErrors.firstName}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
@@ -283,9 +372,14 @@ const AlumniRegistrationPage: React.FC = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      placeholder="your.email@example.com"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      placeholder="Enter your email address"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
+                        fieldErrors.email ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                      }`}
                     />
+                    {fieldErrors.email && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{fieldErrors.email}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wider">
