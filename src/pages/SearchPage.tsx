@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, FileText, Calendar, Users, Image, BookOpen, ArrowLeft } from 'lucide-react';
+import { Search, FileText, Calendar, Users, Image, BookOpen, ArrowLeft, Building, Trophy, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Silk from '../components/ui/Silk';
 
@@ -108,6 +108,22 @@ const SearchPage: React.FC = () => {
     },
     {
       id: '8',
+      title: 'School Facilities',
+      description: 'Explore our world-class infrastructure including smart classrooms, labs, sports complex, and more.',
+      category: 'Facilities',
+      url: '/facilities',
+      icon: <Building size={20} />
+    },
+    {
+      id: '9',
+      title: 'Mandatory Disclosure',
+      description: 'Access all mandatory documents and compliance information as per educational board guidelines.',
+      category: 'Compliance',
+      url: '/mandatory-disclosure',
+      icon: <Shield size={20} />
+    },
+    {
+      id: '10',
       title: 'Contact Information',
       description: 'Get in touch with us for inquiries, visits, and admissions.',
       category: 'Contact',
@@ -147,6 +163,9 @@ const SearchPage: React.FC = () => {
       'Gallery': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
       'Alumni': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
       'Student Life': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+      'Facilities': 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200',
+      'Achievements': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
+      'Compliance': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
       'Contact': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
     };
     return colors[category] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';

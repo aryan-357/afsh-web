@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
                 { label: 'Admission Procedure', href: '/admissions#procedure' },
                 { label: 'Fee Structure', href: '/admissions#fees' },
                 { label: 'Academic Calendar', href: '/calendar' },
-                { label: 'Mandatory Disclosure', href: '/admissions#disclosure' },
+                { label: 'Mandatory Disclosure', href: '/mandatory-disclosure' },
               ].map((link, i) => (
                 <li key={i}>
                   <Link to={link.href} className="hover:text-af-light flex items-center gap-2 group transition-colors">
@@ -127,25 +127,27 @@ const Footer: React.FC = () => {
               Locate Us
               <span className="absolute bottom-0 left-0 w-12 h-1 bg-af-gold rounded-full -mb-2"></span>
             </h3>
-            <div className="w-full h-44 bg-gray-800 rounded-xl overflow-hidden relative group cursor-pointer border border-white/5 shadow-2xl">
-              <img
-                src="https://picsum.photos/seed/map/400/300"
-                alt="Map Location"
-                className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                >
-                  <MapPin className="text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" size={40} />
-                </motion.div>
-                <div className="mt-2 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                  Open in Maps
+            <div className="w-full h-44 bg-gray-800 rounded-xl overflow-hidden relative group cursor-pointer border border-white/5 shadow-2xl"
+                 onClick={() => window.open('https://maps.app.goo.gl/VdMJGzjzMnbtK3uv7', '_blank')}
+              >
+                <img
+                  src="https://picsum.photos/seed/map/400/300"
+                  alt="Map Location"
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                  >
+                    <MapPin className="text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" size={40} />
+                  </motion.div>
+                  <div className="mt-2 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    Open in Maps
+                  </div>
                 </div>
               </div>
-            </div>
           </motion.div>
         </div>
 

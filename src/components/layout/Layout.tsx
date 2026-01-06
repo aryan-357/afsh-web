@@ -74,6 +74,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     if (page === 'home') {
                         navigate('/');
                     }
+                    else if (page === 'achievements') {
+                        navigate('/achievements');
+                    }
+                    else if (page === 'mandatory-disclosure') {
+                        navigate('/mandatory-disclosure');
+                    }
+                    else if (page === 'facilities') {
+                        navigate('/facilities');
+                    }
                     else if (page === 'news') {
                         navigate('/news');
                     }
