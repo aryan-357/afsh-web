@@ -63,10 +63,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["Interactive Boards", "Projectors", "Audio Systems", "High-Speed WiFi", "Digital Learning Platforms"],
             highlight: "50+ smart classrooms equipped with latest educational technology",
             images: [
-                "https://picsum.photos/seed/smart-classroom-1/800/600",
-                "https://picsum.photos/seed/smart-classroom-2/800/600",
-                "https://picsum.photos/seed/smart-classroom-3/800/600",
-                "https://picsum.photos/seed/smart-classroom-4/800/600"
+                "https://picsum.photos/seed/classroom-modern/800/600",
+                "https://picsum.photos/seed/smartboard-education/800/600",
+                "https://picsum.photos/seed/students-learning/800/600",
+                "https://picsum.photos/seed/digital-classroom/800/600"
             ]
         },
         {
@@ -76,10 +76,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["10,000+ Books", "Digital Library", "Reading Rooms", "Research Facilities", "E-Resource Access"],
             highlight: "Digital catalog with 24/7 online access to educational resources",
             images: [
-                "https://picsum.photos/seed/library-1/800/600",
-                "https://picsum.photos/seed/library-2/800/600",
-                "https://picsum.photos/seed/library-3/800/600",
-                "https://picsum.photos/seed/library-4/800/600"
+                "https://picsum.photos/seed/school-library/800/600",
+                "https://picsum.photos/seed/students-studying/800/600",
+                "https://picsum.photos/seed/bookshelves-education/800/600",
+                "https://picsum.photos/seed/reading-room/800/600"
             ]
         },
         {
@@ -89,10 +89,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["Physics Lab", "Chemistry Lab", "Biology Lab", "Computer Lab", "Safety Equipment"],
             highlight: "Advanced lab equipment following CBSE safety standards",
             images: [
-                "https://picsum.photos/seed/physics-lab/800/600",
-                "https://picsum.photos/seed/chemistry-lab/800/600",
-                "https://picsum.photos/seed/biology-lab/800/600",
-                "https://picsum.photos/seed/computer-lab/800/600"
+                "https://picsum.photos/seed/science-laboratory/800/600",
+                "https://picsum.photos/seed/chemistry-experiment/800/600",
+                "https://picsum.photos/seed/biology-microscope/800/600",
+                "https://picsum.photos/seed/physics-equipment/800/600"
             ]
         },
         {
@@ -102,10 +102,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["Football Ground", "Basketball Courts", "Volleyball Courts", "Athletics Track", "Gymnasium"],
             highlight: "Professional coaching for 15+ sports disciplines",
             images: [
-                "https://picsum.photos/seed/football-ground/800/600",
-                "https://picsum.photos/seed/basketball-court/800/600",
+                "https://picsum.photos/seed/school-football-field/800/600",
+                "https://picsum.photos/seed/basketball-court-school/800/600",
                 "https://picsum.photos/seed/athletics-track/800/600",
-                "https://picsum.photos/seed/gymnasium/800/600"
+                "https://picsum.photos/seed/school-gymnasium/800/600"
             ]
         },
         {
@@ -115,10 +115,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["100+ Systems", "High-Speed Internet", "Latest Software", "Technical Support", "Programming Labs"],
             highlight: "1:1 student-computer ratio with industry-standard software",
             images: [
-                "https://picsum.photos/seed/computer-lab-1/800/600",
-                "https://picsum.photos/seed/computer-lab-2/800/600",
-                "https://picsum.photos/seed/computer-lab-3/800/600",
-                "https://picsum.photos/seed/computer-lab-4/800/600"
+                "https://picsum.photos/seed/computer-lab-school/800/600",
+                "https://picsum.photos/seed/students-computers/800/600",
+                "https://picsum.photos/seed/technology-education/800/600",
+                "https://picsum.photos/seed/programming-class/800/600"
             ]
         },
         {
@@ -128,10 +128,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["Music Room", "Dance Studio", "Auditorium", "Practice Rooms", "Sound Equipment"],
             highlight: "300-seat auditorium with professional acoustics",
             images: [
-                "https://picsum.photos/seed/music-room/800/600",
-                "https://picsum.photos/seed/dance-studio/800/600",
-                "https://picsum.photos/seed/auditorium/800/600",
-                "https://picsum.photos/seed/practice-room/800/600"
+                "https://picsum.photos/seed/music-room-school/800/600",
+                "https://picsum.photos/seed/dance-studio-education/800/600",
+                "https://picsum.photos/seed/school-auditorium/800/600",
+                "https://picsum.photos/seed/musical-instruments/800/600"
             ]
         },
         {
@@ -141,10 +141,10 @@ const FacilitiesPage: React.FC = () => {
             features: ["Art Studio", "Craft Room", "Exhibition Area", "Storage Facilities", "Pottery Wheel"],
             highlight: "Regular art exhibitions and inter-school competitions",
             images: [
-                "https://picsum.photos/seed/art-studio/800/600",
-                "https://picsum.photos/seed/craft-room/800/600",
-                "https://picsum.photos/seed/exhibition-area/800/600",
-                "https://picsum.photos/seed/pottery-wheel/800/600"
+                "https://picsum.photos/seed/art-classroom/800/600",
+                "https://picsum.photos/seed/student-painting/800/600",
+                "https://picsum.photos/seed/art-exhibition/800/600",
+                "https://picsum.photos/seed/craft-room-school/800/600"
             ]
         },
         {
@@ -154,21 +154,21 @@ const FacilitiesPage: React.FC = () => {
             features: ["Table Tennis", "Chess Room", "Carrom", "Badminton Court", "Yoga Studio"],
             highlight: "Climate-controlled indoor sports complex",
             images: [
-                "https://picsum.photos/seed/table-tennis/800/600",
-                "https://picsum.photos/seed/chess-room/800/600",
-                "https://picsum.photos/seed/badminton-court/800/600",
-                "https://picsum.photos/seed/yoga-studio/800/600"
+                "https://picsum.photos/seed/table-tennis-school/800/600",
+                "https://picsum.photos/seed/chess-tournament/800/600",
+                "https://picsum.photos/seed/badminton-court-indoor/800/600",
+                "https://picsum.photos/seed/yoga-class-school/800/600"
             ]
         }
     ];
 
     const amenities = [
-        { icon: Wifi, title: "High-Speed WiFi Campus", description: "Seamless internet connectivity throughout the campus with 1Gbps backbone", detail: "Covering all classrooms, labs, library, and common areas", image: "https://picsum.photos/seed/wifi-campus/400/300" },
-        { icon: Shield, title: "24/7 Security", description: "CCTV surveillance and trained security personnel", detail: "150+ CCTV cameras with facial recognition and emergency response team", image: "https://picsum.photos/seed/security/400/300" },
-        { icon: Bus, title: "Transport Facility", description: "Safe and reliable bus services covering major routes", detail: "15 bus routes covering 25+ km radius with GPS tracking", image: "https://picsum.photos/seed/transport/400/300" },
-        { icon: Users, title: "Counseling Center", description: "Professional counseling and guidance services", detail: "Dedicated counselors for academic and personal development", image: "https://picsum.photos/seed/counseling/400/300" },
-        { icon: Award, title: "Medical Facility", description: "Well-equipped infirmary with qualified medical staff", detail: "Full-time nurse and monthly doctor visits with emergency response", image: "https://picsum.photos/seed/medical/400/300" },
-        { icon: Building, title: "Cafeteria", description: "Hygienic and nutritious food options for students", detail: "ISO certified kitchen with diverse menu options", image: "https://picsum.photos/seed/cafeteria/400/300" }
+        { icon: Wifi, title: "High-Speed WiFi Campus", description: "Seamless internet connectivity throughout the campus with 1Gbps backbone", detail: "Covering all classrooms, labs, library, and common areas", image: "https://picsum.photos/seed/school-wifi-network/400/300" },
+        { icon: Shield, title: "24/7 Security", description: "CCTV surveillance and trained security personnel", detail: "150+ CCTV cameras with facial recognition and emergency response team", image: "https://picsum.photos/seed/school-security-system/400/300" },
+        { icon: Bus, title: "Transport Facility", description: "Safe and reliable bus services covering major routes", detail: "15 bus routes covering 25+ km radius with GPS tracking", image: "https://picsum.photos/seed/school-bus-transport/400/300" },
+        { icon: Users, title: "Counseling Center", description: "Professional counseling and guidance services", detail: "Dedicated counselors for academic and personal development", image: "https://picsum.photos/seed/student-counseling/400/300" },
+        { icon: Award, title: "Medical Facility", description: "Well-equipped infirmary with qualified medical staff", detail: "Full-time nurse and monthly doctor visits with emergency response", image: "https://picsum.photos/seed/school-medical-room/400/300" },
+        { icon: Building, title: "Cafeteria", description: "Hygienic and nutritious food options for students", detail: "ISO certified kitchen with diverse menu options", image: "https://picsum.photos/seed/school-cafeteria-food/400/300" }
     ];
 
     const openGallery = (facilityTitle: string) => {
