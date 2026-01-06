@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
@@ -55,6 +55,33 @@ const scaleIn = {
 const FacilitiesPage: React.FC = () => {
     const [selectedGallery, setSelectedGallery] = useState<string | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const closeGallery = () => {
+        setSelectedGallery(null);
+        setCurrentImageIndex(0);
+    };
+
+    // Handle Escape key to close gallery and body class
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && selectedGallery) {
+                closeGallery();
+            }
+        };
+
+        // Add class to body when gallery is open
+        if (selectedGallery) {
+            document.body.classList.add('gallery-open');
+        } else {
+            document.body.classList.remove('gallery-open');
+        }
+
+        document.addEventListener('keydown', handleEscape);
+        return () => {
+            document.removeEventListener('keydown', handleEscape);
+            document.body.classList.remove('gallery-open');
+        };
+    }, [selectedGallery]);
     const facilities = [
         {
             icon: Building,
@@ -173,11 +200,6 @@ const FacilitiesPage: React.FC = () => {
 
     const openGallery = (facilityTitle: string) => {
         setSelectedGallery(facilityTitle);
-        setCurrentImageIndex(0);
-    };
-
-    const closeGallery = () => {
-        setSelectedGallery(null);
         setCurrentImageIndex(0);
     };
 
@@ -401,81 +423,105 @@ const FacilitiesPage: React.FC = () => {
 
             {/* Image Gallery Modal */}
             {selectedGallery && currentFacility && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-                    onClick={closeGallery}
-                >
+                <>
+                    {/* CSS to hide navbar when gallery is open */}
+                    <style>{`
+                        body.gallery-open header,
+                        body.gallery-open nav,
+                        body.gallery-open .navbar,
+                        body.gallery-open .navigation,
+                        body.gallery-open [role="navigation"] {
+                            display: none !important;
+                        }
+                        body.gallery-open {
+                            overflow: hidden;
+                        }
+                    `}</style>
+                    
                     <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.9, opacity: 0 }}
-                        className="relative max-w-6xl w-full"
-                        onClick={(e) => e.stopPropagation()}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center"
+                        onClick={closeGallery}
                     >
-                        {/* Close Button */}
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full h-full flex flex-col items-center justify-center p-8"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                        {/* Close Button - Top Right */}
                         <button
                             onClick={closeGallery}
-                            className="absolute -top-12 right-0 p-2 text-white hover:text-af-gold transition-colors duration-300"
+                            className="absolute top-4 right-4 z-50 p-2 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 h-5" />
                         </button>
 
-                        {/* Main Image */}
-                        <div className="relative">
+                        {/* Main Image Container */}
+                        <div className="relative w-full max-w-7xl flex-1 flex items-center justify-center">
                             <img 
                                 src={currentFacility.images[currentImageIndex]} 
                                 alt={currentFacility.title}
-                                className="w-full h-auto max-h-[70vh] object-contain rounded-2xl"
+                                className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
                             />
                             
                             {/* Navigation Buttons */}
                             <button
                                 onClick={prevImage}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 dark:bg-gray-800/20 rounded-full backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
                             >
-                                <ArrowLeft className="w-6 h-6 text-white" />
+                                <ArrowLeft className="w-6 h-6" />
                             </button>
                             <button
                                 onClick={nextImage}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 dark:bg-gray-800/20 rounded-full backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
                             >
-                                <ArrowRight className="w-6 h-6 text-white" />
+                                <ArrowRight className="w-6 h-6" />
                             </button>
                         </div>
 
-                        {/* Image Counter and Title */}
-                        <div className="mt-4 text-center">
-                            <h3 className="text-2xl font-bold text-white mb-2">{currentFacility.title}</h3>
-                            <p className="text-gray-300">
+                        {/* Image Info and Controls */}
+                        <div className="mt-6 text-center">
+                            <h3 className="text-xl font-bold text-white mb-2">{currentFacility.title}</h3>
+                            <p className="text-gray-300 mb-4">
                                 {currentImageIndex + 1} / {currentFacility.images.length}
                             </p>
-                        </div>
-
-                        {/* Thumbnail Strip */}
-                        <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
-                            {currentFacility.images.map((image, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setCurrentImageIndex(index)}
-                                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                                        index === currentImageIndex 
-                                            ? 'border-af-gold scale-110' 
-                                            : 'border-transparent hover:border-white/50'
-                                    }`}
-                                >
-                                    <img 
-                                        src={image} 
-                                        alt={`${currentFacility.title} ${index + 1}`}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </button>
-                            ))}
+                            
+                            {/* Thumbnail Strip */}
+                            <div className="flex gap-2 overflow-x-auto justify-center pb-2 px-4">
+                                {currentFacility.images.map((image, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrentImageIndex(index)}
+                                        className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                            index === currentImageIndex 
+                                                ? 'border-af-gold scale-110' 
+                                                : 'border-gray-600 hover:border-gray-400'
+                                        }`}
+                                    >
+                                        <img 
+                                            src={image} 
+                                            alt={`${currentFacility.title} ${index + 1}`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                            
+                            {/* Close Button - Bottom */}
+                            <button
+                                onClick={closeGallery}
+                                className="mt-4 px-6 py-2 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
+                            >
+                                Close Gallery
+                            </button>
                         </div>
                     </motion.div>
                 </motion.div>
+                </>
             )}
 
             {/* CTA Section */}
