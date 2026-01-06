@@ -19,7 +19,7 @@ const fadeIn = {
 
 const pgtFaculty: FacultyMember[] = [
     {
-        name: "Ms. Pooja",
+        name: "Teacher Name",
         designation: "PGT - Political Sci.",
         department: "Humanities",
         image: neutralPlaceholder,
@@ -27,7 +27,7 @@ const pgtFaculty: FacultyMember[] = [
         description: "An expert in modern and ancient history, dedicated to bringing the past alive for students through critical analysis and storytelling."
     },
     {
-        name: "Mrs. Kavita Sharma",
+        name: "Teacher Name",
         designation: "PGT - Chem.",
         department: "Science",
         image: neutralPlaceholder,
@@ -35,7 +35,7 @@ const pgtFaculty: FacultyMember[] = [
         description: "Specializing in organic and inorganic chemistry, she leads students through complex laboratory experiments and theoretical concepts."
     },
     {
-        name: "Miss. Sushma Bhardwaj",
+        name: "Teacher Name",
         designation: "PGT - Eco.",
         department: "Commerce",
         image: neutralPlaceholder,
@@ -43,7 +43,7 @@ const pgtFaculty: FacultyMember[] = [
         description: "Passionate about macroeconomics and global markets, helping students navigate the complexities of financial systems."
     },
     {
-        name: "Mr. Vivek Giri",
+        name: "Teacher Name",
         designation: "PGT - IP",
         department: "Technology",
         image: neutralPlaceholder,
@@ -51,15 +51,15 @@ const pgtFaculty: FacultyMember[] = [
         description: "Expert in Informatics Practices and software development, grooming students for the digital era through hands-on programming."
     },
     {
-        name: "Mr. PS Gangwar",
+        name: "Teacher Name",
         designation: "PGT - Maths",
         department: "Science",
         image: neutralPlaceholder,
         quote: "Mathematics is the music of reason.",
-        description: "Focused on advanced calculus and logic, Mr. Gangwar helps students solve complex problems with structured thinking."
+        description: "Focused on advanced calculus and logic, helps students solve complex problems with structured thinking."
     },
     {
-        name: "Mr. Vikram (Manzar Ziadi Replacement)",
+        name: "Teacher Name",
         designation: "PGT - PET",
         department: "Sports",
         image: neutralPlaceholder,
@@ -67,15 +67,15 @@ const pgtFaculty: FacultyMember[] = [
         description: "Promoting physical fitness and sportsmanship across all senior grades through rigorous training and discipline."
     },
     {
-        name: "Mrs. Namrata Mishra",
+        name: "Teacher Name",
         designation: "PGT - Bio.",
         department: "Science",
         image: neutralPlaceholder,
         quote: "Biology is the most powerful technology ever created.",
-        description: "Specializing in biotechnology and genetics, she fosters a deep appreciation for the living world."
+        description: "Specializing in biotechnology and genetics, fosters a deep appreciation for the living world."
     },
     {
-        name: "Mr. Naresh Khanna",
+        name: "Teacher Name",
         designation: "PGT - Eng.",
         department: "Humanities",
         image: neutralPlaceholder,
@@ -83,15 +83,15 @@ const pgtFaculty: FacultyMember[] = [
         description: "Nurturing analytical reading and eloquent expression through literature and creative writing."
     },
     {
-        name: "Mrs. Sunita Malik",
+        name: "Teacher Name",
         designation: "PGT - Hindi",
         department: "Humanities",
         image: neutralPlaceholder,
         quote: "Sahitya hi jeevan ka darpan hai.",
-        description: "Dedicated to the beauty of Hindi literature and linguistics, instilling a sense of cultural pride in her students."
+        description: "Dedicated to the beauty of Hindi literature and linguistics, instilling a sense of cultural pride in students."
     },
     {
-        name: "Mrs. Ayushi Tyagi",
+        name: "Teacher Name",
         designation: "PGT - Commerce",
         department: "Commerce",
         image: neutralPlaceholder,
@@ -102,7 +102,7 @@ const pgtFaculty: FacultyMember[] = [
 
 const tgtFaculty: FacultyMember[] = [
     {
-        name: "Mrs. Anjali Mishra",
+        name: "Teacher Name",
         designation: "TGT - S. Sci.",
         department: "Humanities",
         image: neutralPlaceholder,
@@ -110,7 +110,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Passionate about social sciences and civic awareness, helping students understand the world around them."
     },
     {
-        name: "Mr. JK Jha",
+        name: "Teacher Name",
         designation: "TGT - Sanskrit",
         department: "Humanities",
         image: neutralPlaceholder,
@@ -118,7 +118,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Keeping the ancient language alive through traditional teaching methods and modern engagement."
     },
     {
-        name: "Mrs. Sweta Jain",
+        name: "Teacher Name",
         designation: "TGT - Maths",
         department: "Science",
         image: neutralPlaceholder,
@@ -126,7 +126,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Creating a strong mathematical foundation for middle school students through interactive problem-solving."
     },
     {
-        name: "Mrs. Subhara Paul",
+        name: "Teacher Name",
         designation: "TGT - Science",
         department: "Science",
         image: neutralPlaceholder,
@@ -134,7 +134,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Focusing on experimental learning and scientific observation in the secondary grades."
     },
     {
-        name: "Mrs. Prachi Sharma",
+        name: "Teacher Name",
         designation: "TGT - Music & Dance",
         department: "Arts",
         image: neutralPlaceholder,
@@ -142,7 +142,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Nurturing creative talents and cultural expression through performing arts."
     },
     {
-        name: "Mrs. Binita Sinha",
+        name: "Teacher Name",
         designation: "TGT - S.Sci.",
         department: "Humanities",
         image: neutralPlaceholder,
@@ -150,7 +150,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Specializing in geography and history, bringing the world closer to the classroom."
     },
     {
-        name: "Mrs. Sweta Srivastava",
+        name: "Teacher Name",
         designation: "TGT - Librarian",
         department: "Library",
         image: neutralPlaceholder,
@@ -158,7 +158,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Curating a vast collection of knowledge and fostering a reading culture throughout the school."
     },
     {
-        name: "Mr. Vikram",
+        name: "Teacher Name",
         designation: "TGT - PET",
         department: "Sports",
         image: neutralPlaceholder,
@@ -166,7 +166,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Leading school teams and individual athletes to excellence on the field."
     },
     {
-        name: "Mrs. Neelkamal",
+        name: "Teacher Name",
         designation: "TGT - S. Sci.",
         department: "Humanities",
         image: neutralPlaceholder,
@@ -174,7 +174,7 @@ const tgtFaculty: FacultyMember[] = [
         description: "Engaging students with historical narratives and societal developments."
     },
     {
-        name: "Ms. Poonam Bhardwaj",
+        name: "Teacher Name",
         designation: "TGT - Science",
         department: "Science",
         image: neutralPlaceholder,
@@ -185,7 +185,7 @@ const tgtFaculty: FacultyMember[] = [
 
 const prtFaculty: FacultyMember[] = [
     {
-        name: "Mrs. Annpurna Srivastava",
+        name: "Teacher Name",
         designation: "Head Mistress",
         department: "Primary",
         image: neutralPlaceholder,
@@ -193,7 +193,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Leading the primary department with a vision for holistic early childhood development."
     },
     {
-        name: "Mrs. Supti Bhattacharya",
+        name: "Teacher Name",
         designation: "PRT - Music",
         department: "Primary",
         image: neutralPlaceholder,
@@ -201,7 +201,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Introducing our youngest learners to the world of rhythm and melody."
     },
     {
-        name: "Mrs. Usha Chauhan",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -209,7 +209,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Dedicated to nurturing individual potential in the foundational years."
     },
     {
-        name: "Mrs. Anita Sarkar",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -217,7 +217,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Creating a nurturing classroom environment where students feel safe to explore."
     },
     {
-        name: "Mrs. Anshu Bhardwaj",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -225,7 +225,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Bringing creativity and joy to primary school education through active learning."
     },
     {
-        name: "Mrs. Manju Sharma",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -233,7 +233,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Supporting students through their first steps of academic and social growth."
     },
     {
-        name: "Mrs. Poonam Sharma",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -241,7 +241,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Building confidence and curiosity in our primary grade students."
     },
     {
-        name: "Mrs. Saroj Yadav",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -249,7 +249,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Focusing on literacy and numeracy foundations for primary learners."
     },
     {
-        name: "Mrs. Renu Lata",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,
@@ -257,7 +257,7 @@ const prtFaculty: FacultyMember[] = [
         description: "Encouraging resilience and hard work in early education."
     },
     {
-        name: "Mrs. Mala Tiku",
+        name: "Teacher Name",
         designation: "PRT Staff",
         department: "Primary",
         image: neutralPlaceholder,

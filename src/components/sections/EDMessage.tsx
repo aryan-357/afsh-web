@@ -34,7 +34,7 @@ const EDMessage: React.FC = () => {
                             </p>
                         </div>
                         <div className="mt-8">
-                            <p className="font-bold text-lg text-af-blue dark:text-af-light font-serif">Mrs. ED Name</p>
+                            <p className="font-bold text-lg text-af-blue dark:text-af-light font-serif">ED's Name</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">Executive Director, Air Force School Hindan</p>
                             <img src="https://picsum.photos/seed/ed-signature/200/50" alt="Signature" className="mt-2 opacity-60 dark:opacity-80 dark:invert h-10" />
                         </div>
