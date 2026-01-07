@@ -77,26 +77,26 @@ const ContactPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4 relative z-10 text-center pt-20"
           {...fadeIn}
           transition={{ delay: 0.1 }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
             {...slideInFromLeft}
             transition={{ delay: 0.2 }}
           >
             Get In <span className="text-af-gold">Touch</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-blue-100 max-w-2xl mx-auto drop-shadow"
             {...slideInFromRight}
             transition={{ delay: 0.3 }}
           >
             We'd love to hear from you. Whether you have a question or just want to say hello, feel free to reach out.
           </motion.p>
-          <motion.div 
+          <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
             initial={{ opacity: 0, scaleX: 0 }}
             whileInView={{ opacity: 1, scaleX: 1 }}
@@ -107,23 +107,23 @@ const ContactPage: React.FC = () => {
       </section>
 
       {/* Contact Info Cards */}
-      <motion.section 
+      <motion.section
         className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-700"
         {...fadeIn}
         transition={{ delay: 0.5 }}
       >
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4"
           {...slideInFromLeft}
           transition={{ delay: 0.6 }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Address */}
-            <motion.div 
+            <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
               {...scaleIn}
               transition={{ delay: 0.7 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -138,11 +138,11 @@ const ContactPage: React.FC = () => {
             </motion.div>
 
             {/* Phone */}
-            <motion.div 
+            <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
               {...scaleIn}
               transition={{ delay: 0.8 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -159,11 +159,11 @@ const ContactPage: React.FC = () => {
             </motion.div>
 
             {/* Email */}
-            <motion.div 
+            <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
               {...scaleIn}
               transition={{ delay: 0.9 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -183,11 +183,11 @@ const ContactPage: React.FC = () => {
             </motion.div>
 
             {/* Hours */}
-            <motion.div 
+            <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
               {...scaleIn}
               transition={{ delay: 1.0 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -207,28 +207,28 @@ const ContactPage: React.FC = () => {
       </motion.section>
 
       {/* Contact Form & Map */}
-      <motion.section 
+      <motion.section
         className="py-20"
         {...fadeIn}
         transition={{ delay: 1.1 }}
       >
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4"
           {...slideInFromLeft}
           transition={{ delay: 1.2 }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Form */}
-            <motion.div 
+            <motion.div
               className="bg-white dark:bg-gray-800 p-10 rounded-xl shadow-lg transition-all duration-500"
               {...scaleIn}
               transition={{ delay: 1.3 }}
-              whileHover={{ 
+              whileHover={{
                 y: -5,
                 transition: { duration: 0.3 }
               }}
             >
-              <motion.h2 
+              <motion.h2
                 className="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-8"
                 {...slideInFromRight}
                 transition={{ delay: 1.4 }}
@@ -322,29 +322,17 @@ const ContactPage: React.FC = () => {
             {/* Map & Info */}
             <div className="space-y-8">
               {/* Map */}
-              <div className="bg-gray-200 dark:bg-gray-700 rounded-xl overflow-hidden shadow-lg h-80 relative group cursor-pointer"
-                 onClick={() => window.open('https://maps.app.goo.gl/VdMJGzjzMnbtK3uv7', '_blank')}
-              >
-                <img
-                  src="https://picsum.photos/seed/air-force-school-hindan-map/800/400"
-                  alt="Air Force School Hindan Map"
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                  >
-                    <MapPin className="text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" size={48} />
-                  </motion.div>
-                  <div className="mt-4 bg-black/70 backdrop-blur-md px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                    Click to Open in Google Maps
-                  </div>
-                  <p className="mt-2 text-white font-semibold text-center px-4">
-                    Air Force School Hindan
-                  </p>
-                </div>
+              <div className="bg-gray-200 dark:bg-gray-700 rounded-xl overflow-hidden shadow-lg h-80">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  style={{ border: 0 }}
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d938.7987719576166!2d77.36024223268029!3d28.690015897767417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfa6fc1bcdbb9%3A0xb4b01efe95986d51!2sAir%20Force%20School%20Hindan!5e1!3m2!1sen!2sin!4v1767772543919!5m2!1sen!2sin"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
               </div>
 
               {/* Quick Links */}
