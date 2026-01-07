@@ -21,6 +21,7 @@ const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 const MandatoryDisclosurePage = lazy(() => import('./pages/MandatoryDisclosurePage'));
 const FacilitiesPage = lazy(() => import('./pages/FacilitiesPage'));
 const NewsPage = lazy(() => import('./pages/NewsPage'));
+const NoticesPage = lazy(() => import('./pages/NoticesPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 
@@ -62,6 +63,7 @@ root.render(
                         <Route path="/mandatory-disclosure" element={<MandatoryDisclosurePage />} />
                         <Route path="/facilities" element={<FacilitiesPage />} />
                         <Route path="/news" element={<NewsPage />} />
+                        <Route path="/notices" element={<NoticesPage />} />
                         <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
                         <Route path="/search" element={<SearchPage />} />
                     </Routes>

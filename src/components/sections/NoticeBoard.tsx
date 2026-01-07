@@ -1,53 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, Calendar, ChevronRight, ChevronDown, Download, FileText } from 'lucide-react';
+import { Bell, Calendar, ChevronRight, ChevronDown, Download, FileText, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Notice } from '../../types';
-
-const notices: Notice[] = [
-  {
-    id: '1',
-    date: '25 Oct 2023',
-    title: 'Admissions Open for Session 2024-25 (Class I to IX)',
-    link: '/admissions',
-    isNew: true,
-    content: 'Registration forms for the academic session 2024-25 are now available online. Parents are requested to fill out the form before the deadline. Entrance tests for classes VI to IX will be conducted in the second week of December. Please ensure all required documents are ready for upload.'
-  },
-  {
-    id: '2',
-    date: '20 Oct 2023',
-    title: 'Annual Sports Meet Schedule Released',
-    link: '/student-life#sports',
-    content: 'The Annual Sports Meet will be held from November 10th to November 12th. Events include Track & Field, Basketball, and Volleyball. House captains are requested to submit the final list of participants by October 30th. Parents are cordially invited to witness the opening ceremony.'
-  },
-  {
-    id: '3',
-    date: '15 Oct 2023',
-    title: 'Parent Teacher Meeting on 30th October',
-    link: '/calendar',
-    content: 'A mandatory Parent Teacher Meeting (PTM) is scheduled for October 30th, 2023, from 08:30 AM to 12:30 PM. We will be discussing the Mid-Term results and student progress. Students must accompany their parents in proper school uniform.'
-  },
-  {
-    id: '4',
-    date: '10 Oct 2023',
-    title: 'Winter Uniform Mandatory from 1st November',
-    link: '/contact',
-    content: 'All students are hereby informed that wearing the complete winter uniform is mandatory starting November 1st, 2023. Blazers must be worn by students of Class VI onwards. Please refer to the school diary for detailed uniform specifications.'
-  },
-  {
-    id: '5',
-    date: '05 Oct 2023',
-    title: 'Result of Inter-School Debate Competition',
-    link: '/news',
-    content: 'We are proud to announce that Air Force School Hindan bagged the First Prize in the Inter-School Debate Competition held at DPS Ghaziabad. Congratulations to the winning team: Aryan Sharma (Class X) and Sneha Gupta (Class IX).'
-  },
-];
+import { Notice } from '../../types/strapi';
+import { fetchRecentNotices } from '../../services/noticeService';
 
 const NoticeBoard: React.FC = () => {
-  const [openNoticeId, setOpenNoticeId] = useState<string | null>(null);
+  const [notices, setNotices] = useState<Notice[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [openNoticeId, setOpenNoticeId] = useState<number | null>(null);
 
-  const toggleNotice = (id: string) => {
+  useEffect(() => {
+    const loadNotices = async () => {
+      try {
+        const response = await fetchRecentNotices(5); // Fetch top 5 notices
+        setNotices(response.data);
+      } catch (error) {
+        console.error('Failed to load notices:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadNotices();
+  }, []);
+
+  const toggleNotice = (id: number) => {
     setOpenNoticeId(openNoticeId === id ? null : id);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return {
+      day: date.getDate(),
+      month: date.toLocaleString('default', { month: 'short' }),
+      full: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    };
   };
 
   return (
@@ -59,12 +46,18 @@ const NoticeBoard: React.FC = () => {
         </div>
         <div className="marquee-container w-full pl-36">
           <div className="marquee-content text-sm font-bold tracking-wide">
-            {notices.map((n) => (
-              <span key={n.id} className="mx-12 inline-flex items-center group cursor-pointer">
-                <span className="w-2 h-2 bg-af-gold rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                <span className="hover:text-af-gold transition-colors">{n.title}</span>
-              </span>
-            ))}
+            {loading ? (
+              <span className="mx-12">Loading updates...</span>
+            ) : notices.length > 0 ? (
+              notices.map((n) => (
+                <span key={n.id} className="mx-12 inline-flex items-center group cursor-pointer">
+                  <span className="w-2 h-2 bg-af-gold rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
+                  <span className="hover:text-af-gold transition-colors">{n.attributes.title}</span>
+                </span>
+              ))
+            ) : (
+              <span className="mx-12">Welcome to Air Force School Hindan</span>
+            )}
           </div>
         </div>
       </div>
@@ -88,80 +81,95 @@ const NoticeBoard: React.FC = () => {
                   </div>
                   Notice Board
                 </h3>
-                <Link to="/news" className="text-sm font-bold text-af-blue dark:text-af-light hover:underline flex items-center gap-1 group">
+                <Link to="/notices" className="text-sm font-bold text-af-blue dark:text-af-light hover:underline flex items-center gap-1 group">
                   View All Notices <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
               <div className="divide-y divide-gray-100 dark:divide-gray-800">
-                {notices.map((notice, idx) => {
-                  const isOpen = openNoticeId === notice.id;
-                  return (
-                    <div key={notice.id} className="group">
-                      <button
-                        onClick={() => toggleNotice(notice.id)}
-                        className={`w-full text-left p-6 flex items-start gap-6 transition-all duration-300 focus:outline-none ${isOpen ? 'bg-blue-50/30 dark:bg-af-blue/5' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}
-                      >
-                        <div className="flex-shrink-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800 text-af-blue dark:text-af-light w-16 h-16 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 transition-transform duration-500 group-hover:scale-105 group-hover:shadow-lg">
-                          <span className="text-[10px] font-black uppercase tracking-tighter opacity-60">{notice.date.split(' ')[1]}</span>
-                          <span className="text-2xl font-black leading-none">{notice.date.split(' ')[0]}</span>
-                        </div>
-                        <div className="flex-grow pt-1">
-                          <h4 className={`font-bold transition-colors duration-300 text-lg leading-snug ${isOpen ? 'text-af-blue dark:text-af-light' : 'text-gray-800 dark:text-gray-200 group-hover:text-af-blue'}`}>
-                            {notice.title}
-                            {notice.isNew && (
-                              <span className="inline-block ml-3 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-500/30">
-                                NEW
-                              </span>
-                            )}
-                          </h4>
-                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium">
-                            {isOpen ? 'Click to collapse' : 'Click to read detailed announcement'}
-                          </p>
-                        </div>
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${isOpen ? 'bg-af-blue text-white rotate-180' : 'bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:bg-af-blue/10 group-hover:text-af-blue'}`}>
-                          <ChevronDown size={20} />
-                        </div>
-                      </button>
+                {loading ? (
+                  <div className="p-10 flex justify-center">
+                    <Loader2 className="animate-spin text-af-blue" size={30} />
+                  </div>
+                ) : notices.length === 0 ? (
+                  <div className="p-10 text-center text-gray-500">
+                    No notices available at the moment.
+                  </div>
+                ) : (
+                  notices.map((notice) => {
+                    const { title, date, content, isNew, file } = notice.attributes;
+                    const formattedDate = formatDate(date);
+                    const isOpen = openNoticeId === notice.id;
+                    const fileUrl = file.data?.attributes.url;
 
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.4, ease: "easeInOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="px-6 pb-8 pl-[6.5rem] pr-10">
-                              <div className="bg-white dark:bg-gray-800/80 p-6 rounded-2xl border border-blue-100 dark:border-af-blue/20 shadow-inner">
-                                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-sm">{notice.content || "Please contact the school administration for more details regarding this notice."}</p>
-                                <div className="flex flex-wrap gap-4">
-                                  <motion.a
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    href={notice.link}
-                                    className="inline-flex items-center gap-2 bg-af-blue text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl shadow-lg shadow-af-blue/20 transition-all hover:bg-af-dark hover:shadow-af-blue/40"
-                                  >
-                                    <Download size={16} /> Download PDF
-                                  </motion.a>
-                                  <motion.a
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    href={notice.link}
-                                    className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all hover:bg-gray-200 dark:hover:bg-gray-600"
-                                  >
-                                    <FileText size={16} /> View Details
-                                  </motion.a>
+                    return (
+                      <div key={notice.id} className="group">
+                        <button
+                          onClick={() => toggleNotice(notice.id)}
+                          className={`w-full text-left p-6 flex items-start gap-6 transition-all duration-300 focus:outline-none \${isOpen ? 'bg-blue-50/30 dark:bg-af-blue/5' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}
+                        >
+                          <div className="flex-shrink-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800 text-af-blue dark:text-af-light w-16 h-16 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 transition-transform duration-500 group-hover:scale-105 group-hover:shadow-lg">
+                            <span className="text-[10px] font-black uppercase tracking-tighter opacity-60">{formattedDate.month}</span>
+                            <span className="text-2xl font-black leading-none">{formattedDate.day}</span>
+                          </div>
+                          <div className="flex-grow pt-1">
+                            <h4 className={`font-bold transition-colors duration-300 text-lg leading-snug \${isOpen ? 'text-af-blue dark:text-af-light' : 'text-gray-800 dark:text-gray-200 group-hover:text-af-blue'}`}>
+                              {title}
+                              {isNew && (
+                                <span className="inline-block ml-3 bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-red-500/30">
+                                  NEW
+                                </span>
+                              )}
+                            </h4>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium">
+                              {isOpen ? 'Click to collapse' : 'Click to read detailed announcement'}
+                            </p>
+                          </div>
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 \${isOpen ? 'bg-af-blue text-white rotate-180' : 'bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:bg-af-blue/10 group-hover:text-af-blue'}`}>
+                            <ChevronDown size={20} />
+                          </div>
+                        </button>
+
+                        <AnimatePresence>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.4, ease: "easeInOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-6 pb-8 pl-[6.5rem] pr-10">
+                                <div className="bg-white dark:bg-gray-800/80 p-6 rounded-2xl border border-blue-100 dark:border-af-blue/20 shadow-inner">
+                                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-sm">
+                                    {content || "Please refer to the attached document for more details."}
+                                  </p>
+                                  <div className="flex flex-wrap gap-4">
+                                    {fileUrl ? (
+                                      <motion.a
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        href={fileUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 bg-af-blue text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl shadow-lg shadow-af-blue/20 transition-all hover:bg-af-dark hover:shadow-af-blue/40"
+                                      >
+                                        <Download size={16} /> Download PDF
+                                      </motion.a>
+                                    ) : (
+                                      <span className="text-xs text-gray-400 italic">No attachment available</span>
+                                    )}
+
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </motion.div>
 
@@ -190,7 +198,7 @@ const NoticeBoard: React.FC = () => {
                       whileHover={{ x: 5 }}
                       className="flex gap-4 group cursor-pointer"
                     >
-                      <div className={`w-1 h-full min-h-[45px] ${event.color} rounded-full transition-all group-hover:w-1.5`}></div>
+                      <div className={`w-1 h-full min-h-[45px] \${event.color} rounded-full transition-all group-hover:w-1.5`}></div>
                       <div>
                         <h4 className="font-bold text-gray-900 dark:text-gray-100 text-sm group-hover:text-af-blue transition-colors">{event.title}</h4>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{event.date}</p>
