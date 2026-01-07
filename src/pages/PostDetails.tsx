@@ -16,18 +16,31 @@ const PostDetails = () => {
     const scale = useTransform(scrollY, [0, 500], [1, 1.15]); // Zoom in effect
 
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*&populate[createdBy][fields][0]=firstname&populate[createdBy][fields][1]=lastname&populate[createdBy][fields][2]=username`)
-            .then(res => res.json())
+        const query = [
+            'populate[0]=coverContent',
+            'populate[1]=category',
+            'populate[2]=author',
+            'populate[3]=createdBy',
+            `filters[slug][$eq]=${slug}`
+        ].join('&');
+
+        fetch(`${API_URL}/api/posts?${query}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
             .then(response => {
                 if (response.data && response.data.length > 0) {
                     setPost(response.data[0]);
                 } else {
                     setPost(null);
                 }
-                setLoading(false);
             })
             .catch(err => {
-                console.error(err);
+                console.error("Fetch error:", err);
+                setPost(null);
+            })
+            .finally(() => {
                 setLoading(false);
             });
     }, [slug, API_URL]);
@@ -105,10 +118,16 @@ const PostDetails = () => {
                             transition={{ delay: 0.4 }}
                         >
                             <span className="flex items-center gap-2">
-                                <Calendar size={18} /> {new Date(post.publishedAt).toLocaleDateString()}
+                                <Calendar size={18} /> {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Recent'}
                             </span>
                             <span className="flex items-center gap-2">
-                                <User size={18} /> {post.author?.name || (post.createdBy?.firstname ? `${post.createdBy.firstname} ${post.createdBy.lastname || ''}` : post.createdBy?.username) || 'School Admin'}
+                                <User size={18} /> {
+                                    post.author?.name ||
+                                    (post.createdBy?.firstname || post.createdBy?.lastname
+                                        ? `${post.createdBy.firstname || ''} ${post.createdBy.lastname || ''}`.trim()
+                                        : post.createdBy?.username) ||
+                                    'School Admin'
+                                }
                             </span>
                             {post.category && (
                                 <span className="px-3 py-1 bg-af-blue rounded-full text-xs font-bold uppercase tracking-wider">
