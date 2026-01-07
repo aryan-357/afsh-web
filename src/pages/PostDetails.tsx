@@ -16,7 +16,7 @@ const PostDetails = () => {
     const scale = useTransform(scrollY, [0, 500], [1, 1.15]); // Zoom in effect
 
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`)
+        fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*&populate[createdBy][fields][0]=firstname&populate[createdBy][fields][1]=lastname&populate[createdBy][fields][2]=username`)
             .then(res => res.json())
             .then(response => {
                 if (response.data && response.data.length > 0) {
@@ -108,7 +108,7 @@ const PostDetails = () => {
                                 <Calendar size={18} /> {new Date(post.publishedAt).toLocaleDateString()}
                             </span>
                             <span className="flex items-center gap-2">
-                                <User size={18} /> {post.author?.name || 'School Admin'}
+                                <User size={18} /> {post.author?.name || (post.createdBy?.firstname ? `${post.createdBy.firstname} ${post.createdBy.lastname || ''}` : post.createdBy?.username) || 'School Admin'}
                             </span>
                             {post.category && (
                                 <span className="px-3 py-1 bg-af-blue rounded-full text-xs font-bold uppercase tracking-wider">
