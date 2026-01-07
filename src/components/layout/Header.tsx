@@ -153,6 +153,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
           <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
           <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Gallery</Link>
           <Link to="/news" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>News</Link>
+          <Link to="/notices" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Notices</Link>
 
           {/* Theme Toggle Button */}
           <button
@@ -418,6 +419,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                 <Link to="/news" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <FileText className="text-af-blue dark:text-af-light mb-2" />
                   <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">News</span>
+                </Link>
+                <Link to="/notices" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
+                  <Bell className="text-af-blue dark:text-af-light mb-2" />
+                  <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Notices</span>
                 </Link>
                 <Link to="/contact" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <MapPin className="text-af-blue dark:text-af-light mb-2" />
