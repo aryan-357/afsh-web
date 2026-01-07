@@ -16,13 +16,7 @@ const PostDetails = () => {
     const scale = useTransform(scrollY, [0, 500], [1, 1.15]); // Zoom in effect
 
     useEffect(() => {
-        const query = [
-            'populate[0]=coverContent',
-            'populate[1]=category',
-            'populate[2]=author',
-            'populate[3]=createdBy',
-            `filters[slug][$eq]=${slug}`
-        ].join('&');
+        const query = `filters[slug][$eq]=${slug}&populate=*&populate[createdBy][fields][0]=firstname&populate[createdBy][fields][1]=lastname&populate[createdBy][fields][2]=username`;
 
         fetch(`${API_URL}/api/posts?${query}`)
             .then(res => {
@@ -124,7 +118,7 @@ const PostDetails = () => {
                                 <User size={18} /> {
                                     post.author?.name ||
                                     (post.createdBy?.firstname || post.createdBy?.lastname
-                                        ? `${post.createdBy.firstname || ''} ${post.createdBy.lastname || ''}`.trim()
+                                        ? `${post.createdBy?.firstname || ''} ${post.createdBy?.lastname || ''}`.trim()
                                         : post.createdBy?.username) ||
                                     'School Admin'
                                 }
