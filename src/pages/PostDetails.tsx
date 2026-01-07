@@ -3,13 +3,17 @@ import { useParams, Link } from 'react-router-dom';
 import { BlogPost } from '../types/blog';
 import BlocksRenderer from '../components/ui/BlocksRenderer';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const PostDetails = () => {
     const { slug } = useParams();
     const [post, setPost] = useState<BlogPost | null>(null);
     const [loading, setLoading] = useState(true);
+
     const API_URL = import.meta.env.VITE_STRAPI_URL;
+
+    const { scrollY } = useScroll();
+    const scale = useTransform(scrollY, [0, 500], [1, 1.15]); // Zoom in effect
 
     useEffect(() => {
         fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`)
@@ -63,14 +67,15 @@ const PostDetails = () => {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-20">
             {/* Hero Image */}
-            <div className="h-[400px] md:h-[500px] w-full relative">
+            <div className="h-[400px] md:h-[500px] w-full relative overflow-hidden">
                 <motion.img
                     src={getImageUrl(post.coverContent?.url)}
                     alt={post.title}
                     className="w-full h-full object-cover"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.8 }}
+                    style={{ scale }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-16">
