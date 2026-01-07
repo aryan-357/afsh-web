@@ -408,51 +408,7 @@ const GalleryPage: React.FC = () => {
         </div>
       )}
 
-      {/* Call to Action */}
-      <motion.section 
-        className="mt-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center"
-        {...scaleIn}
-        transition={{ delay: 1.2 }}
-        whileHover={{ 
-          y: -5,
-          transition: { duration: 0.3 }
-        }}
-      >
-        <motion.h2 
-          className="text-3xl font-serif font-bold mb-4"
-          {...slideInFromLeft}
-          transition={{ delay: 1.3 }}
-        >
-          Got Photos to Share?
-        </motion.h2>
-        <motion.p 
-          className="text-blue-100 mb-6 max-w-2xl mx-auto"
-          {...slideInFromRight}
-          transition={{ delay: 1.4 }}
-        >
-          Have captured memorable moments from school events? We'd love to feature them in our gallery!
-        </motion.p>
-        <motion.div
-          {...fadeIn}
-          transition={{ delay: 1.5 }}
-        >
-          <motion.div
-            whileHover={{ 
-              scale: 1.05,
-              transition: { duration: 0.3 }
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link 
-              to="/alumni/photos"
-              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-bold uppercase tracking-widest transition-colors duration-300 inline-block"
-            >
-              Send Your Photos
-            </Link>
-          </motion.div>
-        </motion.div>
-      </motion.section>
-    </div>
+      </div>
   );
 };
 

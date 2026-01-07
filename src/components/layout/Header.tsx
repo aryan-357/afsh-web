@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, User, Calendar, GraduationCap, MapPin, Sun, Moon, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, User, Calendar, GraduationCap, MapPin, Sun, Moon, LogOut, ChevronDown, FileText, Building } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavItem } from '../../types';
 
@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
       { label: 'Curriculum', href: '/academics#curriculum' },
       { label: 'Departments', href: '/academics#departments' },
       { label: 'Academic Calendar', href: '/calendar' },
-      { label: 'Scholars', href: '/scholars' }
+      { label: 'Scholars', href: '/academics' }
     ]
   },
   {
@@ -48,14 +48,13 @@ const navItems: NavItem[] = [
     subItems: [
       { label: 'Houses', href: '/student-life#houses' },
       { label: 'Clubs & Societies', href: '/student-life#clubs' },
-      { label: 'Scholars', href: '/scholars' },
       { label: 'Sports', href: '/student-life#sports' },
       { label: 'NCC', href: '/student-life#ncc' }
     ]
   },
   {
-    label: 'News',
-    href: '/news'
+    label: 'Achievements',
+    href: '/achievements'
   },
 
   {
@@ -149,9 +148,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
       {/* Utility Bar */}
       <div className={`text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 ${scrolled ? 'py-1 border-b border-gray-100 dark:border-gray-800' : 'py-0'}`}>
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
+          <Link to="/facilities" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Facilities</Link>
           <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
           <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
           <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Gallery</Link>
+          <Link to="/news" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>News</Link>
 
           {/* Theme Toggle Button */}
           <button
@@ -398,6 +399,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
               </nav>
 
               <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800 grid grid-cols-2 gap-4">
+                <Link to="/facilities" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
+                  <Building className="text-af-blue dark:text-af-light mb-2" />
+                  <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Facilities</span>
+                </Link>
                 <Link to="/calendar" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <Calendar className="text-af-blue dark:text-af-light mb-2" />
                   <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Calendar</span>
@@ -409,6 +414,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                 <Link to="/gallery" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <span className="text-2xl mb-1">🖼️</span>
                   <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">Gallery</span>
+                </Link>
+                <Link to="/news" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
+                  <FileText className="text-af-blue dark:text-af-light mb-2" />
+                  <span className="text-xs font-bold uppercase text-gray-600 dark:text-gray-300">News</span>
                 </Link>
                 <Link to="/contact" className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setIsMenuOpen(false)}>
                   <MapPin className="text-af-blue dark:text-af-light mb-2" />
