@@ -42,10 +42,10 @@ const BlogPage = () => {
     };
 
     useEffect(() => {
-        fetch(`${API_URL}/api/articles?populate=*`)
+        fetch(`${API_URL}/api/posts?populate=*`)
             .then(res => {
                 if (!res.ok) {
-                    if (res.status === 404) throw new Error("Articles endpoint not found. Please create the 'Article' content type in Strapi.");
+                    if (res.status === 404) throw new Error("Posts endpoint not found. Please ensure the 'Post' content type exists in Strapi.");
                     throw new Error(`API returned ${res.status}`);
                 }
                 return res.json();
@@ -184,7 +184,7 @@ const BlogPage = () => {
                         >
                             <div className="relative overflow-hidden h-[300px] md:h-auto">
                                 <img
-                                    src={getImageUrl(featuredPost.cover?.url)}
+                                    src={getImageUrl(featuredPost.coverContent?.url)}
                                     alt={featuredPost.title}
                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                                     onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/800/600'; }}
@@ -252,7 +252,7 @@ const BlogPage = () => {
                         >
                             <div className="relative h-48 overflow-hidden">
                                 <img
-                                    src={getImageUrl(item.cover?.url)}
+                                    src={getImageUrl(item.coverContent?.url)}
                                     alt={item.title}
                                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                                     onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/400/300'; }}

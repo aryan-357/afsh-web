@@ -127,24 +127,17 @@ const Footer: React.FC = () => {
               Locate Us
               <span className="absolute bottom-0 left-0 w-12 h-1 bg-af-gold rounded-full -mb-2"></span>
             </h3>
-            <div className="w-full h-44 bg-gray-800 rounded-xl overflow-hidden relative group cursor-pointer border border-white/5 shadow-2xl">
-              <img
-                src="https://picsum.photos/seed/map/400/300"
-                alt="Map Location"
-                className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                >
-                  <MapPin className="text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" size={40} />
-                </motion.div>
-                <div className="mt-2 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                  Open in Maps
-                </div>
-              </div>
+            <div className="w-full h-44 bg-gray-800 rounded-xl overflow-hidden relative border border-white/5 shadow-2xl">
+              <iframe
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d938.7987719576166!2d77.36024223268029!3d28.690015897767417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfa6fc1bcdbb9%3A0xb4b01efe95986d51!2sAir%20Force%20School%20Hindan!5e1!3m2!1sen!2sin!4v1767772543919!5m2!1sen!2sin"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </motion.div>
         </div>

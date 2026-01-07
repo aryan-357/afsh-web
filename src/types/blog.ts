@@ -3,16 +3,16 @@ export interface BlogPost {
     documentId: string;
     title: string;
     slug: string;
-    content: string;
+    body: any[];
     publishedAt: string;
-    description?: string; // Adding description/excerpt as it's common in list views
+    description?: string | null;
     category?: {
         name: string;
-    };
+    } | null;
     author?: {
         name: string;
-    };
-    cover?: {
+    } | null;
+    coverContent?: {
         url: string;
-    };
+    } | null;
 }

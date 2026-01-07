@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { BlogPost } from '../types/blog';
+import BlocksRenderer from '../components/ui/BlocksRenderer';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -11,7 +12,7 @@ const PostDetails = () => {
     const API_URL = import.meta.env.VITE_STRAPI_URL;
 
     useEffect(() => {
-        fetch(`${API_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`)
+        fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`)
             .then(res => res.json())
             .then(response => {
                 if (response.data && response.data.length > 0) {
@@ -64,7 +65,7 @@ const PostDetails = () => {
             {/* Hero Image */}
             <div className="h-[400px] md:h-[500px] w-full relative">
                 <motion.img
-                    src={getImageUrl(post.cover?.url)}
+                    src={getImageUrl(post.coverContent?.url)}
                     alt={post.title}
                     className="w-full h-full object-cover"
                     initial={{ opacity: 0, scale: 1.1 }}
@@ -122,10 +123,9 @@ const PostDetails = () => {
                 transition={{ delay: 0.5, duration: 0.6 }}
             >
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 md:p-12 max-w-4xl mx-auto">
-                    <div
-                        className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-bold prose-img:rounded-xl prose-a:text-af-blue hover:prose-a:text-blue-700"
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
+                    <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-bold prose-img:rounded-xl prose-a:text-af-blue hover:prose-a:text-blue-700">
+                        <BlocksRenderer content={post.body} />
+                    </div>
                 </div>
             </motion.article>
         </div>
