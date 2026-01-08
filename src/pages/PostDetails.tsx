@@ -5,7 +5,7 @@ import BlocksRenderer from '../components/ui/BlocksRenderer';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, User, ArrowLeft, ChevronDown } from 'lucide-react';
 import { PostService } from '../services/postService';
-import { getStrapiMedia } from '../utils/strapi';
+import { getStrapiMedia, extractImageUrl } from '../utils/strapi';
 
 const PostDetails = () => {
     const { slug } = useParams();
@@ -69,7 +69,7 @@ const PostDetails = () => {
             {/* Hero Image */}
             <div className="h-screen w-full relative overflow-hidden flex items-center justify-center">
                 <motion.img
-                    src={getImageUrl(post?.coverContent?.url)}
+                    src={getImageUrl(extractImageUrl(post?.coverContent))}
                     alt={post?.title || 'Hero Image'}
                     className="absolute inset-0 w-full h-full object-cover"
                     initial={{ opacity: 0 }}
@@ -200,7 +200,7 @@ const PostDetails = () => {
                                     <Link to={`/blog/${rPost.slug}`}>
                                         <div className="relative aspect-[16/10] overflow-hidden rounded-xl mb-4 shadow-lg">
                                             <motion.img
-                                                src={getImageUrl(rPost.coverContent?.url)}
+                                                src={getImageUrl(extractImageUrl(rPost.coverContent))}
                                                 alt={rPost.title}
                                                 className="w-full h-full object-cover"
                                                 whileHover={{ scale: 1.1 }}
