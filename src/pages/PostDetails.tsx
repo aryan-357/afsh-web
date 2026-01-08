@@ -3,27 +3,38 @@ import { useParams, Link } from 'react-router-dom';
 import { BlogPost } from '../types/blog';
 import BlocksRenderer from '../components/ui/BlocksRenderer';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const PostDetails = () => {
     const { slug } = useParams();
     const [post, setPost] = useState<BlogPost | null>(null);
     const [loading, setLoading] = useState(true);
+
     const API_URL = import.meta.env.VITE_STRAPI_URL;
 
+    const { scrollY } = useScroll();
+    const scale = useTransform(scrollY, [0, 500], [1, 1.15]); // Zoom in effect
+
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?filters[slug][$eq]=${slug}&populate=*`)
-            .then(res => res.json())
+        const query = `filters[slug][$eq]=${slug}&populate=*&populate[createdBy][fields][0]=firstname&populate[createdBy][fields][1]=lastname&populate[createdBy][fields][2]=username`;
+
+        fetch(`${API_URL}/api/posts?${query}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
             .then(response => {
                 if (response.data && response.data.length > 0) {
                     setPost(response.data[0]);
                 } else {
                     setPost(null);
                 }
-                setLoading(false);
             })
             .catch(err => {
-                console.error(err);
+                console.error("Fetch error:", err);
+                setPost(null);
+            })
+            .finally(() => {
                 setLoading(false);
             });
     }, [slug, API_URL]);
@@ -63,14 +74,15 @@ const PostDetails = () => {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-20">
             {/* Hero Image */}
-            <div className="h-[400px] md:h-[500px] w-full relative">
+            <div className="h-[400px] md:h-[500px] w-full relative overflow-hidden">
                 <motion.img
                     src={getImageUrl(post.coverContent?.url)}
                     alt={post.title}
                     className="w-full h-full object-cover"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.8 }}
+                    style={{ scale }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-16">
@@ -100,10 +112,16 @@ const PostDetails = () => {
                             transition={{ delay: 0.4 }}
                         >
                             <span className="flex items-center gap-2">
-                                <Calendar size={18} /> {new Date(post.publishedAt).toLocaleDateString()}
+                                <Calendar size={18} /> {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Recent'}
                             </span>
                             <span className="flex items-center gap-2">
-                                <User size={18} /> {post.author?.name || 'School Admin'}
+                                <User size={18} /> {
+                                    post.author?.name ||
+                                    (post.createdBy?.firstname || post.createdBy?.lastname
+                                        ? `${post.createdBy?.firstname || ''} ${post.createdBy?.lastname || ''}`.trim()
+                                        : post.createdBy?.username) ||
+                                    'School Admin'
+                                }
                             </span>
                             {post.category && (
                                 <span className="px-3 py-1 bg-af-blue rounded-full text-xs font-bold uppercase tracking-wider">

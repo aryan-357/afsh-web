@@ -42,7 +42,7 @@ const NewsPage = () => {
     };
 
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?populate=*`)
+        fetch(`${API_URL}/api/posts?populate=*&populate[createdBy][fields][0]=firstname&populate[createdBy][fields][1]=lastname&populate[createdBy][fields][2]=username`)
             .then(res => {
                 if (!res.ok) {
                     if (res.status === 404) throw new Error("Posts endpoint not found.");
@@ -144,7 +144,7 @@ const NewsPage = () => {
                                 <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
                                     <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(featuredPost.publishedAt).toLocaleDateString()}</span>
                                     <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                                    <span>{featuredPost.author?.name || 'Admin'}</span>
+                                    <span>{featuredPost.author?.name || (featuredPost.createdBy?.firstname ? `${featuredPost.createdBy.firstname} ${featuredPost.createdBy.lastname || ''}` : featuredPost.createdBy?.username) || 'Admin'}</span>
                                 </div>
                                 <h3 className="text-3xl font-serif font-bold mb-4 group-hover:text-af-blue dark:group-hover:text-af-light transition-colors">
                                     {featuredPost.title}

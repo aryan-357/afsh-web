@@ -12,6 +12,12 @@ export interface BlogPost {
     author?: {
         name: string;
     } | null;
+    createdBy?: {
+        documentId: string;
+        firstname?: string;
+        lastname?: string;
+        username?: string;
+    } | null;
     coverContent?: {
         url: string;
     } | null;
