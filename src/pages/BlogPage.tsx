@@ -42,7 +42,7 @@ const BlogPage = () => {
     };
 
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?populate=*`)
+        fetch(`${API_URL}/api/posts?populate[0]=*&populate[1]=authors`)
             .then(res => {
                 if (!res.ok) {
                     if (res.status === 404) throw new Error("Posts endpoint not found. Please ensure the 'Post' content type exists in Strapi.");
@@ -197,7 +197,12 @@ const BlogPage = () => {
                                 <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
                                     <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(featuredPost.publishedAt).toLocaleDateString()}</span>
                                     <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                                    <span>{featuredPost.author?.name || 'Admin'}</span>
+                                    <span>{
+                                        (featuredPost.authors && featuredPost.authors.length > 0)
+                                            ? featuredPost.authors.map(a => a.name).join(', ')
+                                            : featuredPost.author?.name ||
+                                            'School Admin'
+                                    }</span>
                                 </div>
                                 <h3 className="text-3xl font-serif font-bold mb-4 group-hover:text-af-blue dark:group-hover:text-af-light transition-colors">
                                     {featuredPost.title}

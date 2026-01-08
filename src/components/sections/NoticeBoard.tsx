@@ -52,7 +52,7 @@ const NoticeBoard: React.FC = () => {
               notices.map((n) => (
                 <span key={n.id} className="mx-12 inline-flex items-center group cursor-pointer">
                   <span className="w-2 h-2 bg-af-gold rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                  <span className="hover:text-af-gold transition-colors">{n.attributes.title}</span>
+                  <span className="hover:text-af-gold transition-colors">{n.attributes?.title || 'Announcement'}</span>
                 </span>
               ))
             ) : (
@@ -97,10 +97,12 @@ const NoticeBoard: React.FC = () => {
                   </div>
                 ) : (
                   notices.map((notice) => {
-                    const { title, date, content, isNew, file } = notice.attributes;
+                    const attributes = notice?.attributes;
+                    if (!attributes) return null;
+                    const { title, date, content, isNew, file } = attributes;
                     const formattedDate = formatDate(date);
                     const isOpen = openNoticeId === notice.id;
-                    const fileUrl = file.data?.attributes.url;
+                    const fileUrl = file?.data?.attributes?.url;
 
                     return (
                       <div key={notice.id} className="group">
