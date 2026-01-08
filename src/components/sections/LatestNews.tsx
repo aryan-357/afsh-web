@@ -12,7 +12,7 @@ const LatestNews: React.FC = () => {
   const borderColors = ["border-af-gold", "border-af-blue", "border-red-600"];
 
   useEffect(() => {
-    fetch(`${API_URL}/api/posts?populate=category,coverContent,authors&pagination[pageSize]=3&sort[0]=publishedAt:desc`)
+    fetch(`${API_URL}/api/posts?populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*&pagination[pageSize]=3&sort[0]=publishedAt:desc`)
       .then(res => res.json())
       .then(response => {
         if (response.data) {

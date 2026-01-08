@@ -20,7 +20,7 @@ const PostDetails = () => {
 
     useEffect(() => {
         // Fetch current post
-        const query = `filters[slug][$eq]=${slug}&populate=category,coverContent,authors`;
+        const query = `filters[slug][$eq]=${slug}&populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*`;
 
         setLoading(true);
         fetch(`${API_URL}/api/posts?${query}`)
@@ -34,7 +34,7 @@ const PostDetails = () => {
                     setPost(currentPost);
 
                     // Fetch related posts (latest 3, excluding current)
-                    const relatedQuery = `pagination[pageSize]=3&sort=publishedAt:desc&populate=category,coverContent,authors&filters[slug][$ne]=${slug}`;
+                    const relatedQuery = `pagination[pageSize]=3&sort=publishedAt:desc&populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*&filters[slug][$ne]=${slug}`;
                     return fetch(`${API_URL}/api/posts?${relatedQuery}`);
                 } else {
                     setPost(null);

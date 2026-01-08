@@ -42,7 +42,7 @@ const BlogPage = () => {
     };
 
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?populate=category,coverContent,authors`)
+        fetch(`${API_URL}/api/posts?populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*`)
             .then(res => {
                 if (!res.ok) {
                     if (res.status === 404) throw new Error("Posts endpoint not found. Please ensure the 'Post' content type exists in Strapi.");
