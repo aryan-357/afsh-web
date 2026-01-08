@@ -1,27 +1,21 @@
-import React, { useState, Suspense } from 'react';
-import { Send, FileText, DollarSign, FileCheck, HelpCircle, CheckCircle, GraduationCap, Calendar, Users, Award } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FileText, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  class: string;
-  guardianName: string;
-  message: string;
-}
-
 const AdmissionPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    class: '',
-    guardianName: '',
-    message: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "https://cdn.customgform.com/cgf.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
@@ -49,21 +43,6 @@ const AdmissionPage: React.FC = () => {
     whileInView: { opacity: 1, scale: 1 },
     viewport: { once: true, amount: 0.2 },
     transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', class: '', guardianName: '', message: '' });
-    }, 3000);
   };
 
   const faqs = [
@@ -148,8 +127,6 @@ const AdmissionPage: React.FC = () => {
     { class: 'Classes XI-XII', tuition: '₹80,000', annual: '₹8,000', total: '₹88,000' },
   ];
 
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Hero Section */}
@@ -168,26 +145,26 @@ const AdmissionPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4 relative z-10 text-center pt-24"
           {...fadeIn}
           transition={{ delay: 0.1 }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
             {...slideInFromLeft}
             transition={{ delay: 0.2 }}
           >
             Join Our <span className="text-af-gold">Institution</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
             {...slideInFromRight}
             transition={{ delay: 0.3 }}
           >
             Join the legacy of excellence at Air Force School Hindan. We welcome students who aspire to be leaders.
           </motion.p>
-          <motion.div 
+          <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
             initial={{ opacity: 0, scaleX: 0 }}
             whileInView={{ opacity: 1, scaleX: 1 }}
@@ -198,24 +175,24 @@ const AdmissionPage: React.FC = () => {
       </section>
 
       {/* Admission Process */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         {...fadeIn}
         transition={{ delay: 0.5 }}
       >
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           {...slideInFromLeft}
           transition={{ delay: 0.6 }}
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
             {...scaleIn}
             transition={{ delay: 0.7 }}
           >
             Admission Process
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-gray-600 dark:text-gray-400 text-lg"
             {...slideInFromRight}
             transition={{ delay: 0.8 }}
@@ -227,11 +204,11 @@ const AdmissionPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {admissionSteps.map((step, index) => (
             <motion.div
-              key={step.number} 
+              key={step.number}
               className="relative"
               {...scaleIn}
               transition={{ delay: 0.9 + index * 0.1 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -253,29 +230,29 @@ const AdmissionPage: React.FC = () => {
       </motion.section>
 
       {/* Fee Structure */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-16 mb-20"
         {...fadeIn}
         transition={{ delay: 1.6 }}
       >
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4"
           {...slideInFromLeft}
           transition={{ delay: 1.7 }}
         >
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             {...scaleIn}
             transition={{ delay: 1.8 }}
           >
-            <motion.h2 
+            <motion.h2
               className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
               {...slideInFromRight}
               transition={{ delay: 1.9 }}
             >
               Fee Structure
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-gray-600 dark:text-gray-400 text-lg"
               {...fadeIn}
               transition={{ delay: 2.0 }}
@@ -316,29 +293,29 @@ const AdmissionPage: React.FC = () => {
       </motion.section>
 
       {/* Query Form Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         {...fadeIn}
         transition={{ delay: 2.1 }}
       >
-        <motion.div 
-          className="max-w-2xl mx-auto"
+        <motion.div
+          className="max-w-4xl mx-auto"
           {...slideInFromLeft}
           transition={{ delay: 2.2 }}
         >
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             {...scaleIn}
             transition={{ delay: 2.3 }}
           >
-            <motion.h2 
+            <motion.h2
               className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
               {...slideInFromRight}
               transition={{ delay: 2.4 }}
             >
               Admission Inquiry Form
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-gray-600 dark:text-gray-400 text-lg"
               {...fadeIn}
               transition={{ delay: 2.5 }}
@@ -347,151 +324,55 @@ const AdmissionPage: React.FC = () => {
             </motion.p>
           </motion.div>
 
-          <motion.div 
-            className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg"
+          <motion.div
+            className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg min-h-[500px]"
             {...scaleIn}
             transition={{ delay: 2.6 }}
-            whileHover={{ 
+            whileHover={{
               y: -5,
               transition: { duration: 0.3 }
             }}
           >
-            {submitted ? (
-              <div className="text-center py-8">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Thank You!</h3>
-                <p className="text-gray-600 dark:text-gray-400">Your inquiry has been submitted successfully. We'll get back to you soon.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Student Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter student's full name"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="your.email@example.com"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Phone Number *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      placeholder="+91-XXXXXXXXXX"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Applying for Class *</label>
-                    <select
-                      name="class"
-                      value={formData.class}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                    >
-                      <option value="">Select Class</option>
-                      {Array.from({ length: 12 }, (_, i) => (
-                        <option key={i + 1} value={`Class ${i + 1}`}>Class {i + 1}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Guardian Name *</label>
-                  <input
-                    type="text"
-                    name="guardianName"
-                    value={formData.guardianName}
-                    onChange={handleChange}
-                    required
-                    placeholder="Father's / Mother's name"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message / Questions</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell us about your interests, achievements, or any specific questions..."
-                    rows={5}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors resize-none"
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-af-blue to-blue-700 hover:from-af-blue hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
-                >
-                  <Send size={20} />
-                  Submit Inquiry
-                </button>
-              </form>
-            )}
+            <div data-customgform="cmk5cl43o001cwn5cf5ited88"></div>
           </motion.div>
         </motion.div>
       </motion.section>
 
       {/* Transfer Certificate Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-16 mb-20"
         {...fadeIn}
         transition={{ delay: 2.7 }}
       >
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4"
           {...slideInFromLeft}
           transition={{ delay: 2.8 }}
         >
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto"
             {...scaleIn}
             transition={{ delay: 2.9 }}
           >
-            <motion.div 
+            <motion.div
               className="flex items-center gap-4 mb-8"
               {...slideInFromRight}
               transition={{ delay: 3.0 }}
             >
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: [0, 360],
                   scale: [1, 1.1, 1]
                 }}
-                transition={{ 
+                transition={{
                   duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
               >
-                <FileCheck className="w-12 h-12 text-af-blue dark:text-af-light flex-shrink-0" />
+                <div className="w-12 h-12 text-af-blue dark:text-af-light flex-shrink-0">
+                  <FileText className="w-full h-full" />
+                </div>
               </motion.div>
               <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white">Transfer Certificate</h2>
             </motion.div>
@@ -546,24 +427,24 @@ const AdmissionPage: React.FC = () => {
       </motion.section>
 
       {/* FAQs Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         {...fadeIn}
         transition={{ delay: 3.1 }}
       >
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           {...slideInFromLeft}
           transition={{ delay: 3.2 }}
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
             {...scaleIn}
             transition={{ delay: 3.3 }}
           >
             Frequently Asked Questions
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-gray-600 dark:text-gray-400 text-lg"
             {...slideInFromRight}
             transition={{ delay: 3.4 }}
@@ -579,7 +460,7 @@ const AdmissionPage: React.FC = () => {
               className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300"
               {...scaleIn}
               transition={{ delay: 3.5 + idx * 0.1 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
@@ -605,30 +486,30 @@ const AdmissionPage: React.FC = () => {
       </motion.section>
 
       {/* Contact Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-af-blue to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center"
         {...scaleIn}
         transition={{ delay: 3.8 }}
-        whileHover={{ 
+        whileHover={{
           y: -5,
           transition: { duration: 0.3 }
         }}
       >
-        <motion.h2 
+        <motion.h2
           className="text-3xl font-serif font-bold mb-4"
           {...slideInFromLeft}
           transition={{ delay: 3.9 }}
         >
           Still Have Questions?
         </motion.h2>
-        <motion.p 
+        <motion.p
           className="text-blue-100 mb-6 max-w-2xl mx-auto"
           {...slideInFromRight}
           transition={{ delay: 4.0 }}
         >
           Contact our admissions office directly for personalized assistance
         </motion.p>
-        <motion.div 
+        <motion.div
           className="flex flex-col md:flex-row justify-center gap-6 text-blue-50"
           {...fadeIn}
           transition={{ delay: 4.1 }}
