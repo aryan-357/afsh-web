@@ -16,7 +16,7 @@ const PostDetails = () => {
     const scale = useTransform(scrollY, [0, 500], [1, 1.15]); // Zoom in effect
 
     useEffect(() => {
-        const query = `filters[slug][$eq]=${slug}&populate=*&populate[createdBy][fields][0]=firstname&populate[createdBy][fields][1]=lastname&populate[createdBy][fields][2]=username`;
+        const query = `filters[slug][$eq]=${slug}&populate=*`;
 
         fetch(`${API_URL}/api/posts?${query}`)
             .then(res => {
