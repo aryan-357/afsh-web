@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { BlogPost } from '../types/blog';
 import Silk from '@/src/components/ui/Silk';
 import { PostService } from '../services/postService';
-import { getStrapiMedia } from '../utils/strapi';
+import { getStrapiMedia, extractImageUrl } from '../utils/strapi';
 
 const NewsPage = () => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -132,7 +132,7 @@ const NewsPage = () => {
                         </motion.h2>
                         <motion.div className="grid md:grid-cols-2 gap-8 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 group" {...scaleIn} transition={{ delay: 0.7 }} whileHover={{ y: -5 }}>
                             <div className="relative overflow-hidden h-[300px] md:h-auto">
-                                <img src={getImageUrl(featuredPost.coverContent?.url)} alt={featuredPost.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/800/600'; }} />
+                                <img src={getImageUrl(extractImageUrl(featuredPost.coverContent))} alt={featuredPost.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/800/600'; }} />
                                 <div className="absolute top-4 left-4 bg-af-blue text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                                     {featuredPost.category?.name || 'Update'}
                                 </div>
@@ -177,7 +177,7 @@ const NewsPage = () => {
                     {remainingPosts.map((item, idx) => (
                         <motion.div key={item.id} className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }} transition={{ delay: 0.2 + idx * 0.1, duration: 0.4 }} whileHover={{ y: -5 }}>
                             <div className="relative h-48 overflow-hidden">
-                                <img src={getImageUrl(item.coverContent?.url)} alt={item.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/400/300'; }} />
+                                <img src={getImageUrl(extractImageUrl(item.coverContent))} alt={item.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/400/300'; }} />
                                 <div className="absolute top-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur text-gray-900 dark:text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
                                     {item.category?.name || 'News'}
                                 </div>

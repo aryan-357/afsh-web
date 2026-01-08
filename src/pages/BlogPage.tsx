@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { BlogPost } from '../types/blog';
 import Silk from '@/src/components/ui/Silk';
 import { PostService } from '../services/postService';
-import { getStrapiMedia } from '../utils/strapi';
+import { getStrapiMedia, extractImageUrl } from '../utils/strapi';
 
 const BlogPage = () => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -179,7 +179,7 @@ const BlogPage = () => {
                         >
                             <div className="relative overflow-hidden h-[300px] md:h-auto">
                                 <img
-                                    src={getImageUrl(featuredPost.coverContent?.url)}
+                                    src={getImageUrl(extractImageUrl(featuredPost.coverContent))}
                                     alt={featuredPost.title}
                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                                     onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/800/600'; }}
@@ -252,7 +252,7 @@ const BlogPage = () => {
                         >
                             <div className="relative h-48 overflow-hidden">
                                 <img
-                                    src={getImageUrl(item.coverContent?.url)}
+                                    src={getImageUrl(extractImageUrl(item.coverContent))}
                                     alt={item.title}
                                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                                     onError={(e) => { e.currentTarget.src = 'https://picsum.photos/seed/error/400/300'; }}

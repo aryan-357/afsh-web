@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { BlogPost } from '../../types/blog';
 import { PostService } from '../../services/postService';
-import { getStrapiMedia } from '../../utils/strapi';
+import { getStrapiMedia, extractImageUrl } from '../../utils/strapi';
 
 const LatestNews: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -61,7 +61,7 @@ const LatestNews: React.FC = () => {
             >
               {/* Background Image */}
               <motion.img
-                src={getImageUrl(item.coverContent?.url)}
+                src={getImageUrl(extractImageUrl(item.coverContent))}
                 alt={item.title}
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 onError={(e) => { e.currentTarget.src = `https://picsum.photos/seed/${item.id}/800/1000`; }}
