@@ -6,7 +6,7 @@ interface StrapiResponse<T> {
     meta?: any;
 }
 
-const POPULATE_ALL = 'populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*';
+const POPULATE_ALL = 'populate=*';
 
 export const PostService = {
     getAllPosts: async (): Promise<BlogPost[]> => {
