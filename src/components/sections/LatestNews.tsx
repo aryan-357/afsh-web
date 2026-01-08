@@ -3,33 +3,36 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { BlogPost } from '../../types/blog';
+import { PostService } from '../../services/postService';
+import { getStrapiMedia } from '../../utils/strapi';
 
 const LatestNews: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_STRAPI_URL;
+
 
   const borderColors = ["border-af-gold", "border-af-blue", "border-red-600"];
 
   useEffect(() => {
-    fetch(`${API_URL}/api/posts?populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*&pagination[pageSize]=3&sort[0]=publishedAt:desc`)
-      .then(res => res.json())
-      .then(response => {
-        if (response.data) {
-          setPosts(response.data);
+    const fetchLatest = async () => {
+      try {
+        const fetchedPosts = await PostService.getLatestPosts(3);
+        if (fetchedPosts) {
+          setPosts(fetchedPosts);
         }
-        setLoading(false);
-      })
-      .catch(err => {
+      } catch (err) {
         console.error("Failed to fetch latest news", err);
+      } finally {
         setLoading(false);
-      });
-  }, [API_URL]);
+      }
+    };
+
+    fetchLatest();
+  }, []);
 
   const getImageUrl = (url?: string) => {
-    if (!url) return 'https://picsum.photos/800/1000';
-    if (url.startsWith('http')) return url;
-    return `${API_URL}${url}`;
+    const mediaUrl = getStrapiMedia(url);
+    return mediaUrl || 'https://picsum.photos/800/1000';
   };
 
   if (loading) {

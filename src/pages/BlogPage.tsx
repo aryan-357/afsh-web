@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BlogPost } from '../types/blog';
 import Silk from '@/src/components/ui/Silk';
+import { PostService } from '../services/postService';
+import { getStrapiMedia } from '../utils/strapi';
 
 const BlogPage = () => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeCategory, setActiveCategory] = useState('all');
-    const API_URL = import.meta.env.VITE_STRAPI_URL;
+
 
     // Animation Variants
     const fadeIn = {
@@ -42,36 +44,29 @@ const BlogPage = () => {
     };
 
     useEffect(() => {
-        fetch(`${API_URL}/api/posts?populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*`)
-            .then(res => {
-                if (!res.ok) {
-                    if (res.status === 404) throw new Error("Posts endpoint not found. Please ensure the 'Post' content type exists in Strapi.");
-                    throw new Error(`API returned ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(response => {
-                if (response.data && Array.isArray(response.data)) {
-                    setPosts(response.data);
-                } else if (Array.isArray(response.data)) {
-                    setPosts(response.data);
+        const fetchPosts = async () => {
+            try {
+                const fetchedPosts = await PostService.getAllPosts();
+                if (fetchedPosts) {
+                    setPosts(fetchedPosts);
                 } else {
-                    setError("No articles found or invalid API format.");
+                    setError("No articles found.");
                 }
-                setLoading(false);
-            })
-            .catch(err => {
+            } catch (err: any) {
                 console.error("Failed to fetch posts", err);
                 setError(err.message || "Could not load blog posts.");
+            } finally {
                 setLoading(false);
-            });
-    }, [API_URL]);
+            }
+        };
+
+        fetchPosts();
+    }, []);
 
     // Simple getImageUrl helper
     const getImageUrl = (url?: string) => {
-        if (!url) return 'https://picsum.photos/800/600'; // Fallback
-        if (url.startsWith('http')) return url;
-        return `${API_URL}${url}`;
+        const mediaUrl = getStrapiMedia(url);
+        return mediaUrl || 'https://picsum.photos/800/600'; // Fallback
     };
 
     // Derived state

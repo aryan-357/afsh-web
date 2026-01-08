@@ -4,6 +4,8 @@ import { BlogPost } from '../types/blog';
 import BlocksRenderer from '../components/ui/BlocksRenderer';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, User, ArrowLeft, ChevronDown } from 'lucide-react';
+import { PostService } from '../services/postService';
+import { getStrapiMedia } from '../utils/strapi';
 
 const PostDetails = () => {
     const { slug } = useParams();
@@ -11,7 +13,7 @@ const PostDetails = () => {
     const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = import.meta.env.VITE_STRAPI_URL;
+
 
     const { scrollY } = useScroll();
     const bgScale = useTransform(scrollY, [0, 800], [1, 1.2]);
@@ -19,47 +21,32 @@ const PostDetails = () => {
     const contentY = useTransform(scrollY, [0, 400], [0, -50]);
 
     useEffect(() => {
-        // Fetch current post
-        const query = `filters[slug][$eq]=${slug}&populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*`;
+        const loadData = async () => {
+            if (!slug) return;
+            setLoading(true);
+            try {
+                // Parallel fetch
+                const [fetchedPost, fetchedRelated] = await Promise.all([
+                    PostService.getPostBySlug(slug),
+                    PostService.getRelatedPosts(slug)
+                ]);
 
-        setLoading(true);
-        fetch(`${API_URL}/api/posts?${query}`)
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                return res.json();
-            })
-            .then(response => {
-                if (response.data && response.data.length > 0) {
-                    const currentPost = response.data[0];
-                    setPost(currentPost);
-
-                    // Fetch related posts (latest 3, excluding current)
-                    const relatedQuery = `pagination[pageSize]=3&sort=publishedAt:desc&populate[category]=*&populate[coverContent]=*&populate[authors]=*&populate[author]=*&filters[slug][$ne]=${slug}`;
-                    return fetch(`${API_URL}/api/posts?${relatedQuery}`);
-                } else {
-                    setPost(null);
-                    return null;
-                }
-            })
-            .then(res => res ? res.json() : null)
-            .then(response => {
-                if (response && response.data) {
-                    setRelatedPosts(response.data);
-                }
-            })
-            .catch(err => {
-                console.error("Fetch error:", err);
+                setPost(fetchedPost);
+                setRelatedPosts(fetchedRelated);
+            } catch (err) {
+                console.error("Failed to load post details:", err);
                 setPost(null);
-            })
-            .finally(() => {
+            } finally {
                 setLoading(false);
-            });
-    }, [slug, API_URL]);
+            }
+        };
+
+        loadData();
+    }, [slug]);
 
     const getImageUrl = (url?: string) => {
-        if (!url) return 'https://picsum.photos/1200/600';
-        if (url.startsWith('http')) return url;
-        return `${API_URL}${url}`;
+        const mediaUrl = getStrapiMedia(url);
+        return mediaUrl || 'https://picsum.photos/1200/600';
     };
 
 
