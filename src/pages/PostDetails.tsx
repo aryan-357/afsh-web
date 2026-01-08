@@ -20,7 +20,7 @@ const PostDetails = () => {
 
     useEffect(() => {
         // Fetch current post
-        const query = `filters[slug][$eq]=${slug}&populate=*`;
+        const query = `filters[slug][$eq]=${slug}&populate[0]=*&populate[1]=authors`;
 
         setLoading(true);
         fetch(`${API_URL}/api/posts?${query}`)
@@ -34,7 +34,7 @@ const PostDetails = () => {
                     setPost(currentPost);
 
                     // Fetch related posts (latest 3, excluding current)
-                    const relatedQuery = `pagination[pageSize]=3&sort=publishedAt:desc&populate=*&filters[slug][$ne]=${slug}`;
+                    const relatedQuery = `pagination[pageSize]=3&sort=publishedAt:desc&populate[0]=*&populate[1]=authors&filters[slug][$ne]=${slug}`;
                     return fetch(`${API_URL}/api/posts?${relatedQuery}`);
                 } else {
                     setPost(null);
@@ -161,11 +161,13 @@ const PostDetails = () => {
                             </span>
                             <span className="flex items-center gap-2">
                                 <User size={16} className="text-af-blue dark:text-af-gold" /> {
-                                    post.author?.name ||
-                                    (post.createdBy?.firstname || post.createdBy?.lastname
-                                        ? `${post.createdBy?.firstname || ''} ${post.createdBy?.lastname || ''}`.trim()
-                                        : post.createdBy?.username) ||
-                                    'School Admin'
+                                    (post.authors && post.authors.length > 0)
+                                        ? post.authors.map(a => a.name).join(', ')
+                                        : post.author?.name ||
+                                        (post.createdBy?.firstname || post.createdBy?.lastname
+                                            ? `${post.createdBy?.firstname || ''} ${post.createdBy?.lastname || ''}`.trim()
+                                            : post.createdBy?.username) ||
+                                        'School Admin'
                                 }
                             </span>
                             {post.category && (
