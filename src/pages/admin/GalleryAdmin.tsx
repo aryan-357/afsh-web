@@ -11,7 +11,8 @@ import {
     Loader2,
     CheckCircle,
     LogOut,
-    Plus
+    Plus,
+    Lock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -40,6 +41,11 @@ interface Album {
 const GalleryAdmin = () => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [userProfile, setUserProfile] = useState<any>(null);
+    const [photosToken, setPhotosToken] = useState<string | null>(null); // Separate token for Photos
+
+    // Debugging Interface
+    const [authLog, setAuthLog] = useState<string[]>([]);
+    const log = (msg: string) => setAuthLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
 
     // UI States
     const [isGPhotosModalOpen, setGPhotosModalOpen] = useState(false);
@@ -50,69 +56,72 @@ const GalleryAdmin = () => {
     const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
     const [syncStatus, setSyncStatus] = useState({ total: 0, current: 0, active: false, log: '' });
 
-    // 1. Google Auth Logic
+    // 1. Basic Login (Profile Only) - Low Security, High Success Rate
     const login = useGoogleLogin({
         flow: 'implicit',
-        scope: 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile',
+        scope: 'https://www.googleapis.com/auth/userinfo.profile email',
         onSuccess: async (tokenResponse) => {
-            console.log(">>> SUCCESS CALLBACK FIRED!", tokenResponse);
+            log("Basic Login Success");
             setAccessToken(tokenResponse.access_token);
-
             try {
                 const res = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                 });
                 setUserProfile(res.data);
-                fetchAlbums(tokenResponse.access_token);
+                log(`Welcome ${res.data.name}`);
             } catch (err) {
-                console.error("Failed to fetch user profile", err);
+                log("Failed to fetch profile");
             }
         },
-
-        onError: (error) => {
-            console.error('>>> LOGIN FAILED:', error);
-            alert("Login Failed: " + JSON.stringify(error));
-        },
-        onNonOAuthError: (error: any) => {
-            console.error('>>> NON-OAUTH ERROR:', error);
-            if (error?.type === 'popup_closed') {
-                alert("Login Popup Closed. This usually means the browser blocked the window or the connection was lost. Please disable ad-blockers and ensure you are not using Incognito.");
-            } else {
-                alert("Non-OAuth Error: " + JSON.stringify(error));
-            }
-        }
+        onError: (err) => log(`Basic Login Failed: ${JSON.stringify(err)}`),
+        onNonOAuthError: (err) => log(`Non-OAuth Error (Popup): ${JSON.stringify(err)}`)
     });
 
-    // Debug Check
-    useEffect(() => {
-        const clientId = import.meta.env.VITE_GALLERY_GOOGLE_CLIENT_ID;
-        console.log("Current Client ID Env Var:", clientId);
-        if (!clientId || clientId.includes("PLACEHOLDER")) {
-            console.warn("Client ID is missing or placeholder!");
-        }
-    }, []);
+    // 2. Step-Up Scope (Photos) - Sensitive, likely to trigger verification/blocks
+    const connectPhotos = useGoogleLogin({
+        flow: 'implicit',
+        scope: 'https://www.googleapis.com/auth/photoslibrary.readonly',
+        overrideScope: true, // This is technically needed when upgrading scopes, but tricky.
+        onSuccess: (tokenResponse) => {
+            log("Photos Scope Granted!");
+            setPhotosToken(tokenResponse.access_token);
+            fetchAlbums(tokenResponse.access_token);
+        },
+        onError: (err) => {
+            log(`Photos Content Failed: ${JSON.stringify(err)}`);
+            alert("Photos Connection Failed. Check if you are a Test User in Google Cloud Console.");
+        },
+        onNonOAuthError: (err) => log(`Photos Popup Error: ${JSON.stringify(err)}`)
+    });
 
     const logout = () => {
         setAccessToken(null);
+        setPhotosToken(null);
         setUserProfile(null);
         setAlbums([]);
+        setAuthLog([]);
     };
 
-    // 2. Fetch GPhotos Albums
+    // 3. Fetch GPhotos Albums
     const fetchAlbums = async (token: string) => {
+        log("Fetching Albums...");
         try {
             const res = await axios.get('https://photoslibrary.googleapis.com/v1/albums', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAlbums(res.data.albums || []);
-        } catch (err) {
-            console.error(err);
+            log(`Found ${res.data.albums?.length || 0} albums`);
+        } catch (err: any) {
+            log(`Fetch Error: ${err.message}`);
+            if (err.response?.status === 403) {
+                alert("Google Photos Access Denied. YOU MUST ADD 'photoslibrary.readonly' to Scopes AND add email to Test Users in Google Console.");
+            }
         }
     };
 
     // 3. Sync Logic (GPhotos -> Cloudinary)
     const handleSync = async () => {
-        if (!selectedAlbum || !accessToken) return;
+        if (!selectedAlbum || !photosToken) return;
         setSyncStatus({ total: 0, current: 0, active: true, log: 'Initiating...' });
 
         try {
@@ -127,7 +136,7 @@ const GalleryAdmin = () => {
                     pageSize: 100,
                     pageToken: nextPageToken
                 }, {
-                    headers: { Authorization: `Bearer ${accessToken}` }
+                    headers: { Authorization: `Bearer ${photosToken}` }
                 });
                 if (res.data.mediaItems) photos = [...photos, ...res.data.mediaItems];
                 nextPageToken = res.data.nextPageToken;
@@ -217,31 +226,19 @@ const GalleryAdmin = () => {
                         <Cloud className="w-10 h-10 text-blue-600 dark:text-blue-400" />
                     </div>
                     <h1 className="text-2xl font-bold dark:text-white mb-2">Gallery Admin</h1>
-                    <p className="text-gray-500 mb-8">Sign in to manage gallery photos and sync from Google Photos.</p>
-
-
+                    <p className="text-gray-500 mb-8">Sign in to manage gallery photos.</p>
 
                     <button
                         onClick={() => login()}
                         className="w-full flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
                     >
-                        <LogIn className="w-5 h-5" /> Sign in with Google
+                        <LogIn className="w-5 h-5" /> Sign in with Google (Basic)
                     </button>
 
-
-                    {(!CLOUD_NAME || !UPLOAD_PRESET) && (
-                        <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 text-amber-600 text-xs rounded-lg text-left">
-                            <strong>Config Warning:</strong> Cloudinary keys not found in environment. Please ensure VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_PRESET are set in .env
-                        </div>
-                    )}
-
-                    {/* Debug Info for User */}
                     <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded text-xs font-mono text-left opacity-70">
-                        <p className="font-bold border-b mb-2 pb-1">Debug Status (Share this if failed):</p>
-                        <p>Google Client ID: {import.meta.env.VITE_GALLERY_GOOGLE_CLIENT_ID ? "✅ Loaded" : "❌ Missing"}</p>
-                        <p>Cloud Name: {CLOUD_NAME ? "✅ Loaded" : "❌ Missing"}</p>
-                        <p>Upload Preset: {UPLOAD_PRESET ? "✅ Loaded" : "❌ Missing"}</p>
-                        <p className="mt-2 text-gray-500">If ❌, did you add variables to Cloudflare Pages settings AND Redeploy?</p>
+                        <p className="font-bold border-b mb-2 pb-1">Activity Log:</p>
+                        {authLog.map((l, i) => <div key={i}>{l}</div>)}
+                        {authLog.length === 0 && <span className="text-gray-400">Waiting...</span>}
                     </div>
                 </motion.div>
             </div>
@@ -298,22 +295,41 @@ const GalleryAdmin = () => {
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-2 border-transparent hover:border-blue-500/20 cursor-pointer group"
-                        onClick={() => setGPhotosModalOpen(true)}
+                        className={`bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg transition-shadow border-2 group ${!photosToken ? 'border-amber-500/30 bg-amber-50 dark:bg-amber-900/10' : 'border-transparent hover:border-blue-500/20 hover:shadow-xl cursor-pointer'}`}
+                        // If we have photos token, open modal. If not, trigger the step-up login.
+                        onClick={() => photosToken ? setGPhotosModalOpen(true) : connectPhotos()}
                     >
-                        <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <ImageIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform ${photosToken ? 'bg-blue-100 dark:bg-blue-900/30 group-hover:scale-110' : 'bg-amber-100 dark:bg-amber-900/30'}`}>
+                            <ImageIcon className={`w-8 h-8 ${photosToken ? 'text-blue-600 dark:text-blue-400' : 'text-amber-600'}`} />
                         </div>
                         <h2 className="text-2xl font-bold mb-2">Google Photos Import</h2>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-gray-500 dark:text-gray-400 mb-4">
                             Browse your Google Photos albums and sync them directly to the gallery.
                         </p>
+                        {!photosToken ? (
+                            <div className="inline-flex items-center gap-2 text-amber-600 font-bold text-sm bg-amber-100 dark:bg-amber-900/30 px-3 py-1 rounded-full">
+                                <Lock className="w-4 h-4" /> Grant Access Required
+                            </div>
+                        ) : (
+                            <div className="inline-flex items-center gap-2 text-green-600 font-bold text-sm bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">
+                                <CheckCircle className="w-4 h-4" /> Ready to Sync
+                            </div>
+                        )}
+
                     </motion.div>
 
                 </div>
             </main>
 
             {/* --- Modals --- */}
+
+            {/* Log Display Overlay for Admin */}
+            <div className="fixed bottom-4 left-4 z-40">
+                <details className="bg-black/80 text-white p-2 rounded text-xs font-mono max-w-xs open:w-96">
+                    <summary className="cursor-pointer">Debug Log ({authLog.length})</summary>
+                    {authLog.map((l, i) => <div key={i} className="border-b border-gray-700 py-1">{l}</div>)}
+                </details>
+            </div>
 
             {/* 1. Google Photos Modal */}
             <AnimatePresence>
