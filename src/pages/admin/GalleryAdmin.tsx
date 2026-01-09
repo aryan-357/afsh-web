@@ -63,11 +63,24 @@ const GalleryAdmin = () => {
                 fetchAlbums(codeResponse.access_token);
             } catch (err) {
                 console.error("Failed to fetch user profile", err);
+                alert("Login succeeded but failed to fetch profile.");
             }
         },
         scope: 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile',
-        onError: (error) => console.log('Login Failed:', error)
+        onError: (error) => {
+            console.log('Login Failed:', error);
+            alert("Google Login Failed! Response: " + JSON.stringify(error));
+        }
     });
+
+    // Debug Check
+    useEffect(() => {
+        const clientId = import.meta.env.VITE_GALLERY_GOOGLE_CLIENT_ID;
+        console.log("Current Client ID Env Var:", clientId);
+        if (!clientId || clientId.includes("PLACEHOLDER")) {
+            console.warn("Client ID is missing or placeholder!");
+        }
+    }, []);
 
     const logout = () => {
         setAccessToken(null);
@@ -203,11 +216,21 @@ const GalleryAdmin = () => {
                         <LogIn className="w-5 h-5" /> Sign in with Google
                     </button>
 
+
                     {(!CLOUD_NAME || !UPLOAD_PRESET) && (
                         <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 text-amber-600 text-xs rounded-lg text-left">
                             <strong>Config Warning:</strong> Cloudinary keys not found in environment. Please ensure VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_PRESET are set in .env
                         </div>
                     )}
+
+                    {/* Debug Info for User */}
+                    <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded text-xs font-mono text-left opacity-70">
+                        <p className="font-bold border-b mb-2 pb-1">Debug Status (Share this if failed):</p>
+                        <p>Google Client ID: {import.meta.env.VITE_GALLERY_GOOGLE_CLIENT_ID ? "✅ Loaded" : "❌ Missing"}</p>
+                        <p>Cloud Name: {CLOUD_NAME ? "✅ Loaded" : "❌ Missing"}</p>
+                        <p>Upload Preset: {UPLOAD_PRESET ? "✅ Loaded" : "❌ Missing"}</p>
+                        <p className="mt-2 text-gray-500">If ❌, did you add variables to Cloudflare Pages settings AND Redeploy?</p>
+                    </div>
                 </motion.div>
             </div>
         );
