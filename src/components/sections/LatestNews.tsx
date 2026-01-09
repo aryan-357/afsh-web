@@ -46,7 +46,7 @@ const LatestNews: React.FC = () => {
   if (posts.length === 0) return null;
 
   return (
-    <section className="bg-white dark:bg-gray-950 pb-16 transition-colors duration-500 overflow-hidden">
+    <section className="group bg-white dark:bg-gray-950 pb-16 transition-colors duration-500 overflow-hidden">
       <div className="w-full">
         {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3">
@@ -98,7 +98,7 @@ const LatestNews: React.FC = () => {
         </div>
 
         {/* View All Redirect Link */}
-        <div className="container mx-auto px-6 mt-12 flex justify-end">
+        <div className="container mx-auto px-6 mt-12 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <Link
             to="/blog"
             className="group flex items-center gap-3 text-gray-500 dark:text-gray-400 font-serif italic text-xl hover:text-af-blue dark:hover:text-af-light transition-all pb-1 border-b-2 border-transparent hover:border-af-blue dark:hover:border-border-white"
