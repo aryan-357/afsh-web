@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { PhotoAlbum } from "react-photo-album";
+import PhotoAlbum from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 import "react-photo-album/rows.css";
 import "yet-another-react-lightbox/styles.css";
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import { galleryData, Photo } from "@/src/data/gallery-data";
+import Silk from '@/src/components/ui/Silk';
 
 // --- Types ---
 type ViewMode = 'photos' | 'albums';
@@ -78,8 +79,8 @@ const FilterSidebar = ({
                 <button
                   onClick={() => setSortOrder('latest')}
                   className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${sortOrder === 'latest'
-                      ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-300'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
+                    ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-300'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
                     }`}
                 >
                   Latest
@@ -87,8 +88,8 @@ const FilterSidebar = ({
                 <button
                   onClick={() => setSortOrder('oldest')}
                   className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${sortOrder === 'oldest'
-                      ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-300'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
+                    ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-300'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
                     }`}
                 >
                   Oldest
@@ -144,10 +145,32 @@ const FilterSidebar = ({
 }
 
 // --- Main Page Component ---
+// --- Animation Variants ---
+const fadeIn = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromLeft = {
+  initial: { opacity: 0, x: -30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
+const slideInFromRight = {
+  initial: { opacity: 0, x: 30 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.4, ease: "easeOut" as const }
+};
+
 const GalleryPage = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('photos');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [index, setIndex] = useState(-1); // Lightbox index
+  const [index, setIndex] = useState(-1);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -157,38 +180,27 @@ const GalleryPage = () => {
   const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null);
 
   // --- Derived Data ---
-
-  // 1. Extract Unique Years
   const years = useMemo(() => {
     const y = new Set(galleryData.map(p => p.date.split('-')[0]));
     return Array.from(y).sort().reverse();
   }, []);
 
-  // 2. Filter & Sort
   const filteredPhotos = useMemo(() => {
     let data = [...galleryData];
-
-    // Filter by Album if in Album View drill-down
     if (selectedAlbum) {
       data = data.filter(p => p.album === selectedAlbum);
     }
-
-    // Filter by Year
     if (selectedYears.length > 0) {
       data = data.filter(p => selectedYears.includes(p.date.split('-')[0]));
     }
-
-    // Sort
     data.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       return sortOrder === 'latest' ? dateB - dateA : dateA - dateB;
     });
-
     return data;
   }, [selectedYears, sortOrder, selectedAlbum]);
 
-  // 3. Group by Album (for Album View)
   const albums = useMemo(() => {
     const groups: Record<string, Photo[]> = {};
     galleryData.forEach(p => {
@@ -199,19 +211,16 @@ const GalleryPage = () => {
       name,
       cover: photos[0],
       count: photos.length,
-      dateRange: `${photos[photos.length - 1].date.split('-')[0]} - ${photos[0].date.split('-')[0]}` // simplistic
+      dateRange: `${photos[photos.length - 1].date.split('-')[0]} - ${photos[0].date.split('-')[0]}`
     }));
   }, []);
 
-  // 4. Pagination
   const totalPages = Math.ceil(filteredPhotos.length / itemsPerPage);
   const paginatedPhotos = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return filteredPhotos.slice(start, start + itemsPerPage);
   }, [filteredPhotos, currentPage]);
 
-
-  // --- Handlers ---
   const toggleYear = (y: string) => {
     setSelectedYears(prev =>
       prev.includes(y) ? prev.filter(year => year !== y) : [...prev, y]
@@ -225,7 +234,6 @@ const GalleryPage = () => {
     setCurrentPage(1);
   };
 
-  // Convert for react-photo-album
   const photosForAlbum = paginatedPhotos.map(p => ({
     src: p.src,
     width: p.width,
@@ -233,16 +241,31 @@ const GalleryPage = () => {
     title: p.title
   }));
 
-  // Convert for Lightbox
   const slides = filteredPhotos.map(p => ({
     src: p.src,
     title: p.title,
     description: `Taken on ${p.date} • ${p.album}`
   }));
 
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pb-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
+        <div className="absolute inset-0 z-0">
+          <Silk speed={3} scale={1.5} color="#1a365d" noiseIntensity={1.2} rotation={0} fullScreen={false} />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
+        </div>
+
+        <motion.div className="container mx-auto px-6 relative z-10 text-center pt-20" {...fadeIn}>
+          <motion.h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg" {...slideInFromLeft} transition={{ delay: 0.2 }}>
+            Our <span className="text-af-gold">Gallery</span>
+          </motion.h1>
+          <motion.p className="text-lg text-blue-100 max-w-2xl mx-auto drop-shadow" {...slideInFromRight} transition={{ delay: 0.3 }}>
+            Explore the vibrant moments, achievements, and activities of Air Force School Hindan.
+          </motion.p>
+          <motion.div className="w-24 h-1 bg-af-gold mx-auto mt-6" initial={{ opacity: 0, scaleX: 0 }} whileInView={{ opacity: 1, scaleX: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ delay: 0.4, duration: 0.6 }} />
+        </motion.div>
+      </section>
 
       {/* Header/Toolbar */}
       <div className="bg-white dark:bg-gray-900 sticky top-[70px] z-30 shadow-sm border-b dark:border-gray-800">
@@ -314,7 +337,7 @@ const GalleryPage = () => {
               photos={photosForAlbum}
               onClick={({ index: current }) => setIndex((currentPage - 1) * itemsPerPage + current)}
               targetRowHeight={300}
-              componentsProps={{ imageProps: { className: "rounded-lg shadow-sm hover:brightness-110 transition-all duration-300 cursor-zoom-in" } }}
+              componentsProps={{ image: { className: "rounded-lg shadow-sm hover:brightness-110 transition-all duration-300 cursor-zoom-in" } }}
             />
 
             {/* Pagination */}
@@ -334,8 +357,8 @@ const GalleryPage = () => {
                       key={i}
                       onClick={() => setCurrentPage(i + 1)}
                       className={`w-10 h-10 rounded-full font-bold text-sm transition-all ${currentPage === i + 1
-                          ? 'bg-blue-600 text-white shadow-lg scale-110'
-                          : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-100'
+                        ? 'bg-blue-600 text-white shadow-lg scale-110'
+                        : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-100'
                         }`}
                     >
                       {i + 1}
