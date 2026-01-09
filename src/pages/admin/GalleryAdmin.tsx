@@ -80,6 +80,7 @@ const GalleryAdmin = () => {
         scope: usePhotosScope
             ? 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile'
             : 'https://www.googleapis.com/auth/userinfo.profile email',
+        overrideScope: true,
 
         onError: (error) => {
             console.error('>>> LOGIN FAILED:', error);
