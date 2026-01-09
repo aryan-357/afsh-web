@@ -79,30 +79,7 @@ const PostDetails = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80"></div>
 
-                <div className="absolute top-32 left-6 md:left-12 z-20">
-                    <Link to="/blog" className="inline-flex items-center text-white/90 hover:text-white transition-all duration-300 group">
-                        <motion.span
-                            className="flex items-center text-xs uppercase tracking-[0.3em] font-bold"
-                            initial={{ x: -20, opacity: 0 }}
-                            animate={{
-                                x: 0,
-                                opacity: [0.7, 1, 0.7],
-                                textShadow: [
-                                    "0 0 0px rgba(255,255,255,0)",
-                                    "0 0 15px rgba(255,255,255,0.5)",
-                                    "0 0 0px rgba(255,255,255,0)"
-                                ]
-                            }}
-                            transition={{
-                                x: { duration: 0.5, delay: 0.5 },
-                                opacity: { repeat: Infinity, duration: 3, ease: "easeInOut" },
-                                textShadow: { repeat: Infinity, duration: 3, ease: "easeInOut" }
-                            }}
-                        >
-                            <ArrowLeft className="mr-3 group-hover:-translate-x-2 transition-transform" size={18} /> Back to News
-                        </motion.span>
-                    </Link>
-                </div>
+
 
 
 
