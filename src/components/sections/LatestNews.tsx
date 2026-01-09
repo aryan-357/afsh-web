@@ -46,7 +46,7 @@ const LatestNews: React.FC = () => {
   if (posts.length === 0) return null;
 
   return (
-    <section className="group bg-white dark:bg-gray-950 pb-16 transition-colors duration-500 overflow-hidden">
+    <section className="group bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden">
       <div className="w-full">
         {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3">
@@ -98,19 +98,21 @@ const LatestNews: React.FC = () => {
         </div>
 
         {/* View All Redirect Link */}
-        <div className="container mx-auto px-6 mt-12 flex justify-end opacity-0 -translate-y-10 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-in-out">
-          <Link
-            to="/blog"
-            className="group flex items-center gap-3 text-gray-500 dark:text-gray-400 font-serif italic text-xl hover:text-af-blue dark:hover:text-af-light transition-all pb-1 border-b-2 border-transparent hover:border-af-blue dark:hover:border-border-white"
-          >
-            <span>View All Stories</span>
-            <motion.div
-              animate={{ x: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
+        <div className="max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden">
+          <div className="container mx-auto px-6 py-6 flex justify-end">
+            <Link
+              to="/blog"
+              className="group flex items-center gap-3 text-gray-500 dark:text-gray-400 font-serif italic text-xl hover:text-af-blue dark:hover:text-af-light transition-all pb-1 border-b-2 border-transparent hover:border-af-blue dark:hover:border-border-white"
             >
-              <ArrowUpRight size={24} />
-            </motion.div>
-          </Link>
+              <span>View All Stories</span>
+              <motion.div
+                animate={{ x: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <ArrowUpRight size={24} />
+              </motion.div>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
