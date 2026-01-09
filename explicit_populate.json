@@ -1,0 +1,1 @@
+{"data":null,"error":{"status":400,"name":"ValidationError","message":"Invalid key coverContent,authors,category","details":{"key":"coverContent,authors,category","path":null,"source":"query","param":"populate"}}}
