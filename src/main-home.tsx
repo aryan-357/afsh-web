@@ -24,6 +24,7 @@ const NewsPage = lazy(() => import('./pages/NewsPage'));
 const NoticesPage = lazy(() => import('./pages/NoticesPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
+const DevelopmentPage = lazy(() => import('./pages/DevelopmentPage'));
 
 // Loading spinner component
 const PageLoader = () => (
@@ -66,6 +67,7 @@ root.render(
                         <Route path="/notices" element={<NoticesPage />} />
                         <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
                         <Route path="/search" element={<SearchPage />} />
+                        <Route path="/development" element={<DevelopmentPage />} />
                     </Routes>
                 </Suspense>
             </Layout>

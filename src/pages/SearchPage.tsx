@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, FileText, Calendar, Users, Image, BookOpen, ArrowLeft, Building, Trophy, Shield } from 'lucide-react';
+import { Search, FileText, Calendar, Users, Image, BookOpen, ArrowLeft, Building, Trophy, Shield, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Silk from '../components/ui/Silk';
 
@@ -129,6 +129,14 @@ const SearchPage: React.FC = () => {
       category: 'Contact',
       url: '/contact',
       icon: <FileText size={20} />
+    },
+    {
+      id: '11',
+      title: 'Development Team',
+      description: 'Meet the talented developers who created this modern school website - Anagh Singh and Aryan Rajput.',
+      category: 'Development',
+      url: '/development',
+      icon: <Code size={20} />
     }
   ];
 
@@ -166,7 +174,8 @@ const SearchPage: React.FC = () => {
       'Facilities': 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200',
       'Achievements': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
       'Compliance': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-      'Contact': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+      'Contact': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+      'Development': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200'
     };
     return colors[category] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
   };
