@@ -52,24 +52,30 @@ const GalleryAdmin = () => {
 
     // 1. Google Auth Logic
     const login = useGoogleLogin({
-        onSuccess: async (codeResponse) => {
-            setAccessToken(codeResponse.access_token);
-            // Fetch User Info
+        flow: 'implicit', // Explicitly request implicit flow for access_token
+        onSuccess: async (tokenResponse) => {
+            console.log("Google Login Success:", tokenResponse);
+            // alert("Google Auth Success! Token: " + tokenResponse.access_token.slice(0, 10) + "..."); 
+
+            // 1. Set token immediately to switch UI
+            setAccessToken(tokenResponse.access_token);
+
+            // 2. Fetch User Info (Non-blocking UI)
             try {
                 const res = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
-                    headers: { Authorization: `Bearer ${codeResponse.access_token}` }
+                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                 });
                 setUserProfile(res.data);
-                fetchAlbums(codeResponse.access_token);
+                fetchAlbums(tokenResponse.access_token);
             } catch (err) {
                 console.error("Failed to fetch user profile", err);
-                alert("Login succeeded but failed to fetch profile.");
+                // Don't alert here, just let the dashboard load without name
             }
         },
         scope: 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile',
         onError: (error) => {
-            console.log('Login Failed:', error);
-            alert("Google Login Failed! Response: " + JSON.stringify(error));
+            console.error('Login Failed:', error);
+            alert("Login Failed: " + JSON.stringify(error));
         }
     });
 
