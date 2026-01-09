@@ -50,32 +50,44 @@ const GalleryAdmin = () => {
     const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
     const [syncStatus, setSyncStatus] = useState({ total: 0, current: 0, active: false, log: '' });
 
+    // Toggle for debugging scopes
+    const [usePhotosScope, setUsePhotosScope] = useState(false);
+
     // 1. Google Auth Logic
     const login = useGoogleLogin({
-        flow: 'implicit', // Explicitly request implicit flow for access_token
+        // flow: 'implicit', // Default is implicit. Let's rely on default.
         onSuccess: async (tokenResponse) => {
-            console.log("Google Login Success:", tokenResponse);
-            // alert("Google Auth Success! Token: " + tokenResponse.access_token.slice(0, 10) + "..."); 
+            console.log(">>> SUCCESS CALLBACK FIRED!", tokenResponse);
+            alert("Google Auth Success! Access Token received.");
 
-            // 1. Set token immediately to switch UI
             setAccessToken(tokenResponse.access_token);
 
-            // 2. Fetch User Info (Non-blocking UI)
             try {
                 const res = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                 });
                 setUserProfile(res.data);
-                fetchAlbums(tokenResponse.access_token);
+
+                // Only fetch albums if we asked for photos scope
+                if (usePhotosScope) {
+                    fetchAlbums(tokenResponse.access_token);
+                }
             } catch (err) {
                 console.error("Failed to fetch user profile", err);
-                // Don't alert here, just let the dashboard load without name
             }
         },
-        scope: 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile',
+        // Scope depends on toggle. Start small (profile only) to test connection.
+        scope: usePhotosScope
+            ? 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile'
+            : 'https://www.googleapis.com/auth/userinfo.profile email',
+
         onError: (error) => {
-            console.error('Login Failed:', error);
+            console.error('>>> LOGIN FAILED:', error);
             alert("Login Failed: " + JSON.stringify(error));
+        },
+        onNonOAuthError: (error) => {
+            console.error('>>> NON-OAUTH ERROR (Popup blocked?):', error);
+            alert("Non-OAuth Error: " + JSON.stringify(error));
         }
     });
 
@@ -214,6 +226,19 @@ const GalleryAdmin = () => {
                     </div>
                     <h1 className="text-2xl font-bold dark:text-white mb-2">Gallery Admin</h1>
                     <p className="text-gray-500 mb-8">Sign in to manage gallery photos and sync from Google Photos.</p>
+
+                    <div className="mb-4 flex items-center justify-center gap-2">
+                        <input
+                            type="checkbox"
+                            id="scopeToggle"
+                            checked={usePhotosScope}
+                            onChange={e => setUsePhotosScope(e.target.checked)}
+                            className="w-4 h-4"
+                        />
+                        <label htmlFor="scopeToggle" className="text-sm text-gray-600 dark:text-gray-400">
+                            Request Google Photos Access (Uncheck to test basic login)
+                        </label>
+                    </div>
 
                     <button
                         onClick={() => login()}
