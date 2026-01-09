@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, User, Calendar, GraduationCap, MapPin, Sun, Moon, LogOut, ChevronDown, FileText, Building } from 'lucide-react';
+import { Menu, X, Search, User, Calendar, GraduationCap, MapPin, Sun, Moon, LogOut, ChevronDown, FileText, Building, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavItem } from '../../types';
 
@@ -19,7 +19,8 @@ const navItems: NavItem[] = [
       { label: 'Principal\'s Message', href: '/about#principal' },
       { label: 'School History', href: '/about#history' },
       { label: 'Vision & Mission', href: '/about#vision' },
-      { label: 'Administration', href: '/about#admin' }
+      { label: 'Administration', href: '/about#admin' },
+      { label: 'Facilities', href: '/facilities' }
     ]
   },
   {
@@ -51,6 +52,10 @@ const navItems: NavItem[] = [
       { label: 'Sports', href: '/student-life#sports' },
       { label: 'NCC', href: '/student-life#ncc' }
     ]
+  },
+  {
+    label: 'Gallery',
+    href: '/gallery'
   },
   {
     label: 'Achievements',
@@ -148,10 +153,8 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
       {/* Utility Bar */}
       <div className={`text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 ${scrolled ? 'py-1 border-b border-gray-100 dark:border-gray-800' : 'py-0'}`}>
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
-          <Link to="/facilities" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Facilities</Link>
           <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
           <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
-          <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Gallery</Link>
           <Link to="/news" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>News</Link>
           <Link to="/notices" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Notices</Link>
 
