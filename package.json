@@ -22,9 +22,11 @@
     "lucide-react": "^0.556.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "react-photo-album": "^3.4.0",
     "react-router-dom": "^7.10.1",
     "three": "^0.182.0",
-    "vite": "^7.2.7"
+    "vite": "^7.2.7",
+    "yet-another-react-lightbox": "^3.28.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
