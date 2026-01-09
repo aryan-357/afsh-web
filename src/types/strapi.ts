@@ -10,27 +10,22 @@ export interface StrapiResponse<T> {
     };
 }
 
-export interface StrapiAttribute<T> {
+// Simplified Notice interface for Strapi 5 (Flat structure)
+export interface Notice {
     id: number;
-    attributes: T;
-}
-
-export interface NoticeAttributes {
+    documentId: string;
     title: string;
     content: string;
     date: string;
     isNew?: boolean;
-    file: {
-        data: {
-            attributes: {
-                url: string;
-                name: string;
-            };
-        } | null;
-    };
+    file?: {
+        id: number;
+        url: string;
+        name: string;
+        mime: string;
+        size: number;
+    } | null;
     createdAt: string;
     updatedAt: string;
     publishedAt: string;
 }
-
-export type Notice = StrapiAttribute<NoticeAttributes>;
