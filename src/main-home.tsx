@@ -29,8 +29,8 @@ const DevelopmentPage = lazy(() => import('./pages/DevelopmentPage'));
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-// Get Client ID from storage (for the admin panel)
-const GOOGLE_CLIENT_ID = localStorage.getItem('google_client_id') || "PLACEHOLDER_CLIENT_ID_PLEASE_CONFIGURE";
+// Get Client ID from env or storage (for the admin panel)
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GALLERY_GOOGLE_CLIENT_ID || localStorage.getItem('google_client_id') || "PLACEHOLDER_CLIENT_ID_PLEASE_CONFIGURE";
 
 // Loading spinner component
 const PageLoader = () => (
