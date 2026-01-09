@@ -5,27 +5,27 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 
 // Lazy load page components for code splitting
-const HomePage = lazy(() => import('./pages/HomePage'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
-const BlogPage = lazy(() => import('./pages/BlogPage'));
-const PostDetails = lazy(() => import('./pages/PostDetails'));
-const GalleryPage = lazy(() => import('./pages/GalleryPage'));
-const StudentLifePage = lazy(() => import('./pages/StudentLifePage'));
-const AdmissionPage = lazy(() => import('./pages/AdmissionPage'));
-const AcademicsPage = lazy(() => import('./pages/AcademicsPage'));
-const AlumniPage = lazy(() => import('./pages/AlumniPage'));
-const AlumniRegistrationPage = lazy(() => import('./pages/AlumniRegistrationPage'));
-const CalendarPageNew = lazy(() => import('./pages/CalendarPageNew'));
-const ContactPage = lazy(() => import('./pages/ContactPage'));
-const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
-const MandatoryDisclosurePage = lazy(() => import('./pages/MandatoryDisclosurePage'));
-const FacilitiesPage = lazy(() => import('./pages/FacilitiesPage'));
-const NewsPage = lazy(() => import('./pages/NewsPage'));
-const NoticesPage = lazy(() => import('./pages/NoticesPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const SearchPage = lazy(() => import('./pages/SearchPage'));
+const HomePage = lazy(() => import('./pages/core/HomePage'));
+const AboutPage = lazy(() => import('./pages/core/AboutPage'));
+const BlogPage = lazy(() => import('./pages/content/BlogPage'));
+const PostDetails = lazy(() => import('./pages/content/PostDetails'));
+const GalleryPage = lazy(() => import('./pages/content/GalleryPage'));
+const StudentLifePage = lazy(() => import('./pages/academics/StudentLifePage'));
+const AdmissionPage = lazy(() => import('./pages/information/AdmissionPage'));
+const AcademicsPage = lazy(() => import('./pages/academics/AcademicsPage'));
+const AlumniPage = lazy(() => import('./pages/community/AlumniPage'));
+const AlumniRegistrationPage = lazy(() => import('./pages/community/AlumniRegistrationPage'));
+const CalendarPageNew = lazy(() => import('./pages/information/CalendarPageNew'));
+const ContactPage = lazy(() => import('./pages/core/ContactPage'));
+const AchievementsPage = lazy(() => import('./pages/academics/AchievementsPage'));
+const MandatoryDisclosurePage = lazy(() => import('./pages/information/MandatoryDisclosurePage'));
+const FacilitiesPage = lazy(() => import('./pages/academics/FacilitiesPage'));
+const NewsPage = lazy(() => import('./pages/content/NewsPage'));
+const NoticesPage = lazy(() => import('./pages/content/NoticesPage'));
+const LoginPage = lazy(() => import('./pages/utility/LoginPage'));
+const SearchPage = lazy(() => import('./pages/utility/SearchPage'));
 const GalleryAdmin = lazy(() => import('./pages/admin/GalleryAdmin'));
-const DevelopmentPage = lazy(() => import('./pages/DevelopmentPage'));
+const DevelopmentPage = lazy(() => import('./pages/utility/DevelopmentPage'));
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 

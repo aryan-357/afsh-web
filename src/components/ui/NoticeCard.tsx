@@ -8,10 +8,9 @@ interface NoticeCardProps {
 }
 
 const NoticeCard: React.FC<NoticeCardProps> = ({ notice, compact = false }) => {
-    const attributes = notice?.attributes;
-    if (!attributes) return null;
-    const { title, date, file, content, isNew } = attributes;
-    const fileUrl = file?.data?.attributes?.url;
+    if (!notice) return null;
+    const { title, date, file, content, isNew } = notice;
+    const fileUrl = file?.url;
 
     return (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700 relative overflow-hidden">

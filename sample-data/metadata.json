@@ -1,0 +1,5 @@
+{
+  "name": "Air Force School Hindan",
+  "description": "A high-fidelity React reconstruction of the Air Force School Hindan website featuring a responsive design, dynamic notice board, and an integrated AI Assistant powered by Gemini 2.5 Flash to answer parent and student queries.",
+  "requestFramePermissions": []
+}

@@ -8,7 +8,7 @@ import Footer from './Footer';
 // AssistantChat pulls in @google/genai (~100KB)
 // LoginPage pulls in Silk/Three.js (~750KB)
 const AssistantChat = lazy(() => import('../ui/AssistantChat'));
-const LoginPage = lazy(() => import('../../pages/LoginPage'));
+const LoginPage = lazy(() => import('../../pages/utility/LoginPage'));
 
 interface LayoutProps {
     children: React.ReactNode;

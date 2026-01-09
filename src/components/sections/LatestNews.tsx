@@ -98,7 +98,7 @@ const LatestNews: React.FC = () => {
         </div>
 
         {/* View All Redirect Link */}
-        <div className="container mx-auto px-6 mt-12 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="container mx-auto px-6 mt-12 flex justify-end opacity-0 -translate-y-10 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-in-out">
           <Link
             to="/blog"
             className="group flex items-center gap-3 text-gray-500 dark:text-gray-400 font-serif italic text-xl hover:text-af-blue dark:hover:text-af-light transition-all pb-1 border-b-2 border-transparent hover:border-af-blue dark:hover:border-border-white"
