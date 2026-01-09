@@ -4,6 +4,7 @@ import { Notice } from '../types/strapi';
 import { Calendar, ChevronRight, ChevronDown, Download, AlertCircle, Loader2, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Silk from '../components/ui/Silk';
+import { getStrapiMedia } from '../utils/strapi';
 
 const NoticesPage: React.FC = () => {
     const [notices, setNotices] = useState<Notice[]>([]);
@@ -16,21 +17,21 @@ const NoticesPage: React.FC = () => {
         initial: { opacity: 0, y: 30 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" }
+        transition: { duration: 0.4, ease: "easeOut" as const }
     };
 
     const slideInFromLeft = {
         initial: { opacity: 0, x: -30 },
         whileInView: { opacity: 1, x: 0 },
         viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" }
+        transition: { duration: 0.4, ease: "easeOut" as const }
     };
 
     const slideInFromRight = {
         initial: { opacity: 0, x: 30 },
         whileInView: { opacity: 1, x: 0 },
         viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" }
+        transition: { duration: 0.4, ease: "easeOut" as const }
     };
 
     useEffect(() => {
@@ -107,12 +108,10 @@ const NoticesPage: React.FC = () => {
                     >
                         <div className="divide-y divide-gray-100 dark:divide-gray-800">
                             {notices.map((notice) => {
-                                const attributes = notice?.attributes;
-                                if (!attributes) return null;
-                                const { title, date, content, isNew, file } = attributes;
+                                const { title, date, content, isNew, file } = notice;
                                 const formattedDate = formatDate(date);
                                 const isOpen = openNoticeId === notice.id;
-                                const fileUrl = file?.data?.attributes?.url;
+                                const fileUrl = file?.url ? getStrapiMedia(file.url) : null;
 
                                 return (
                                     <div key={notice.id} className="group">
