@@ -50,16 +50,12 @@ const GalleryAdmin = () => {
     const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
     const [syncStatus, setSyncStatus] = useState({ total: 0, current: 0, active: false, log: '' });
 
-    // Toggle for debugging scopes
-    const [usePhotosScope, setUsePhotosScope] = useState(false);
-
     // 1. Google Auth Logic
     const login = useGoogleLogin({
-        // flow: 'implicit', // Default is implicit. Let's rely on default.
+        flow: 'implicit',
+        scope: 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile',
         onSuccess: async (tokenResponse) => {
             console.log(">>> SUCCESS CALLBACK FIRED!", tokenResponse);
-            alert("Google Auth Success! Access Token received.");
-
             setAccessToken(tokenResponse.access_token);
 
             try {
@@ -67,28 +63,23 @@ const GalleryAdmin = () => {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
                 });
                 setUserProfile(res.data);
-
-                // Only fetch albums if we asked for photos scope
-                if (usePhotosScope) {
-                    fetchAlbums(tokenResponse.access_token);
-                }
+                fetchAlbums(tokenResponse.access_token);
             } catch (err) {
                 console.error("Failed to fetch user profile", err);
             }
         },
-        // Scope depends on toggle. Start small (profile only) to test connection.
-        scope: usePhotosScope
-            ? 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile'
-            : 'https://www.googleapis.com/auth/userinfo.profile email',
-        overrideScope: true,
 
         onError: (error) => {
             console.error('>>> LOGIN FAILED:', error);
             alert("Login Failed: " + JSON.stringify(error));
         },
-        onNonOAuthError: (error) => {
-            console.error('>>> NON-OAUTH ERROR (Popup blocked?):', error);
-            alert("Non-OAuth Error: " + JSON.stringify(error));
+        onNonOAuthError: (error: any) => {
+            console.error('>>> NON-OAUTH ERROR:', error);
+            if (error?.type === 'popup_closed') {
+                alert("Login Popup Closed. This usually means the browser blocked the window or the connection was lost. Please disable ad-blockers and ensure you are not using Incognito.");
+            } else {
+                alert("Non-OAuth Error: " + JSON.stringify(error));
+            }
         }
     });
 
@@ -228,18 +219,7 @@ const GalleryAdmin = () => {
                     <h1 className="text-2xl font-bold dark:text-white mb-2">Gallery Admin</h1>
                     <p className="text-gray-500 mb-8">Sign in to manage gallery photos and sync from Google Photos.</p>
 
-                    <div className="mb-4 flex items-center justify-center gap-2">
-                        <input
-                            type="checkbox"
-                            id="scopeToggle"
-                            checked={usePhotosScope}
-                            onChange={e => setUsePhotosScope(e.target.checked)}
-                            className="w-4 h-4"
-                        />
-                        <label htmlFor="scopeToggle" className="text-sm text-gray-600 dark:text-gray-400">
-                            Request Google Photos Access (Uncheck to test basic login)
-                        </label>
-                    </div>
+
 
                     <button
                         onClick={() => login()}
@@ -322,7 +302,7 @@ const GalleryAdmin = () => {
                         onClick={() => setGPhotosModalOpen(true)}
                     >
                         <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <ImageImageIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                            <ImageIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                         </div>
                         <h2 className="text-2xl font-bold mb-2">Google Photos Import</h2>
                         <p className="text-gray-500 dark:text-gray-400">
