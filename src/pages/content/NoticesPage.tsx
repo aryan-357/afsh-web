@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { fetchNotices } from '../services/noticeService';
-import { Notice } from '../types/strapi';
+import { fetchNotices } from '../../services/noticeService';
+import { Notice } from '../../types/strapi';
 import { Calendar, ChevronRight, ChevronDown, Download, AlertCircle, Loader2, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Silk from '../components/ui/Silk';
-import { getStrapiMedia } from '../utils/strapi';
+import Silk from '../../components/ui/Silk';
+import { getStrapiMedia } from '../../utils/strapi';
 
 const NoticesPage: React.FC = () => {
     const [notices, setNotices] = useState<Notice[]>([]);

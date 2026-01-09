@@ -22,7 +22,7 @@ import {
     ArrowRight,
     X
 } from 'lucide-react';
-import Silk from '../components/ui/Silk';
+import Silk from '../../components/ui/Silk';
 
 const fadeIn = {
     initial: { opacity: 0, y: 30 },
