@@ -49,37 +49,35 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
-    <React.StrictMode>
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-            <BrowserRouter>
-                <Layout>
-                    <Suspense fallback={<PageLoader />}>
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/about" element={<AboutPage />} />
-                            <Route path="/blog" element={<BlogPage />} />
-                            <Route path="/blog/:slug" element={<PostDetails />} />
-                            <Route path="/gallery" element={<GalleryPage />} />
-                            <Route path="/student-life" element={<StudentLifePage />} />
-                            <Route path="/admissions" element={<AdmissionPage />} />
-                            <Route path="/academics" element={<AcademicsPage />} />
-                            <Route path="/alumni" element={<AlumniPage />} />
-                            <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
-                            <Route path="/calendar" element={<CalendarPageNew />} />
-                            <Route path="/contact" element={<ContactPage />} />
-                            <Route path="/achievements" element={<AchievementsPage />} />
-                            <Route path="/mandatory-disclosure" element={<MandatoryDisclosurePage />} />
-                            <Route path="/facilities" element={<FacilitiesPage />} />
-                            <Route path="/news" element={<NewsPage />} />
-                            <Route path="/notices" element={<NoticesPage />} />
-                            <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
-                            <Route path="/search" element={<SearchPage />} />
-                            <Route path="/admin/gallery" element={<GalleryAdmin />} />
-                            <Route path="/development" element={<DevelopmentPage />} />
-                        </Routes>
-                    </Suspense>
-                </Layout>
-            </BrowserRouter>
-        </GoogleOAuthProvider>
-    </React.StrictMode>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <BrowserRouter>
+            <Layout>
+                <Suspense fallback={<PageLoader />}>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/blog" element={<BlogPage />} />
+                        <Route path="/blog/:slug" element={<PostDetails />} />
+                        <Route path="/gallery" element={<GalleryPage />} />
+                        <Route path="/student-life" element={<StudentLifePage />} />
+                        <Route path="/admissions" element={<AdmissionPage />} />
+                        <Route path="/academics" element={<AcademicsPage />} />
+                        <Route path="/alumni" element={<AlumniPage />} />
+                        <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
+                        <Route path="/calendar" element={<CalendarPageNew />} />
+                        <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/achievements" element={<AchievementsPage />} />
+                        <Route path="/mandatory-disclosure" element={<MandatoryDisclosurePage />} />
+                        <Route path="/facilities" element={<FacilitiesPage />} />
+                        <Route path="/news" element={<NewsPage />} />
+                        <Route path="/notices" element={<NoticesPage />} />
+                        <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
+                        <Route path="/search" element={<SearchPage />} />
+                        <Route path="/admin/gallery" element={<GalleryAdmin />} />
+                        <Route path="/development" element={<DevelopmentPage />} />
+                    </Routes>
+                </Suspense>
+            </Layout>
+        </BrowserRouter>
+    </GoogleOAuthProvider>
 );
