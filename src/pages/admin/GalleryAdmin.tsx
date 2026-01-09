@@ -1,18 +1,32 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { Shield, Cloud, Image, RefreshCw, LogIn, CheckCircle, AlertCircle, Settings } from 'lucide-react';
+import {
+    Cloud,
+    Image as ImageIcon,
+    Upload,
+    LogIn,
+    X,
+    Loader2,
+    CheckCircle,
+    LogOut,
+    Plus
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-// Types
+// --- Configuration ---
+// ideally these should be in .env, but we'll use localStorage/Constants for now if .env is missing
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || localStorage.getItem('cloudinary_cloud_name') || '';
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET || localStorage.getItem('cloudinary_preset') || '';
+
+// --- Types ---
 interface GooglePhoto {
     id: string;
     baseUrl: string;
     filename: string;
     mediaMetadata: {
         creationTime: string;
-        width: string;
-        height: string;
     }
 }
 
@@ -24,70 +38,67 @@ interface Album {
 }
 
 const GalleryAdmin = () => {
-    // Config State
-    const [config, setConfig] = useState({
-        cloudName: localStorage.getItem('cloudinary_cloud_name') || '',
-        uploadPreset: localStorage.getItem('cloudinary_preset') || '',
-        googleClientId: localStorage.getItem('google_client_id') || ''
-    });
-
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [userProfile, setUserProfile] = useState<any>(null);
+
+    // UI States
+    const [isGPhotosModalOpen, setGPhotosModalOpen] = useState(false);
+    const [isUploadModalOpen, setUploadModalOpen] = useState(false);
+
+    // Data States
     const [albums, setAlbums] = useState<Album[]>([]);
     const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
-    const [syncStatus, setSyncStatus] = useState<{ total: number, current: number, logs: string[] }>({ total: 0, current: 0, logs: [] });
-    const [isSyncing, setIsSyncing] = useState(false);
+    const [syncStatus, setSyncStatus] = useState({ total: 0, current: 0, active: false, log: '' });
 
-    // Save Config
-    const handleConfigSave = () => {
-        localStorage.setItem('cloudinary_cloud_name', config.cloudName);
-        localStorage.setItem('cloudinary_preset', config.uploadPreset);
-        localStorage.setItem('google_client_id', config.googleClientId);
-        alert("Configuration Saved!");
-        window.location.reload(); // Reload to pick up new Client ID for Provider if needed
-    };
-
-    // 1. Google Auth
+    // 1. Google Auth Logic
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => {
+        onSuccess: async (codeResponse) => {
             setAccessToken(codeResponse.access_token);
-            fetchAlbums(codeResponse.access_token);
+            // Fetch User Info
+            try {
+                const res = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+                    headers: { Authorization: `Bearer ${codeResponse.access_token}` }
+                });
+                setUserProfile(res.data);
+                fetchAlbums(codeResponse.access_token);
+            } catch (err) {
+                console.error("Failed to fetch user profile", err);
+            }
         },
-        scope: 'https://www.googleapis.com/auth/photoslibrary.readonly',
+        scope: 'https://www.googleapis.com/auth/photoslibrary.readonly https://www.googleapis.com/auth/userinfo.profile',
         onError: (error) => console.log('Login Failed:', error)
     });
 
-    // 2. Fetch Albums
+    const logout = () => {
+        setAccessToken(null);
+        setUserProfile(null);
+        setAlbums([]);
+    };
+
+    // 2. Fetch GPhotos Albums
     const fetchAlbums = async (token: string) => {
         try {
             const res = await axios.get('https://photoslibrary.googleapis.com/v1/albums', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAlbums(res.data.albums || []);
-            log("Albums fetched successfully.");
         } catch (err) {
-            log("Error fetching albums: " + err);
+            console.error(err);
         }
     };
 
-    // Logger
-    const log = (msg: string) => {
-        setSyncStatus(prev => ({ ...prev, logs: [...prev.logs, `[${new Date().toLocaleTimeString()}] ${msg}`] }));
-    };
-
-    // 3. Sync Logic
-    const startSync = async () => {
+    // 3. Sync Logic (GPhotos -> Cloudinary)
+    const handleSync = async () => {
         if (!selectedAlbum || !accessToken) return;
-        setIsSyncing(true);
-        setSyncStatus({ total: 0, current: 0, logs: [] });
-        log(`Starting sync for album: ${selectedAlbum.title}`);
+        setSyncStatus({ total: 0, current: 0, active: true, log: 'Initiating...' });
 
         try {
-            // A. Fetch Photos from GPhotos
             let photos: GooglePhoto[] = [];
             let nextPageToken = '';
 
+            // Fetch all photos
             do {
-                log("Fetching page of photos...");
+                setSyncStatus(prev => ({ ...prev, log: `Fetching from Google... (${photos.length} found)` }));
                 const res = await axios.post('https://photoslibrary.googleapis.com/v1/mediaItems:search', {
                     albumId: selectedAlbum.id,
                     pageSize: 100,
@@ -95,221 +106,302 @@ const GalleryAdmin = () => {
                 }, {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 });
-
                 if (res.data.mediaItems) photos = [...photos, ...res.data.mediaItems];
                 nextPageToken = res.data.nextPageToken;
             } while (nextPageToken);
 
-            setSyncStatus(prev => ({ ...prev, total: photos.length }));
-            log(`Found ${photos.length} photos. Starting upload to Cloudinary...`);
+            setSyncStatus(prev => ({ ...prev, total: photos.length, log: 'Starting Upload...' }));
 
-            // B. Upload to Cloudinary
+            // Upload
             for (let i = 0; i < photos.length; i++) {
                 const photo = photos[i];
-                setSyncStatus(prev => ({ ...prev, current: i + 1 }));
+                setSyncStatus(prev => ({ ...prev, current: i + 1, log: `Uploading: ${photo.filename}` }));
 
-                // Prepare Data
-                const year = photo.mediaMetadata.creationTime.split('-')[0];
-                const cleanTitle = selectedAlbum.title.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
-                const tags = ['gallery', cleanTitle, `year-${year}`].join(',');
-
-                // Context (Metadata)
-                const context = `caption=${photo.filename}|date=${photo.mediaMetadata.creationTime}|alt=${selectedAlbum.title}`;
-
-                // Download full size image as Blob
                 const imageBlob = await fetch(`${photo.baseUrl}=d`).then(r => r.blob());
-
-                const formData = new FormData();
-                formData.append('file', imageBlob);
-                formData.append('upload_preset', config.uploadPreset);
-                formData.append('folder', 'gallery-sync');
-                formData.append('tags', tags);
-                formData.append('context', context);
-                // Use GID to prevent duplicates
-                formData.append('public_id', `gphotos_${photo.id}`);
-
-                try {
-                    await axios.post(
-                        `https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`,
-                        formData
-                    );
-                    log(`Uploaded ${i + 1}/${photos.length}: ${photo.filename}`);
-                } catch (upErr: any) {
-                    log(`Failed to upload ${photo.filename}: ${upErr.message}`);
-                }
+                await uploadToCloudinary(imageBlob, photo.filename, {
+                    date: photo.mediaMetadata.creationTime,
+                    album: selectedAlbum.title,
+                    source: 'google-photos'
+                });
             }
-            log("Sync complete!");
+            setSyncStatus(prev => ({ ...prev, active: false, log: 'Done!' }));
+            alert("Sync Complete!");
+            setGPhotosModalOpen(false);
 
         } catch (err: any) {
-            log("Critical Error during sync: " + err.message);
-        } finally {
-            setIsSyncing(false);
+            alert("Sync Failed: " + err.message);
+            setSyncStatus(prev => ({ ...prev, active: false }));
         }
     };
 
+    // 4. Local Upload Logic
+    const handleLocalUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files?.length) return;
+        const files = Array.from(e.target.files);
+
+        setSyncStatus({ total: files.length, current: 0, active: true, log: 'Starting Local Upload...' });
+
+        for (let i = 0; i < files.length; i++) {
+            setSyncStatus(prev => ({ ...prev, current: i + 1, log: `Uploading: ${files[i].name}` }));
+            await uploadToCloudinary(files[i], files[i].name, {
+                date: new Date().toISOString(),
+                album: 'Local Upload',
+                source: 'local'
+            });
+        }
+        setSyncStatus(prev => ({ ...prev, active: false, log: 'Done!' }));
+        alert("Upload Complete!");
+        setUploadModalOpen(false);
+    };
+
+    // Shared Upload Helper
+    const uploadToCloudinary = async (file: Blob, filename: string, meta: { date: string, album: string, source: string }) => {
+        if (!CLOUD_NAME || !UPLOAD_PRESET) {
+            throw new Error("Cloudinary Configuration Missing!");
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', UPLOAD_PRESET);
+        formData.append('folder', 'gallery-sync');
+
+        // Tags for frontend filtering
+        const tags = ['gallery', meta.album.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase(), `year-${meta.date.split('-')[0]}`];
+        formData.append('tags', tags.join(','));
+
+        // Context for metadata
+        const context = `caption=${filename}|date=${meta.date}|alt=${meta.album}`;
+        formData.append('context', context);
+
+        await axios.post(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            formData
+        );
+    };
+
+
+    // --- Render ---
+
+    if (!accessToken) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center"
+                >
+                    <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Cloud className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h1 className="text-2xl font-bold dark:text-white mb-2">Gallery Admin</h1>
+                    <p className="text-gray-500 mb-8">Sign in to manage gallery photos and sync from Google Photos.</p>
+
+                    <button
+                        onClick={() => login()}
+                        className="w-full flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
+                    >
+                        <LogIn className="w-5 h-5" /> Sign in with Google
+                    </button>
+
+                    {(!CLOUD_NAME || !UPLOAD_PRESET) && (
+                        <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 text-amber-600 text-xs rounded-lg text-left">
+                            <strong>Config Warning:</strong> Cloudinary keys not found in environment. Please ensure VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_PRESET are set in .env
+                        </div>
+                    )}
+                </motion.div>
+            </div>
+        );
+    }
+
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8 text-gray-800 dark:text-gray-200">
-            <div className="max-w-4xl mx-auto space-y-8">
-
-                {/* Header */}
-                <div className="flex items-center gap-4 border-b border-gray-200 dark:border-gray-700 pb-6">
-                    <div className="p-3 bg-blue-600 rounded-lg shadow-lg">
-                        <Shield className="w-8 h-8 text-white" />
-                    </div>
-                    <div>
-                        <h1 className="text-3xl font-bold dark:text-white">Gallery Admin</h1>
-                        <p className="text-gray-500">Google Photos → Cloudinary Sync Tool</p>
-                    </div>
-                </div>
-
-                {/* Configuration Panel */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <h2 className="flex items-center gap-2 text-xl font-bold mb-4">
-                        <Settings className="w-5 h-5" /> 1. Configuration
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Google Client ID</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
-                                value={config.googleClientId}
-                                onChange={e => setConfig({ ...config, googleClientId: e.target.value })}
-                                placeholder="OAuth Client ID"
-                            />
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+            {/* Header */}
+            <header className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+                <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center font-bold text-lg">
+                            {userProfile?.given_name?.[0] || 'A'}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-1">Cloudinary Cloud Name</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
-                                value={config.cloudName}
-                                onChange={e => setConfig({ ...config, cloudName: e.target.value })}
-                                placeholder="e.g. dyx...123"
-                            />
-                        </div>
-                        <div className="md:col-span-2">
-                            <label className="block text-sm font-medium mb-1">Cloudinary Unsigned Preset</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
-                                value={config.uploadPreset}
-                                onChange={e => setConfig({ ...config, uploadPreset: e.target.value })}
-                                placeholder="Settings > Upload > Upload Presets (Unsigned)"
-                            />
+                            <h1 className="font-bold text-lg">Welcome, {userProfile?.given_name || 'Admin'}</h1>
+                            <p className="text-xs text-green-500 flex items-center gap-1">
+                                <CheckCircle className="w-3 h-3" /> Connected
+                            </p>
                         </div>
                     </div>
                     <button
-                        onClick={handleConfigSave}
-                        className="mt-4 px-4 py-2 bg-gray-900 dark:bg-gray-700 text-white rounded hover:bg-gray-800"
+                        onClick={logout}
+                        className="p-2 text-gray-500 hover:text-red-500 transition-colors"
+                        title="Logout"
                     >
-                        Save Configuration
+                        <LogOut className="w-5 h-5" />
                     </button>
                 </div>
+            </header>
 
-                {/* Auth Section */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 opacity-90">
-                    <h2 className="flex items-center gap-2 text-xl font-bold mb-4">
-                        <LogIn className="w-5 h-5" /> 2. Access
-                    </h2>
-                    {!config.googleClientId ? (
-                        <div className="flex items-center gap-2 text-amber-500 bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg">
-                            <AlertCircle className="w-5 h-5" />
-                            Please configure Client ID first.
+            {/* Dashboard */}
+            <main className="container mx-auto px-6 py-12">
+                <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                    {/* Action 1: Upload Locally */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-2 border-transparent hover:border-blue-500/20 cursor-pointer group"
+                        onClick={() => setUploadModalOpen(true)}
+                    >
+                        <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <Upload className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                         </div>
-                    ) : (
-                        <button
-                            onClick={() => login()}
-                            disabled={!!accessToken}
-                            className={`flex items-center gap-3 px-6 py-3 rounded-lg font-bold text-lg transition-all ${accessToken
-                                    ? 'bg-green-100 text-green-700 cursor-default'
-                                    : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg'
-                                }`}
-                        >
-                            {accessToken ? (
-                                <><CheckCircle className="w-6 h-6" /> Connected to Google</>
-                            ) : (
-                                <><Image className="w-6 h-6" /> Sign in with Google Photos</>
-                            )}
-                        </button>
-                    )}
+                        <h2 className="text-2xl font-bold mb-2">Upload from Device</h2>
+                        <p className="text-gray-500 dark:text-gray-400">
+                            Select photos from your computer or phone storage to add to the gallery.
+                        </p>
+                    </motion.div>
+
+                    {/* Action 2: Google Photos */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-2 border-transparent hover:border-blue-500/20 cursor-pointer group"
+                        onClick={() => setGPhotosModalOpen(true)}
+                    >
+                        <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <ImageImageIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <h2 className="text-2xl font-bold mb-2">Google Photos Import</h2>
+                        <p className="text-gray-500 dark:text-gray-400">
+                            Browse your Google Photos albums and sync them directly to the gallery.
+                        </p>
+                    </motion.div>
+
                 </div>
+            </main>
 
-                {/* Album Selection & Sync */}
-                {accessToken && (
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                        <h2 className="flex items-center gap-2 text-xl font-bold mb-6">
-                            <Cloud className="w-5 h-5" /> 3. Sync Albums
-                        </h2>
+            {/* --- Modals --- */}
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                            {albums.map(album => (
-                                <div
-                                    key={album.id}
-                                    onClick={() => setSelectedAlbum(album)}
-                                    className={`cursor-pointer rounded-lg p-2 border-2 transition-all ${selectedAlbum?.id === album.id
-                                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
-                                            : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-700'
-                                        }`}
-                                >
-                                    <div className="h-32 rounded-md overflow-hidden bg-gray-200 mb-2">
-                                        <img src={album.coverPhotoBaseUrl} alt="" className="w-full h-full object-cover" />
-                                    </div>
-                                    <h4 className="font-bold truncate">{album.title}</h4>
-                                    <p className="text-xs text-gray-500">{album.mediaItemsCount} items</p>
-                                </div>
-                            ))}
-                        </div>
-
-                        {selectedAlbum && (
-                            <div className="border-t dark:border-gray-700 pt-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div>
-                                        <h3 className="font-bold text-lg">Sync "{selectedAlbum.title}"</h3>
-                                        <p className="text-sm text-gray-500">
-                                            This will upload {selectedAlbum.mediaItemsCount} photos to Cloudinary "{config.cloudName}".
-                                        </p>
-                                    </div>
-                                    <button
-                                        onClick={startSync}
-                                        disabled={isSyncing}
-                                        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
-                                    >
-                                        {isSyncing ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Cloud className="w-5 h-5" />}
-                                        {isSyncing ? 'Syncing...' : 'Start Sync'}
-                                    </button>
-                                </div>
-
-                                {/* Progress Bar */}
-                                {syncStatus.total > 0 && (
-                                    <div className="space-y-2">
-                                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-blue-500 transition-all duration-300 ease-out"
-                                                style={{ width: `${(syncStatus.current / syncStatus.total) * 100}%` }}
-                                            />
-                                        </div>
-                                        <div className="flex justify-between text-xs font-bold font-mono">
-                                            <span>{Math.round((syncStatus.current / syncStatus.total) * 100)}%</span>
-                                            <span>{syncStatus.current} / {syncStatus.total}</span>
-                                        </div>
-                                    </div>
-                                )}
+            {/* 1. Google Photos Modal */}
+            <AnimatePresence>
+                {isGPhotosModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-white dark:bg-gray-900 w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+                        >
+                            <div className="p-6 border-b dark:border-gray-700 flex justify-between items-center">
+                                <h3 className="text-xl font-bold">Select Request Album</h3>
+                                <button onClick={() => setGPhotosModalOpen(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
+                                    <X className="w-6 h-6" />
+                                </button>
                             </div>
-                        )}
+
+                            <div className="p-6 overflow-y-auto flex-1 bg-gray-50 dark:bg-gray-950">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                    {albums.map(album => (
+                                        <div
+                                            key={album.id}
+                                            onClick={() => setSelectedAlbum(album === selectedAlbum ? null : album)}
+                                            className={`relative group cursor-pointer rounded-xl overflow-hidden aspect-square border-4 transition-all ${selectedAlbum?.id === album.id ? 'border-blue-600 scale-95' : 'border-transparent hover:border-gray-300 dark:hover:border-gray-700'
+                                                }`}
+                                        >
+                                            <img src={album.coverPhotoBaseUrl} className="w-full h-full object-cover" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
+                                                <p className="text-white font-bold text-sm truncate">{album.title}</p>
+                                                <p className="text-gray-300 text-xs">{album.mediaItemsCount} items</p>
+                                            </div>
+                                            {selectedAlbum?.id === album.id && (
+                                                <div className="absolute top-2 right-2 bg-blue-600 text-white p-1 rounded-full">
+                                                    <CheckCircle className="w-5 h-5" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="p-6 border-t dark:border-gray-700 flex justify-between items-center bg-white dark:bg-gray-900">
+                                <div className="text-sm text-gray-500">
+                                    {selectedAlbum ? `Selected: ${selectedAlbum.title}` : 'Select an album to sync'}
+                                </div>
+                                <button
+                                    onClick={handleSync}
+                                    disabled={!selectedAlbum || syncStatus.active}
+                                    className="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold disabled:opacity-50 flex items-center gap-2 hover:bg-blue-700 transition-colors"
+                                >
+                                    {syncStatus.active ? <Loader2 className="animate-spin w-5 h-5" /> : <Cloud className="w-5 h-5" />}
+                                    {syncStatus.active ? 'Syncing...' : 'Start Import'}
+                                </button>
+                            </div>
+                        </motion.div>
                     </div>
                 )}
+            </AnimatePresence>
 
-                {/* Console Output */}
-                <div className="bg-black text-green-400 p-4 rounded-xl font-mono text-sm h-64 overflow-y-auto">
-                    {syncStatus.logs.length === 0 ? (
-                        <span className="opacity-50">System Logs will appear here...</span>
-                    ) : (
-                        syncStatus.logs.map((log, i) => <div key={i}>{log}</div>)
-                    )}
+            {/* 2. Upload Modal */}
+            <AnimatePresence>
+                {isUploadModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-white dark:bg-gray-900 w-full max-w-lg rounded-2xl shadow-2xl p-8 text-center"
+                        >
+                            <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Upload className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                            </div>
+                            <h2 className="text-2xl font-bold mb-2">Upload Files</h2>
+                            <p className="text-gray-500 mb-8">Choose images from your device</p>
+
+                            {syncStatus.active ? (
+                                <div className="space-y-4">
+                                    <Loader2 className="w-12 h-12 animate-spin mx-auto text-blue-600" />
+                                    <p className="text-sm font-mono">{syncStatus.log}</p>
+                                </div>
+                            ) : (
+                                <label className="block w-full cursor-pointer">
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*"
+                                        onChange={handleLocalUpload}
+                                        className="hidden"
+                                    />
+                                    <div className="w-full py-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 text-gray-600 dark:text-gray-300 font-bold">
+                                        <Plus className="w-5 h-5" /> Select Files
+                                    </div>
+                                </label>
+                            )}
+
+                            <button
+                                onClick={() => setUploadModalOpen(false)}
+                                className="mt-6 text-gray-500 hover:text-gray-700 text-sm underline"
+                            >
+                                Cancel
+                            </button>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Sync Status Toast/Overlay */}
+            {syncStatus.active && !isUploadModalOpen && (
+                <div className="fixed bottom-8 right-8 bg-blue-900 text-white p-6 rounded-xl shadow-2xl z-50 min-w-[300px]">
+                    <h3 className="font-bold mb-2 flex items-center gap-2">
+                        <Loader2 className="animate-spin w-4 h-4" /> Processing...
+                    </h3>
+                    <div className="w-full bg-blue-800 rounded-full h-2 mb-2 overflow-hidden">
+                        <div
+                            className="bg-blue-400 h-full transition-all duration-300"
+                            style={{ width: `${(syncStatus.current / syncStatus.total) * 100}%` }}
+                        />
+                    </div>
+                    <p className="text-xs font-mono opacity-80">{syncStatus.log}</p>
                 </div>
+            )}
 
-            </div>
         </div>
     );
 };
