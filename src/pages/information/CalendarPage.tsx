@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Calendar as CalendarIcon, Download, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
 
 const CalendarPage: React.FC = () => {
   const academicCalendar = [
@@ -60,7 +61,7 @@ const CalendarPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pt-32 pb-20">
+    <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pt-32 pb-20">
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
         {/* Silk Background */}
@@ -215,7 +216,7 @@ const CalendarPage: React.FC = () => {
           </motion.div>
         </div>
       </div>
-    </div>
+    </PageAnimate>
   );
 };
 

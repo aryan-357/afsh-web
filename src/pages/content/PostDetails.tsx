@@ -4,6 +4,8 @@ import { BlogPost } from '../../types/blog';
 import BlocksRenderer from '../../components/ui/BlocksRenderer';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, User, ArrowLeft, ChevronDown } from 'lucide-react';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 import { PostService } from '../../services/postService';
 import { getStrapiMedia, extractImageUrl } from '../../utils/strapi';
 
@@ -65,7 +67,7 @@ const PostDetails = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-20">
+        <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-20">
             {/* Hero Image */}
             <div className="h-screen w-full relative overflow-hidden flex items-center justify-center">
                 <motion.img
@@ -103,18 +105,17 @@ const PostDetails = () => {
             {/* Content Area */}
             <motion.article
                 className="container mx-auto px-6 relative z-10 py-20"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
                 viewport={{ once: true }}
-                transition={{ duration: 1.2 }}
             >
                 <div className="max-w-5xl mx-auto">
                     <header className="mb-12 border-b border-gray-100 dark:border-gray-800 pb-12">
                         <motion.h1
                             className="text-4xl md:text-6xl font-serif font-bold text-gray-900 dark:text-white mb-8 leading-tight"
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+                            variants={fadeInUp}
+                            custom={1}
                         >
                             {post.title}
                         </motion.h1>
@@ -168,9 +169,8 @@ const PostDetails = () => {
                             {relatedPosts.map((rPost, idx) => (
                                 <motion.div
                                     key={rPost.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: idx * 0.1 }}
+                                    variants={fadeInUp}
+                                    custom={idx}
                                     viewport={{ once: true }}
                                     className="group"
                                 >
@@ -198,7 +198,7 @@ const PostDetails = () => {
                     </div>
                 </section>
             )}
-        </div>
+        </PageAnimate>
     );
 };
 

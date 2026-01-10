@@ -2,20 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Code, Palette, Globe, Zap, Users, Award, Github, Linkedin, Mail } from 'lucide-react';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
-const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
-
-const scaleIn = {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
 
 const DevelopmentPage: React.FC = () => {
     const developers = [
@@ -69,8 +58,7 @@ const DevelopmentPage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden">
-            {/* Hero Section */}
+        <PageAnimate className="bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden">
             <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
                 {/* Silk Background */}
                 <div className="absolute inset-0 z-0">
@@ -88,17 +76,32 @@ const DevelopmentPage: React.FC = () => {
 
                 <div className="container mx-auto px-4 relative z-10 text-center pt-20">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
-                        <span className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg">Development Team</span>
-                        <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
+                        <motion.span
+                            className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg"
+                            variants={fadeInUp}
+                            custom={1}
+                        >
+                            Development Team
+                        </motion.span>
+                        <motion.h1
+                            className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl"
+                            variants={fadeInUp}
+                            custom={2}
+                        >
                             Behind the <span className="text-af-gold">Code</span>
-                        </h1>
-                        <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto font-medium drop-shadow-lg">
+                        </motion.h1>
+                        <motion.p
+                            className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto font-medium drop-shadow-lg"
+                            variants={fadeInUp}
+                            custom={3}
+                        >
                             Meet the talented developers who brought Air Force School Hindan's digital presence to life.
-                        </p>
+                        </motion.p>
                     </motion.div>
                 </div>
             </section>
@@ -108,7 +111,10 @@ const DevelopmentPage: React.FC = () => {
                 <div className="container mx-auto px-4">
                     <motion.div
                         className="text-center mb-16"
-                        {...fadeIn}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
                         <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mb-6">
                             Our <span className="text-af-gold">Developers</span>
@@ -122,8 +128,8 @@ const DevelopmentPage: React.FC = () => {
                         {developers.map((developer, index) => (
                             <motion.div
                                 key={index}
-                                {...scaleIn}
-                                transition={{ delay: index * 0.2 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700"
                             >
                                 {/* Developer Header */}
@@ -203,7 +209,10 @@ const DevelopmentPage: React.FC = () => {
                 <div className="container mx-auto px-4">
                     <motion.div
                         className="text-center mb-16"
-                        {...fadeIn}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
                         <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mb-6">
                             Technology <span className="text-af-gold">Stack</span>
@@ -217,8 +226,8 @@ const DevelopmentPage: React.FC = () => {
                         {techStack.map((tech, index) => (
                             <motion.div
                                 key={index}
-                                {...scaleIn}
-                                transition={{ delay: index * 0.1 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="text-center group"
                             >
                                 <div className="w-20 h-20 mx-auto mb-4 bg-af-blue/10 dark:bg-af-blue/20 rounded-2xl flex items-center justify-center group-hover:bg-af-blue/20 dark:group-hover:bg-af-blue/30 transition-colors">
@@ -237,7 +246,10 @@ const DevelopmentPage: React.FC = () => {
                 <div className="container mx-auto px-4">
                     <motion.div
                         className="text-center mb-16"
-                        {...fadeIn}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
                         <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
                             Project <span className="text-af-gold">Achievements</span>
@@ -253,8 +265,8 @@ const DevelopmentPage: React.FC = () => {
                         ].map((stat, index) => (
                             <motion.div
                                 key={index}
-                                {...scaleIn}
-                                transition={{ delay: index * 0.1 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="text-center"
                             >
                                 <div className="text-4xl md:text-5xl font-bold text-af-gold mb-2">{stat.number}</div>
@@ -264,7 +276,7 @@ const DevelopmentPage: React.FC = () => {
                     </div>
                 </div>
             </section>
-        </div>
+        </PageAnimate>
     );
 };
 

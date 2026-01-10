@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { 
-    Building, 
-    BookOpen, 
-    Dumbbell, 
-    Beaker, 
-    Computer, 
-    Music, 
-    Palette, 
+import {
+    Building,
+    BookOpen,
+    Dumbbell,
+    Beaker,
+    Computer,
+    Music,
+    Palette,
     Trophy,
     Users,
     Wifi,
@@ -23,34 +23,9 @@ import {
     X
 } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
-const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
-
-const slideInFromLeft = {
-    initial: { opacity: 0, x: -50 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
-
-const slideInFromRight = {
-    initial: { opacity: 0, x: 50 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
-
-const scaleIn = {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
 
 const FacilitiesPage: React.FC = () => {
     const [selectedGallery, setSelectedGallery] = useState<string | null>(null);
@@ -220,14 +195,8 @@ const FacilitiesPage: React.FC = () => {
     const currentFacility = facilities.find(f => f.title === selectedGallery);
 
     return (
-        <div className="bg-white dark:bg-gray-900">
-            {/* Hero Section */}
-            <motion.section 
-                className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden -mt-16"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-            >
+        <PageAnimate className="bg-white dark:bg-gray-900">
+            <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden -mt-16">
                 {/* Silk Background */}
                 <div className="absolute inset-0 z-0">
                     <Silk
@@ -243,28 +212,45 @@ const FacilitiesPage: React.FC = () => {
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10 pt-16">
-                    <motion.div 
+                    <motion.div
                         className="text-center max-w-4xl mx-auto"
-                        initial={{ y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
-                        <span className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg">Our Infrastructure</span>
-                        <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
+                        <motion.span
+                            className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg"
+                            variants={fadeInUp}
+                            custom={1}
+                        >
+                            Our Infrastructure
+                        </motion.span>
+                        <motion.h1
+                            className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl"
+                            variants={fadeInUp}
+                            custom={2}
+                        >
                             World-Class <span className="text-af-gold">Facilities</span>
-                        </h1>
-                        <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed">
-                            Providing an exceptional learning environment with state-of-the-art infrastructure 
+                        </motion.h1>
+                        <motion.p
+                            className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed"
+                            variants={fadeInUp}
+                            custom={3}
+                        >
+                            Providing an exceptional learning environment with state-of-the-art infrastructure
                             designed to nurture young minds and foster holistic development.
-                        </p>
+                        </motion.p>
                     </motion.div>
                 </div>
-            </motion.section>
+            </section>
 
-            {/* Main Facilities Grid */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gray-50 dark:bg-gray-800"
-                {...fadeIn}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
             >
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -281,21 +267,19 @@ const FacilitiesPage: React.FC = () => {
                         {facilities.map((facility, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1, duration: 0.6 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="bg-white dark:bg-gray-900 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden group"
                             >
                                 {/* Image Gallery */}
                                 <div className="relative h-64 overflow-hidden">
-                                    <img 
-                                        src={facility.images[0]} 
+                                    <img
+                                        src={facility.images[0]}
                                         alt={facility.title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                                    
+
                                     {/* Gallery Controls */}
                                     <div className="absolute top-4 right-4 flex gap-2">
                                         <button
@@ -308,12 +292,12 @@ const FacilitiesPage: React.FC = () => {
                                             <ImageIcon className="w-4 h-4 text-gray-900 dark:text-white" />
                                         </button>
                                     </div>
-                                    
+
                                     {/* Image Counter */}
                                     <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
                                         {facility.images.length} Photos
                                     </div>
-                                    
+
                                     {/* Facility Icon */}
                                     <div className="absolute bottom-4 right-4 w-12 h-12 bg-af-blue rounded-2xl flex items-center justify-center shadow-lg">
                                         <facility.icon className="w-6 h-6 text-white" />
@@ -328,7 +312,7 @@ const FacilitiesPage: React.FC = () => {
                                     <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                                         {facility.description}
                                     </p>
-                                    
+
                                     {/* Features Grid */}
                                     <div className="grid grid-cols-2 gap-3 mb-6">
                                         {facility.features.slice(0, 4).map((feature, idx) => (
@@ -338,14 +322,14 @@ const FacilitiesPage: React.FC = () => {
                                             </div>
                                         ))}
                                     </div>
-                                    
+
                                     {/* Highlight */}
                                     <div className="pt-6 border-t border-gray-100 dark:border-gray-700">
                                         <p className="text-sm font-semibold text-af-blue dark:text-af-light">
                                             {facility.highlight}
                                         </p>
                                     </div>
-                                    
+
                                     {/* View Gallery Button */}
                                     <button
                                         onClick={() => openGallery(facility.title)}
@@ -361,11 +345,12 @@ const FacilitiesPage: React.FC = () => {
                 </div>
             </motion.section>
 
-            {/* Campus Amenities */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-white dark:bg-gray-900"
-                {...fadeIn}
-                transition={{ delay: 0.2 }}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
             >
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -382,21 +367,19 @@ const FacilitiesPage: React.FC = () => {
                         {amenities.map((amenity, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1, duration: 0.5 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="group bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500"
                             >
                                 {/* Image */}
                                 <div className="relative h-48 overflow-hidden">
-                                    <img 
-                                        src={amenity.image} 
+                                    <img
+                                        src={amenity.image}
                                         alt={amenity.title}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                    
+
                                     {/* Icon Overlay */}
                                     <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 dark:bg-gray-800/90 rounded-2xl flex items-center justify-center backdrop-blur-sm">
                                         <amenity.icon className="w-6 h-6 text-af-blue dark:text-af-light" />
@@ -437,7 +420,7 @@ const FacilitiesPage: React.FC = () => {
                             overflow: hidden;
                         }
                     `}</style>
-                    
+
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -452,80 +435,79 @@ const FacilitiesPage: React.FC = () => {
                             className="relative w-full h-full flex flex-col items-center justify-center p-8"
                             onClick={(e) => e.stopPropagation()}
                         >
-                        {/* Close Button - Top Right */}
-                        <button
-                            onClick={closeGallery}
-                            className="absolute top-4 right-4 z-50 p-2 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
-                        >
-                            <X className="w-5 h-5" />
-                        </button>
-
-                        {/* Main Image Container */}
-                        <div className="relative w-full max-w-7xl flex-1 flex items-center justify-center">
-                            <img 
-                                src={currentFacility.images[currentImageIndex]} 
-                                alt={currentFacility.title}
-                                className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
-                            />
-                            
-                            {/* Navigation Buttons */}
-                            <button
-                                onClick={prevImage}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
-                            >
-                                <ArrowLeft className="w-6 h-6" />
-                            </button>
-                            <button
-                                onClick={nextImage}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
-                            >
-                                <ArrowRight className="w-6 h-6" />
-                            </button>
-                        </div>
-
-                        {/* Image Info and Controls */}
-                        <div className="mt-6 text-center">
-                            <h3 className="text-xl font-bold text-white mb-2">{currentFacility.title}</h3>
-                            <p className="text-gray-300 mb-4">
-                                {currentImageIndex + 1} / {currentFacility.images.length}
-                            </p>
-                            
-                            {/* Thumbnail Strip */}
-                            <div className="flex gap-2 overflow-x-auto justify-center pb-2 px-4">
-                                {currentFacility.images.map((image, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setCurrentImageIndex(index)}
-                                        className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                                            index === currentImageIndex 
-                                                ? 'border-af-gold scale-110' 
-                                                : 'border-gray-600 hover:border-gray-400'
-                                        }`}
-                                    >
-                                        <img 
-                                            src={image} 
-                                            alt={`${currentFacility.title} ${index + 1}`}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </button>
-                                ))}
-                            </div>
-                            
-                            {/* Close Button - Bottom */}
+                            {/* Close Button - Top Right */}
                             <button
                                 onClick={closeGallery}
-                                className="mt-4 px-6 py-2 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
+                                className="absolute top-4 right-4 z-50 p-2 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
                             >
-                                Close Gallery
+                                <X className="w-5 h-5" />
                             </button>
-                        </div>
+
+                            {/* Main Image Container */}
+                            <div className="relative w-full max-w-7xl flex-1 flex items-center justify-center">
+                                <img
+                                    src={currentFacility.images[currentImageIndex]}
+                                    alt={currentFacility.title}
+                                    className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
+                                />
+
+                                {/* Navigation Buttons */}
+                                <button
+                                    onClick={prevImage}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
+                                >
+                                    <ArrowLeft className="w-6 h-6" />
+                                </button>
+                                <button
+                                    onClick={nextImage}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
+                                >
+                                    <ArrowRight className="w-6 h-6" />
+                                </button>
+                            </div>
+
+                            {/* Image Info and Controls */}
+                            <div className="mt-6 text-center">
+                                <h3 className="text-xl font-bold text-white mb-2">{currentFacility.title}</h3>
+                                <p className="text-gray-300 mb-4">
+                                    {currentImageIndex + 1} / {currentFacility.images.length}
+                                </p>
+
+                                {/* Thumbnail Strip */}
+                                <div className="flex gap-2 overflow-x-auto justify-center pb-2 px-4">
+                                    {currentFacility.images.map((image, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setCurrentImageIndex(index)}
+                                            className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${index === currentImageIndex
+                                                ? 'border-af-gold scale-110'
+                                                : 'border-gray-600 hover:border-gray-400'
+                                                }`}
+                                        >
+                                            <img
+                                                src={image}
+                                                alt={`${currentFacility.title} ${index + 1}`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Close Button - Bottom */}
+                                <button
+                                    onClick={closeGallery}
+                                    className="mt-4 px-6 py-2 bg-black/60 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all duration-300"
+                                >
+                                    Close Gallery
+                                </button>
+                            </div>
+                        </motion.div>
                     </motion.div>
-                </motion.div>
                 </>
             )}
 
             {/* CTA Section */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gradient-to-r from-af-blue to-af-light text-white relative overflow-hidden"
                 {...fadeIn}
                 transition={{ delay: 0.3 }}
@@ -540,7 +522,7 @@ const FacilitiesPage: React.FC = () => {
                             Visit Our Campus
                         </h2>
                         <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-                            Experience our world-class facilities firsthand. Schedule a campus tour to see 
+                            Experience our world-class facilities firsthand. Schedule a campus tour to see
                             how we create the perfect environment for learning and growth.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -560,7 +542,7 @@ const FacilitiesPage: React.FC = () => {
                     </div>
                 </div>
             </motion.section>
-        </div>
+        </PageAnimate>
     );
 };
 

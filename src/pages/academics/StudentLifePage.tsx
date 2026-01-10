@@ -3,37 +3,12 @@ import { Trophy, Users, Zap, Award, Shield, Star, Target, Heart } from 'lucide-r
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
 const StudentLifePage: React.FC = () => {
   const [activeHouse, setActiveHouse] = useState<string | null>(null);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromLeft = {
-    initial: { opacity: 0, x: -30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromRight = {
-    initial: { opacity: 0, x: 30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const scaleIn = {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
 
   const houses = [
     {
@@ -135,7 +110,7 @@ const StudentLifePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
+    <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
         {/* Silk Background */}
@@ -152,61 +127,49 @@ const StudentLifePage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4 relative z-10 text-center pt-20"
-          {...fadeIn}
-          transition={{ delay: 0.1 }}
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-            {...slideInFromLeft}
-            transition={{ delay: 0.2 }}
+            variants={fadeInUp}
+            custom={1}
           >
             Student <span className="text-af-gold">Life</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
-            {...slideInFromRight}
-            transition={{ delay: 0.3 }}
+            variants={fadeInUp}
+            custom={2}
           >
             Vibrant world of houses, clubs, sports, and co-curricular activities
           </motion.p>
-          <motion.div 
+          <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true, amount: 0.2, margin: "-100px" }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            variants={fadeInUp}
+            custom={3}
           />
         </motion.div>
       </section>
 
       {/* Houses Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         {...fadeIn}
         transition={{ delay: 0.5 }}
       >
-        <motion.div 
-          className="text-center mb-12"
-          {...slideInFromLeft}
-          transition={{ delay: 0.6 }}
-        >
-          <motion.h2 
-            className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
-            {...scaleIn}
-            transition={{ delay: 0.7 }}
-          >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
             The Four Houses
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto"
-            {...slideInFromRight}
-            transition={{ delay: 0.8 }}
-          >
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
             Houses foster healthy competition and foster brotherhood and sisterhood among students
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {houses.map((house, index) => (
@@ -214,9 +177,9 @@ const StudentLifePage: React.FC = () => {
               key={house.id}
               className={`relative rounded-2xl overflow-hidden border-2 ${house.borderColor} transition-all duration-300 cursor-pointer group hover:shadow-2xl`}
               onClick={() => setActiveHouse(activeHouse === house.id ? null : house.id)}
-              {...scaleIn}
-              transition={{ delay: 0.9 + index * 0.1 }}
-              whileHover={{ 
+              variants={fadeInUp}
+              custom={index}
+              whileHover={{
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
@@ -273,52 +236,37 @@ const StudentLifePage: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* Clubs & Societies Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-16 mb-20"
-        {...fadeIn}
-        transition={{ delay: 1.3 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
-        <motion.div 
-          className="container mx-auto px-4"
-          {...slideInFromLeft}
-          transition={{ delay: 1.4 }}
-        >
-          <motion.div 
-            className="text-center mb-12"
-            {...scaleIn}
-            transition={{ delay: 1.5 }}
-          >
-            <motion.h2 
-              className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
-              {...slideInFromRight}
-              transition={{ delay: 1.6 }}
-            >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
               Clubs & Societies
-            </motion.h2>
-            <motion.p 
-              className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto"
-              {...fadeIn}
-              transition={{ delay: 1.7 }}
-            >
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
               Explore diverse interests and develop your passions through our thriving clubs
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {clubs.map((club, idx) => (
               <motion.div
                 key={idx}
                 className="bg-white dark:bg-gray-700 rounded-xl p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-100 dark:border-gray-600 group"
-                {...scaleIn}
-                transition={{ delay: 1.8 + idx * 0.1 }}
-                whileHover={{ 
+                variants={fadeInUp}
+                custom={idx}
+                whileHover={{
                   scale: 1.05,
                   transition: { duration: 0.3 }
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <motion.div 
+                <motion.div
                   className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300"
                   whileHover={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 0.5 }}
@@ -333,47 +281,36 @@ const StudentLifePage: React.FC = () => {
         </motion.div>
       </motion.section>
 
-      {/* Sports Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
-        {...fadeIn}
-        transition={{ delay: 2.2 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
-        <motion.div 
-          className="text-center mb-12"
-          {...slideInFromLeft}
-          transition={{ delay: 2.3 }}
-        >
-          <motion.h2 
-            className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
-            {...scaleIn}
-            transition={{ delay: 2.4 }}
-          >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
             Sports Program
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto"
-            {...slideInFromRight}
-            transition={{ delay: 2.5 }}
-          >
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
             Comprehensive sports programs developing physical fitness and competitive spirit
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {sports.map((sport, idx) => (
             <motion.div
               key={idx}
               className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 border border-blue-200 dark:border-blue-800 group"
-              {...scaleIn}
-              transition={{ delay: 2.6 + idx * 0.1 }}
-              whileHover={{ 
+              variants={fadeInUp}
+              custom={idx}
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
               whileTap={{ scale: 0.98 }}
             >
-              <motion.div 
+              <motion.div
                 className="text-5xl mb-3 group-hover:scale-110 transition-transform duration-300"
                 whileHover={{ rotate: [0, 15, -15, 0] }}
                 transition={{ duration: 0.6 }}
@@ -388,32 +325,32 @@ const StudentLifePage: React.FC = () => {
       </motion.section>
 
       {/* NCC Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-16 rounded-2xl container mx-auto px-4 mb-20"
         {...scaleIn}
         transition={{ delay: 3.1 }}
-        whileHover={{ 
+        whileHover={{
           y: -5,
           transition: { duration: 0.3 }
         }}
       >
-        <motion.div 
+        <motion.div
           className="max-w-4xl mx-auto"
           {...fadeIn}
           transition={{ delay: 3.2 }}
         >
-          <motion.div 
+          <motion.div
             className="flex items-start gap-6 mb-8"
             {...slideInFromLeft}
             transition={{ delay: 3.3 }}
           >
-            <motion.div 
+            <motion.div
               className="text-6xl"
-              animate={{ 
+              animate={{
                 rotate: [0, 10, -10, 0],
                 scale: [1, 1.1, 1]
               }}
-              transition={{ 
+              transition={{
                 duration: 3,
                 repeat: Infinity,
                 ease: "easeInOut"
@@ -422,36 +359,22 @@ const StudentLifePage: React.FC = () => {
               🎖️
             </motion.div>
             <div>
-              <motion.h2 
-                className="text-4xl font-serif font-bold mb-2"
-                {...slideInFromRight}
-                transition={{ delay: 3.4 }}
-              >
+              <h2 className="text-4xl font-serif font-bold mb-2">
                 {nccInfo.title}
-              </motion.h2>
-              <motion.p 
-                className="text-blue-100 italic text-lg"
-                {...fadeIn}
-                transition={{ delay: 3.5 }}
-              >
+              </h2>
+              <p className="text-blue-100 italic text-lg">
                 "{nccInfo.motto}"
-              </motion.p>
+              </p>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.p 
-            className="text-blue-50 text-lg mb-8 leading-relaxed"
-            {...slideInFromLeft}
-            transition={{ delay: 3.6 }}
-          >
+          <p className="text-blue-50 text-lg mb-8 leading-relaxed">
             {nccInfo.description}
-          </motion.p>
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <motion.div 
+            <motion.div
               className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20"
-              {...scaleIn}
-              transition={{ delay: 3.7 }}
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
@@ -463,10 +386,8 @@ const StudentLifePage: React.FC = () => {
               <p className="text-sm text-blue-100">Units</p>
               <p className="text-2xl font-bold text-white">{nccInfo.units}</p>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20"
-              {...scaleIn}
-              transition={{ delay: 3.8 }}
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
@@ -478,10 +399,8 @@ const StudentLifePage: React.FC = () => {
               <p className="text-sm text-blue-100">Cadets Strength</p>
               <p className="text-2xl font-bold text-white">{nccInfo.strength}</p>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20"
-              {...scaleIn}
-              transition={{ delay: 3.9 }}
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
@@ -495,25 +414,15 @@ const StudentLifePage: React.FC = () => {
             </motion.div>
           </div>
 
-          <motion.div 
-            className="bg-white/10 backdrop-blur-md rounded-lg p-8 border border-white/20"
-            {...fadeIn}
-            transition={{ delay: 4.0 }}
-          >
-            <motion.h3 
-              className="text-2xl font-bold mb-6 text-yellow-400"
-              {...slideInFromLeft}
-              transition={{ delay: 4.1 }}
-            >
+          <div className="bg-white/10 backdrop-blur-md rounded-lg p-8 border border-white/20">
+            <h3 className="text-2xl font-bold mb-6 text-yellow-400">
               Notable Achievements
-            </motion.h3>
+            </h3>
             <ul className="space-y-3">
               {nccInfo.achievements.map((achievement, idx) => (
-                <motion.li 
-                  key={idx} 
+                <motion.li
+                  key={idx}
                   className="flex items-start gap-3 text-blue-50"
-                  {...slideInFromRight}
-                  transition={{ delay: 4.2 + idx * 0.1 }}
                   whileHover={{ x: 10 }}
                 >
                   <motion.div
@@ -526,8 +435,8 @@ const StudentLifePage: React.FC = () => {
                 </motion.li>
               ))}
             </ul>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </motion.section>
 
       {/* Call to Action */}
@@ -542,7 +451,7 @@ const StudentLifePage: React.FC = () => {
           </button>
         </Link>
       </section>
-    </div>
+    </PageAnimate>
   );
 };
 

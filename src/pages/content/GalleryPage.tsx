@@ -17,6 +17,7 @@ import {
 
 import { galleryData, Photo } from "@/src/data/gallery-data";
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
 
 // --- Types ---
 type ViewMode = 'photos' | 'albums';
@@ -248,7 +249,7 @@ const GalleryPage = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
+    <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
         <div className="absolute inset-0 z-0">
@@ -434,7 +435,7 @@ const GalleryPage = () => {
         setSortOrder={setSortOrder}
       />
 
-    </div>
+    </PageAnimate>
   );
 };
 

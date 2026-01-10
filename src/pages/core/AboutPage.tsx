@@ -6,6 +6,7 @@ const PrincipalMessage = React.lazy(() => import('@/src/components/sections/Prin
 import type { FacultyMember } from '@/src/components/sections/FacultyCarousel';
 const FacultyCarousel = React.lazy(() => import('@/src/components/sections/FacultyCarousel'));
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
 
 // Neutral placeholder for face-free identity - Optimized size
 const neutralPlaceholder = "https://picsum.photos/id/22/600/800";
@@ -268,7 +269,7 @@ const prtFaculty: FacultyMember[] = [
 
 const AboutPage: React.FC = () => {
     return (
-        <div className="bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden">
+        <PageAnimate className="bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden">
             {/* Hero Section */}
             <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
                 {/* Silk Background */}
@@ -422,7 +423,7 @@ const AboutPage: React.FC = () => {
                     </div>
                 </div>
             </motion.section>
-        </div>
+        </PageAnimate>
     );
 };
 

@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight, CalendarCheck, X, Clock } from 'lucide-react
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
 interface CalendarEvent {
   date: number;
@@ -95,6 +97,31 @@ const DayViewModal: React.FC<DayViewModalProps> = ({ isOpen, onClose, date, even
       </div>
     </AnimatePresence>
   );
+};
+
+// Animation variants
+const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.6 }
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.9 },
+  animate: { opacity: 1, scale: 1 },
+  transition: { duration: 0.5 }
+};
+
+const slideInFromLeft = {
+  initial: { opacity: 0, x: -30 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.5 }
+};
+
+const slideInFromRight = {
+  initial: { opacity: 0, x: 30 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.5 }
 };
 
 const CalendarPageNew: React.FC = () => {
@@ -208,36 +235,9 @@ const CalendarPageNew: React.FC = () => {
   const prevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
   const nextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromLeft = {
-    initial: { opacity: 0, x: -30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromRight = {
-    initial: { opacity: 0, x: 30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const scaleIn = {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 pb-20 transition-colors duration-700">
+    <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 pb-20 transition-colors duration-700">
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
         {/* Silk Background */}
@@ -256,29 +256,29 @@ const CalendarPageNew: React.FC = () => {
 
         <motion.div
           className="container mx-auto px-4 relative z-10 text-center pt-20"
-          {...fadeIn}
-          transition={{ delay: 0.1 }}
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
         >
           <motion.h1
             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-            {...slideInFromLeft}
-            transition={{ delay: 0.2 }}
+            variants={fadeInUp}
+            custom={1}
           >
             Academic <span className="text-af-gold">Calendar</span>
           </motion.h1>
           <motion.p
             className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
-            {...slideInFromRight}
-            transition={{ delay: 0.3 }}
+            variants={fadeInUp}
+            custom={2}
           >
             All important dates, events, and examinations at a glance
           </motion.p>
           <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            variants={fadeInUp}
+            custom={3}
           />
 
           <motion.div
@@ -318,11 +318,12 @@ const CalendarPageNew: React.FC = () => {
         />
       )}
 
-      {/* Calendar */}
       <motion.div
         className="container mx-auto px-4 max-w-6xl"
-        {...fadeIn}
-        transition={{ delay: 0.5 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
         {/* Month Navigation */}
         <motion.div
@@ -465,7 +466,7 @@ const CalendarPageNew: React.FC = () => {
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </PageAnimate>
   );
 };
 

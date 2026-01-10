@@ -3,38 +3,13 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { GraduationCap, ArrowLeft, CheckCircle, Mail, Phone, MapPin, Calendar, Briefcase, Award, AlertCircle } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
-const fadeIn = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.3, ease: "easeOut" as const }
-};
-
-const slideInFromLeft = {
-  initial: { opacity: 0, x: -30 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.4, ease: "easeOut" as const }
-};
-
-const slideInFromRight = {
-  initial: { opacity: 0, x: 30 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.4, ease: "easeOut" as const }
-};
-
-const scaleIn = {
-  initial: { opacity: 0, scale: 0.9 },
-  whileInView: { opacity: 1, scale: 1 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.3, ease: "easeOut" as const }
-};
 
 const AlumniRegistrationPage: React.FC = () => {
   const navigate = useNavigate();
-  
+
   // Local interface for form data
   interface AlumniFormData {
     firstName: string;
@@ -85,7 +60,7 @@ const AlumniRegistrationPage: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
-    
+
     if (type === 'checkbox') {
       setFormData({
         ...formData,
@@ -101,7 +76,7 @@ const AlumniRegistrationPage: React.FC = () => {
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Required field validations
     if (!formData.firstName.trim()) errors.firstName = 'First name is required';
     if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
@@ -116,7 +91,7 @@ const AlumniRegistrationPage: React.FC = () => {
     if (!formData.city.trim()) errors.city = 'City is required';
     if (!formData.state.trim()) errors.state = 'State is required';
     if (!formData.country.trim()) errors.country = 'Country is required';
-    
+
     // Year validations
     const currentYear = new Date().getFullYear();
     if (formData.batchYear && (parseInt(formData.batchYear) < 1950 || parseInt(formData.batchYear) > currentYear)) {
@@ -125,7 +100,7 @@ const AlumniRegistrationPage: React.FC = () => {
     if (formData.passingYear && (parseInt(formData.passingYear) < parseInt(formData.batchYear) || parseInt(formData.passingYear) > currentYear)) {
       errors.passingYear = 'Invalid passing year';
     }
-    
+
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -133,15 +108,15 @@ const AlumniRegistrationPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!validateForm()) {
       setError('Please fix the errors below');
       return;
     }
-    
+
     // TODO: Add your backend API call here
     console.log('Form data ready for backend:', formData);
-    
+
     // Placeholder for your backend implementation
     // Example:
     // try {
@@ -161,7 +136,7 @@ const AlumniRegistrationPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
+    <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
       {/* Hero Section */}
       <section className="relative h-[65vh] flex items-center justify-center overflow-hidden mb-32">
         {/* Silk Background */}
@@ -177,66 +152,63 @@ const AlumniRegistrationPage: React.FC = () => {
           {/* Overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
-        <div className="container mx-auto px-4 relative z-10 text-center pt-32">
+        <motion.div
+          className="container mx-auto px-4 relative z-10 text-center pt-32"
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
           <motion.div
-            {...fadeIn}
-            transition={{ delay: 0.1 }}
+            animate={{
+              rotate: [0, 10, -10, 0],
+              scale: [1, 1.05, 1]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           >
-            <motion.div
-              animate={{ 
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.05, 1]
-              }}
-              transition={{ 
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              <GraduationCap className="w-16 h-16 mx-auto mb-6 text-af-gold" />
-            </motion.div>
-            <motion.h1 
-              className="text-4xl md:text-6xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-              {...slideInFromLeft}
-              transition={{ delay: 0.2 }}
-            >
-              Alumni <span className="text-af-gold">Registration</span>
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-blue-100 max-w-2xl mx-auto drop-shadow"
-              {...slideInFromRight}
-              transition={{ delay: 0.3 }}
-            >
-              Join our alumni network and stay connected with your alma mater
-            </motion.p>
-            <motion.div 
-              className="w-24 h-1 bg-af-gold mx-auto mt-6"
-              initial={{ opacity: 0, scaleX: 0 }}
-              whileInView={{ opacity: 1, scaleX: 1 }}
-              viewport={{ once: true, amount: 0.2, margin: "-100px" }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            ></motion.div>
+            <GraduationCap className="w-16 h-16 mx-auto mb-6 text-af-gold" />
           </motion.div>
-        </div>
+          <motion.h1
+            className="text-4xl md:text-6xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+            variants={fadeInUp}
+            custom={1}
+          >
+            Alumni <span className="text-af-gold">Registration</span>
+          </motion.h1>
+          <motion.p
+            className="text-xl text-blue-100 max-w-2xl mx-auto drop-shadow"
+            variants={fadeInUp}
+            custom={2}
+          >
+            Join our alumni network and stay connected with your alma mater
+          </motion.p>
+          <motion.div
+            className="w-24 h-1 bg-af-gold mx-auto mt-6"
+            variants={fadeInUp}
+            custom={3}
+          />
+        </motion.div>
       </section>
 
-      {/* Registration Form */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 pb-20"
-        {...fadeIn}
-        transition={{ delay: 0.5 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
         <div className="max-w-4xl mx-auto">
-          <motion.div
-            {...slideInFromLeft}
-            transition={{ delay: 0.6 }}
-          >
+          <div>
             <Link
               to="/alumni"
               className="inline-flex items-center gap-2 text-af-blue dark:text-af-light hover:text-af-gold transition-colors mb-8 font-medium"
             >
               <motion.div
-                whileHover={{ 
+                whileHover={{
                   x: -5,
                   transition: { duration: 0.3 }
                 }}
@@ -245,12 +217,12 @@ const AlumniRegistrationPage: React.FC = () => {
               </motion.div>
               Back to Alumni Page
             </Link>
-          </motion.div>
+          </div>
 
           <motion.div
             {...scaleIn}
             transition={{ delay: 0.7 }}
-            whileHover={{ 
+            whileHover={{
               y: -5,
               transition: { duration: 0.3 }
             }}
@@ -271,7 +243,7 @@ const AlumniRegistrationPage: React.FC = () => {
                   </div>
                 </motion.div>
               )}
-              
+
               {/* Personal Information */}
               <motion.div
                 {...fadeIn}
@@ -279,11 +251,11 @@ const AlumniRegistrationPage: React.FC = () => {
               >
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
-                    animate={{ 
+                    animate={{
                       rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut"
@@ -305,9 +277,8 @@ const AlumniRegistrationPage: React.FC = () => {
                       onChange={handleChange}
                       required
                       placeholder="Enter your first name"
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                        fieldErrors.firstName ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
-                      }`}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${fieldErrors.firstName ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                        }`}
                     />
                     {fieldErrors.firstName && (
                       <p className="mt-1 text-sm text-red-600 dark:text-red-400">{fieldErrors.firstName}</p>
@@ -338,9 +309,8 @@ const AlumniRegistrationPage: React.FC = () => {
                       onChange={handleChange}
                       required
                       placeholder="Enter your email address"
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                        fieldErrors.email ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
-                      }`}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-af-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${fieldErrors.email ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+                        }`}
                     />
                     {fieldErrors.email && (
                       <p className="mt-1 text-sm text-red-600 dark:text-red-400">{fieldErrors.email}</p>
@@ -370,11 +340,11 @@ const AlumniRegistrationPage: React.FC = () => {
               >
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
-                    animate={{ 
+                    animate={{
                       rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut"
@@ -427,11 +397,11 @@ const AlumniRegistrationPage: React.FC = () => {
               >
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
-                    animate={{ 
+                    animate={{
                       rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut"
@@ -550,11 +520,11 @@ const AlumniRegistrationPage: React.FC = () => {
               >
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
-                    animate={{ 
+                    animate={{
                       rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut"
@@ -603,7 +573,7 @@ const AlumniRegistrationPage: React.FC = () => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     transition: { duration: 0.3 }
                   }}
@@ -612,7 +582,7 @@ const AlumniRegistrationPage: React.FC = () => {
                   {isSubmitting ? 'Submitting...' : 'Submit Registration'}
                 </motion.button>
                 <motion.div
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     transition: { duration: 0.3 }
                   }}
@@ -629,7 +599,7 @@ const AlumniRegistrationPage: React.FC = () => {
           </motion.div>
         </div>
       </motion.section>
-    </div>
+    </PageAnimate>
   );
 };
 

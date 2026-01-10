@@ -2,6 +2,8 @@ import React, { useState, Suspense } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle, MessageSquare, Users, Building } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -13,33 +15,6 @@ const ContactPage: React.FC = () => {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromLeft = {
-    initial: { opacity: 0, x: -30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromRight = {
-    initial: { opacity: 0, x: 30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const scaleIn = {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -60,7 +35,7 @@ const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-700">
+    <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-700">
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         {/* Silk Background */}
@@ -79,50 +54,47 @@ const ContactPage: React.FC = () => {
 
         <motion.div
           className="container mx-auto px-4 relative z-10 text-center pt-20"
-          {...fadeIn}
-          transition={{ delay: 0.1 }}
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
         >
           <motion.h1
             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-            {...slideInFromLeft}
-            transition={{ delay: 0.2 }}
+            variants={fadeInUp}
+            custom={1}
           >
             Get In <span className="text-af-gold">Touch</span>
           </motion.h1>
           <motion.p
             className="text-xl text-blue-100 max-w-2xl mx-auto drop-shadow"
-            {...slideInFromRight}
-            transition={{ delay: 0.3 }}
+            variants={fadeInUp}
+            custom={2}
           >
             We'd love to hear from you. Whether you have a question or just want to say hello, feel free to reach out.
           </motion.p>
           <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            variants={fadeInUp}
+            custom={3}
           />
         </motion.div>
       </section>
 
-      {/* Contact Info Cards */}
       <motion.section
         className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-700"
-        {...fadeIn}
-        transition={{ delay: 0.5 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
-        <motion.div
-          className="container mx-auto px-4"
-          {...slideInFromLeft}
-          transition={{ delay: 0.6 }}
-        >
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Address */}
             <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
-              {...scaleIn}
-              transition={{ delay: 0.7 }}
+              variants={fadeInUp}
+              custom={0}
               whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
@@ -140,8 +112,8 @@ const ContactPage: React.FC = () => {
             {/* Phone */}
             <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
-              {...scaleIn}
-              transition={{ delay: 0.8 }}
+              variants={fadeInUp}
+              custom={1}
               whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
@@ -161,8 +133,8 @@ const ContactPage: React.FC = () => {
             {/* Email */}
             <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
-              {...scaleIn}
-              transition={{ delay: 0.9 }}
+              variants={fadeInUp}
+              custom={2}
               whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
@@ -185,8 +157,8 @@ const ContactPage: React.FC = () => {
             {/* Hours */}
             <motion.div
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-out transform hover:-translate-y-2"
-              {...scaleIn}
-              transition={{ delay: 1.0 }}
+              variants={fadeInUp}
+              custom={3}
               whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
@@ -203,7 +175,7 @@ const ContactPage: React.FC = () => {
               </p>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </motion.section>
 
       {/* Contact Form & Map */}
@@ -361,7 +333,7 @@ const ContactPage: React.FC = () => {
           </div>
         </motion.div>
       </motion.section>
-    </div>
+    </PageAnimate>
   );
 };
 

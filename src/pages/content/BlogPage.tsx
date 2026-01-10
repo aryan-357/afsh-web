@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BlogPost } from '../../types/blog';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 import { PostService } from '../../services/postService';
 import { getStrapiMedia, extractImageUrl } from '../../utils/strapi';
 
@@ -14,34 +16,6 @@ const BlogPage = () => {
     const [activeCategory, setActiveCategory] = useState('all');
 
 
-    // Animation Variants
-    const fadeIn = {
-        initial: { opacity: 0, y: 30 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
-
-    const slideInFromLeft = {
-        initial: { opacity: 0, x: -30 },
-        whileInView: { opacity: 1, x: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
-
-    const slideInFromRight = {
-        initial: { opacity: 0, x: 30 },
-        whileInView: { opacity: 1, x: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
-
-    const scaleIn = {
-        initial: { opacity: 0, scale: 0.9 },
-        whileInView: { opacity: 1, scale: 1 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -108,7 +82,7 @@ const BlogPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
+        <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
 
             {/* Hero Section */}
             <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
@@ -128,28 +102,29 @@ const BlogPage = () => {
 
                 <motion.div
                     className="container mx-auto px-6 relative z-10 text-center pt-20"
-                    {...fadeIn}
+                    variants={fadeInUp}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true }}
                 >
                     <motion.h1
                         className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-                        {...slideInFromLeft}
-                        transition={{ delay: 0.2 }}
+                        variants={fadeInUp}
+                        custom={1}
                     >
                         News & <span className="text-af-gold">Chronicles</span>
                     </motion.h1>
                     <motion.p
                         className="text-lg text-blue-100 max-w-2xl mx-auto drop-shadow"
-                        {...slideInFromRight}
-                        transition={{ delay: 0.3 }}
+                        variants={fadeInUp}
+                        custom={2}
                     >
                         Stay updated with the latest happenings, achievements, and announcements from Air Force School Hindan.
                     </motion.p>
                     <motion.div
                         className="w-24 h-1 bg-af-gold mx-auto mt-6"
-                        initial={{ opacity: 0, scaleX: 0 }}
-                        whileInView={{ opacity: 1, scaleX: 1 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ delay: 0.4, duration: 0.6 }}
+                        variants={fadeInUp}
+                        custom={3}
                     />
                 </motion.div>
             </section>
@@ -160,21 +135,19 @@ const BlogPage = () => {
                 {featuredPost && (
                     <motion.section
                         className="mb-16"
-                        {...fadeIn}
-                        transition={{ delay: 0.5 }}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
                         <motion.h2
                             className="text-2xl font-bold mb-6 flex items-center gap-2"
-                            {...slideInFromLeft}
-                            transition={{ delay: 0.6 }}
                         >
                             <span className="w-2 h-8 bg-af-gold rounded-full"></span>
                             Featured Story
                         </motion.h2>
                         <motion.div
                             className="grid md:grid-cols-2 gap-8 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 group"
-                            {...scaleIn}
-                            transition={{ delay: 0.7 }}
                             whileHover={{ y: -5 }}
                         >
                             <div className="relative overflow-hidden h-[300px] md:h-auto">
@@ -216,8 +189,10 @@ const BlogPage = () => {
                 {/* Categories & Filter */}
                 <motion.div
                     className="flex flex-wrap gap-4 mb-8 justify-center md:justify-start"
-                    {...fadeIn}
-                    transition={{ delay: 0.8 }}
+                    variants={fadeInUp}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true }}
                 >
                     {newsCategories.map((cat, index) => (
                         <motion.button
@@ -227,9 +202,6 @@ const BlogPage = () => {
                                 ? 'bg-af-blue text-white shadow-lg scale-105'
                                 : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.9 + index * 0.1 }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
@@ -244,10 +216,11 @@ const BlogPage = () => {
                         <motion.div
                             key={item.id}
                             className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.1 }}
-                            transition={{ delay: 0.2 + idx * 0.1, duration: 0.4 }}
+                            variants={fadeInUp}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{ once: true }}
+                            custom={idx}
                             whileHover={{ y: -5 }}
                         >
                             <div className="relative h-48 overflow-hidden">
@@ -284,7 +257,7 @@ const BlogPage = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </PageAnimate>
     );
 };
 

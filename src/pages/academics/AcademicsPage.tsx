@@ -3,37 +3,12 @@ import { BookOpen, CheckCircle, Trophy, ArrowRight, GraduationCap, Award, Users,
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Silk from '@/src/components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
 const AcademicsPage: React.FC = () => {
   const [expandedDept, setExpandedDept] = useState<string | null>(null);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromLeft = {
-    initial: { opacity: 0, x: -30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const slideInFromRight = {
-    initial: { opacity: 0, x: 30 },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
-
-  const scaleIn = {
-    initial: { opacity: 0, scale: 0.9 },
-    whileInView: { opacity: 1, scale: 1 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.4, ease: "easeOut" as const }
-  };
 
   const departments = [
     {
@@ -171,7 +146,7 @@ const AcademicsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
+    <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Hero Section */}
       <section className="relative h-[55vh] flex items-center justify-center overflow-hidden mb-20">
         {/* Silk Background */}
@@ -188,71 +163,60 @@ const AcademicsPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
         </div>
 
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4 relative z-10 text-center pt-24"
-          {...fadeIn}
-          transition={{ delay: 0.1 }}
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-            {...slideInFromLeft}
-            transition={{ delay: 0.2 }}
+            variants={fadeInUp}
+            custom={1}
           >
             Academic <span className="text-af-gold">Excellence</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
-            {...slideInFromRight}
-            transition={{ delay: 0.3 }}
+            variants={fadeInUp}
+            custom={2}
           >
             Comprehensive curriculum, experienced faculty, and modern teaching methodologies
           </motion.p>
-          <motion.div 
+          <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            variants={fadeInUp}
+            custom={3}
           />
         </motion.div>
       </section>
 
-      {/* Curriculum Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         id="curriculum"
-        {...fadeIn}
-        transition={{ delay: 0.5 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
-        <motion.div 
-          className="text-center mb-12"
-          {...slideInFromLeft}
-          transition={{ delay: 0.6 }}
-        >
-          <motion.h2 
-            className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
-            {...scaleIn}
-            transition={{ delay: 0.7 }}
-          >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
             Our Curriculum
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 dark:text-gray-400 text-lg"
-            {...slideInFromRight}
-            transition={{ delay: 0.8 }}
-          >
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
             CBSE Curriculum following the latest educational guidelines
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {curriculum.map((item, index) => (
             <motion.div
               key={item.class}
               className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 dark:border-gray-700"
-              {...scaleIn}
-              transition={{ delay: 0.9 + index * 0.1 }}
-              whileHover={{ 
+              variants={fadeInUp}
+              custom={index}
+              whileHover={{
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
@@ -281,30 +245,30 @@ const AcademicsPage: React.FC = () => {
       </motion.section>
 
       {/* Departments Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-16 mb-20"
         id="departments"
         {...fadeIn}
         transition={{ delay: 1.3 }}
       >
-        <motion.div 
+        <motion.div
           className="container mx-auto px-4"
           {...slideInFromLeft}
           transition={{ delay: 1.4 }}
         >
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             {...scaleIn}
             transition={{ delay: 1.5 }}
           >
-            <motion.h2 
+            <motion.h2
               className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
               {...slideInFromRight}
               transition={{ delay: 1.6 }}
             >
               Academic Departments
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-gray-600 dark:text-gray-400 text-lg"
               {...fadeIn}
               transition={{ delay: 1.7 }}
@@ -316,11 +280,11 @@ const AcademicsPage: React.FC = () => {
           <div className="space-y-4">
             {departments.map((dept, index) => (
               <motion.div
-                key={dept.id} 
+                key={dept.id}
                 className="bg-white dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 overflow-hidden hover:shadow-lg transition-all duration-300"
                 {...scaleIn}
                 transition={{ delay: 1.8 + index * 0.1 }}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.02,
                   transition: { duration: 0.3 }
                 }}
@@ -384,25 +348,25 @@ const AcademicsPage: React.FC = () => {
       </motion.section>
 
       {/* Academic Calendar Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         id="calendar"
         {...fadeIn}
         transition={{ delay: 2.5 }}
       >
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           {...slideInFromLeft}
           transition={{ delay: 2.6 }}
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
             {...scaleIn}
             transition={{ delay: 2.7 }}
           >
             Academic Calendar 2024-25
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-gray-600 dark:text-gray-400 text-lg"
             {...slideInFromRight}
             transition={{ delay: 2.8 }}
@@ -447,27 +411,27 @@ const AcademicsPage: React.FC = () => {
       </motion.section>
 
       {/* Scholars Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-af-blue to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 mb-20"
         id="scholars"
         {...scaleIn}
         transition={{ delay: 3.0 }}
-        whileHover={{ 
+        whileHover={{
           y: -5,
           transition: { duration: 0.3 }
         }}
       >
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           {...fadeIn}
           transition={{ delay: 3.1 }}
         >
           <motion.div
-            animate={{ 
+            animate={{
               rotate: [0, 360],
               scale: [1, 1.1, 1]
             }}
-            transition={{ 
+            transition={{
               duration: 3,
               repeat: Infinity,
               ease: "easeInOut"
@@ -475,14 +439,14 @@ const AcademicsPage: React.FC = () => {
           >
             <Trophy className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
           </motion.div>
-          <motion.h2 
+          <motion.h2
             className="text-4xl font-serif font-bold mb-2"
             {...slideInFromLeft}
             transition={{ delay: 3.2 }}
           >
             Top Academic Achievers
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-blue-100"
             {...slideInFromRight}
             transition={{ delay: 3.3 }}
@@ -494,11 +458,11 @@ const AcademicsPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {scholars.map((scholar, idx) => (
             <motion.div
-              key={idx} 
+              key={idx}
               className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
               {...scaleIn}
               transition={{ delay: 3.4 + idx * 0.1 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -517,7 +481,7 @@ const AcademicsPage: React.FC = () => {
       </motion.section>
 
       {/* Key Highlights */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 mb-20"
         {...fadeIn}
         transition={{ delay: 3.8 }}
@@ -530,11 +494,11 @@ const AcademicsPage: React.FC = () => {
             { icon: '💻', title: 'Tech-Enabled', desc: 'Smart Classrooms & Digital Learning' }
           ].map((item, idx) => (
             <motion.div
-              key={idx} 
+              key={idx}
               className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-6 text-center border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300"
               {...scaleIn}
               transition={{ delay: 3.9 + idx * 0.1 }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -548,23 +512,23 @@ const AcademicsPage: React.FC = () => {
       </motion.section>
 
       {/* CTA Section */}
-      <motion.section 
+      <motion.section
         className="bg-gradient-to-r from-af-blue to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center"
         {...scaleIn}
         transition={{ delay: 4.3 }}
-        whileHover={{ 
+        whileHover={{
           y: -5,
           transition: { duration: 0.3 }
         }}
       >
-        <motion.h2 
+        <motion.h2
           className="text-3xl font-serif font-bold mb-4"
           {...slideInFromLeft}
           transition={{ delay: 4.4 }}
         >
           Ready to Excel?
         </motion.h2>
-        <motion.p 
+        <motion.p
           className="text-blue-100 mb-6 max-w-2xl mx-auto"
           {...slideInFromRight}
           transition={{ delay: 4.5 }}
@@ -578,7 +542,7 @@ const AcademicsPage: React.FC = () => {
           <Link to="/admissions">
             <motion.button
               className="bg-white text-af-blue hover:bg-blue-50 px-8 py-3 rounded-lg font-bold uppercase tracking-widest transition-colors duration-300"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 }
               }}
@@ -589,7 +553,7 @@ const AcademicsPage: React.FC = () => {
           </Link>
         </motion.div>
       </motion.section>
-    </div>
+    </PageAnimate>
   );
 };
 

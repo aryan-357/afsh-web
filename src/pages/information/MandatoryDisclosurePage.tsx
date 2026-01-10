@@ -1,24 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { 
-    FileText, 
-    Download, 
-    Shield, 
-    Scale, 
-    Users, 
+import {
+    FileText,
+    Download,
+    Shield,
+    Scale,
+    Users,
     BookOpen,
     Award,
     Building
 } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
-const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
 
 const MandatoryDisclosurePage: React.FC = () => {
     const disclosureCategories = [
@@ -101,14 +97,8 @@ const MandatoryDisclosurePage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-white dark:bg-gray-900">
-            {/* Hero Section */}
-            <motion.section 
-                className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden -mt-16"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-            >
+        <PageAnimate className="bg-white dark:bg-gray-900">
+            <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden -mt-16">
                 {/* Silk Background */}
                 <div className="absolute inset-0 z-0">
                     <Silk
@@ -124,28 +114,45 @@ const MandatoryDisclosurePage: React.FC = () => {
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10 pt-16">
-                    <motion.div 
+                    <motion.div
                         className="text-center max-w-4xl mx-auto"
-                        initial={{ y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
-                        <span className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg">Transparency & Compliance</span>
-                        <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
+                        <motion.span
+                            className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg"
+                            variants={fadeInUp}
+                            custom={1}
+                        >
+                            Transparency & Compliance
+                        </motion.span>
+                        <motion.h1
+                            className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl"
+                            variants={fadeInUp}
+                            custom={2}
+                        >
                             Mandatory <span className="text-af-gold">Disclosure</span>
-                        </h1>
-                        <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed">
-                            Complete transparency in school operations as per regulatory requirements 
+                        </motion.h1>
+                        <motion.p
+                            className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed"
+                            variants={fadeInUp}
+                            custom={3}
+                        >
+                            Complete transparency in school operations as per regulatory requirements
                             and educational board guidelines.
-                        </p>
+                        </motion.p>
                     </motion.div>
                 </div>
-            </motion.section>
+            </section>
 
-            {/* Introduction Section */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gray-50 dark:bg-gray-800"
-                {...fadeIn}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
             >
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center">
@@ -153,20 +160,21 @@ const MandatoryDisclosurePage: React.FC = () => {
                             Commitment to Transparency
                         </h2>
                         <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
-                            Air Force School Hindan is committed to maintaining complete transparency in all aspects 
-                            of school operations. As per the guidelines from CBSE and other regulatory bodies, 
-                            we provide comprehensive information about our infrastructure, academic performance, 
+                            Air Force School Hindan is committed to maintaining complete transparency in all aspects
+                            of school operations. As per the guidelines from CBSE and other regulatory bodies,
+                            we provide comprehensive information about our infrastructure, academic performance,
                             financial management, and compliance with various educational norms.
                         </p>
                     </div>
                 </div>
             </motion.section>
 
-            {/* Disclosure Categories */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-white dark:bg-gray-900"
-                {...fadeIn}
-                transition={{ delay: 0.2 }}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
             >
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -183,10 +191,8 @@ const MandatoryDisclosurePage: React.FC = () => {
                         {disclosureCategories.map((category, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1, duration: 0.6 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
                             >
                                 <div className="w-16 h-16 bg-af-blue/10 dark:bg-af-light/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-af-blue dark:group-hover:bg-af-light transition-colors duration-300">
@@ -226,7 +232,7 @@ const MandatoryDisclosurePage: React.FC = () => {
             </motion.section>
 
             {/* Statistics Section */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gray-50 dark:bg-gray-800"
                 {...fadeIn}
                 transition={{ delay: 0.4 }}
@@ -277,7 +283,7 @@ const MandatoryDisclosurePage: React.FC = () => {
             </motion.section>
 
             {/* Important Notice */}
-            <motion.section 
+            <motion.section
                 className="py-16 bg-af-blue text-white"
                 {...fadeIn}
                 transition={{ delay: 0.3 }}
@@ -289,9 +295,9 @@ const MandatoryDisclosurePage: React.FC = () => {
                         </div>
                         <h3 className="text-2xl font-bold mb-4">Important Notice</h3>
                         <p className="text-blue-100 leading-relaxed mb-6">
-                            All documents provided here are authentic and updated as per the latest available information. 
-                            For any queries or verification requests, please contact the school administration office 
-                            during working hours. The school reserves the right to update these documents as and when 
+                            All documents provided here are authentic and updated as per the latest available information.
+                            For any queries or verification requests, please contact the school administration office
+                            during working hours. The school reserves the right to update these documents as and when
                             required by regulatory authorities.
                         </p>
                         <Link
@@ -303,7 +309,7 @@ const MandatoryDisclosurePage: React.FC = () => {
                     </div>
                 </div>
             </motion.section>
-        </div>
+        </PageAnimate>
     );
 };
 

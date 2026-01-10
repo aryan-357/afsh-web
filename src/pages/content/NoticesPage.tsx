@@ -4,6 +4,8 @@ import { Notice } from '../../types/strapi';
 import { Calendar, ChevronRight, ChevronDown, Download, AlertCircle, Loader2, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 import { getStrapiMedia } from '../../utils/strapi';
 
 const NoticesPage: React.FC = () => {
@@ -12,27 +14,6 @@ const NoticesPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [openNoticeId, setOpenNoticeId] = useState<number | null>(null);
 
-    // Animation Variants
-    const fadeIn = {
-        initial: { opacity: 0, y: 30 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
-
-    const slideInFromLeft = {
-        initial: { opacity: 0, x: -30 },
-        whileInView: { opacity: 1, x: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
-
-    const slideInFromRight = {
-        initial: { opacity: 0, x: 30 },
-        whileInView: { opacity: 1, x: 0 },
-        viewport: { once: true, amount: 0.2 },
-        transition: { duration: 0.4, ease: "easeOut" as const }
-    };
 
     useEffect(() => {
         const loadNotices = async () => {
@@ -64,7 +45,7 @@ const NoticesPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
+        <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-12 transition-colors duration-300">
             {/* Hero Section - Matching NewsPage */}
             <section className="relative h-[50vh] flex items-center justify-center overflow-hidden mb-12">
                 <div className="absolute inset-0 z-0">
@@ -72,14 +53,32 @@ const NoticesPage: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
                 </div>
 
-                <motion.div className="container mx-auto px-6 relative z-10 text-center pt-20" {...fadeIn}>
-                    <motion.h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg" {...slideInFromLeft} transition={{ delay: 0.2 }}>
+                <motion.div
+                    className="container mx-auto px-6 relative z-10 text-center pt-20"
+                    variants={fadeInUp}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true }}
+                >
+                    <motion.h1
+                        className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+                        variants={fadeInUp}
+                        custom={1}
+                    >
                         Notices & <span className="text-af-gold">Circulars</span>
                     </motion.h1>
-                    <motion.p className="text-lg text-blue-100 max-w-2xl mx-auto drop-shadow" {...slideInFromRight} transition={{ delay: 0.3 }}>
+                    <motion.p
+                        className="text-lg text-blue-100 max-w-2xl mx-auto drop-shadow"
+                        variants={fadeInUp}
+                        custom={2}
+                    >
                         Stay updated with the latest announcements, important circulars, and official information from the administration.
                     </motion.p>
-                    <motion.div className="w-24 h-1 bg-af-gold mx-auto mt-6" initial={{ opacity: 0, scaleX: 0 }} whileInView={{ opacity: 1, scaleX: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ delay: 0.4, duration: 0.6 }} />
+                    <motion.div
+                        className="w-24 h-1 bg-af-gold mx-auto mt-6"
+                        variants={fadeInUp}
+                        custom={3}
+                    />
                 </motion.div>
             </section>
 
@@ -101,10 +100,11 @@ const NoticesPage: React.FC = () => {
                     </div>
                 ) : (
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
                         className="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden"
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
                         <div className="divide-y divide-gray-100 dark:divide-gray-800">
                             {notices.map((notice) => {
@@ -183,7 +183,7 @@ const NoticesPage: React.FC = () => {
                     </motion.div>
                 )}
             </div>
-        </div>
+        </PageAnimate>
     );
 };
 

@@ -4,34 +4,9 @@ import { motion } from 'framer-motion';
 import { Search, FileText, Calendar, Users, Image, BookOpen, ArrowLeft, Building, Trophy, Shield, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
-const fadeIn = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.3, ease: "easeOut" as const }
-};
-
-const slideInFromLeft = {
-  initial: { opacity: 0, x: -30 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.4, ease: "easeOut" as const }
-};
-
-const slideInFromRight = {
-  initial: { opacity: 0, x: 30 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.4, ease: "easeOut" as const }
-};
-
-const scaleIn = {
-  initial: { opacity: 0, scale: 0.9 },
-  whileInView: { opacity: 1, scale: 1 },
-  viewport: { once: true, amount: 0.2, margin: "-100px" },
-  transition: { duration: 0.3, ease: "easeOut" as const }
-};
 
 interface SearchResult {
   id: string;
@@ -156,11 +131,6 @@ const SearchPage: React.FC = () => {
     }
   }, [query]);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  };
 
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
@@ -181,7 +151,7 @@ const SearchPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Header Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Silk Background */}
@@ -198,13 +168,16 @@ const SearchPage: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center pt-20">
-          <motion.div {...fadeIn}>
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
             <div className="flex items-center gap-3 mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.2, margin: "-100px" }}
-                transition={{ delay: 0.1, duration: 0.4 }}
+                variants={fadeInUp}
+                custom={1}
               >
                 <Link
                   to="/"
@@ -215,17 +188,17 @@ const SearchPage: React.FC = () => {
                 </Link>
               </motion.div>
             </div>
-            <motion.div 
+            <motion.div
               className="flex items-center gap-4 mb-6"
-              {...slideInFromLeft}
-              transition={{ delay: 0.2 }}
+              variants={fadeInUp}
+              custom={2}
             >
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: [0, 10, -10, 0],
                   scale: [1, 1.05, 1]
                 }}
-                transition={{ 
+                transition={{
                   duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -237,10 +210,10 @@ const SearchPage: React.FC = () => {
                 Search Results
               </h1>
             </motion.div>
-            <motion.p 
+            <motion.p
               className="text-xl text-white"
-              {...slideInFromRight}
-              transition={{ delay: 0.3 }}
+              variants={fadeInUp}
+              custom={3}
             >
               {query && `Showing results for "${query}"`}
             </motion.p>
@@ -248,11 +221,12 @@ const SearchPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Results Section */}
-      <motion.section 
+      <motion.section
         className="container mx-auto px-4 py-32"
-        {...fadeIn}
-        transition={{ delay: 0.4 }}
+        variants={fadeInUp}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
       >
         {isSearching ? (
           <motion.div
@@ -267,7 +241,7 @@ const SearchPage: React.FC = () => {
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               className="inline-block rounded-full h-12 w-12 border-4 border-af-blue border-t-transparent"
             ></motion.div>
-            <motion.p 
+            <motion.p
               className="mt-4 text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -277,12 +251,17 @@ const SearchPage: React.FC = () => {
               Searching...
             </motion.p>
           </motion.div>
-        ) : query && searchResults.length > 0 ? (
-          <motion.div {...fadeIn}>
-            <motion.div 
+        ) : searchResults.length > 0 ? (
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            <motion.div
               className="mb-8"
-              {...scaleIn}
-              transition={{ delay: 0.5 }}
+              variants={fadeInUp}
+              custom={0}
             >
               <p className="text-gray-600 dark:text-gray-400">
                 Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{query}"
@@ -292,15 +271,9 @@ const SearchPage: React.FC = () => {
               {searchResults.map((result, index) => (
                 <motion.div
                   key={result.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2, margin: "-100px" }}
-                  transition={{ 
-                    delay: 0.6 + (index * 0.1),
-                    duration: 0.4,
-                    ease: "easeOut"
-                  }}
-                  whileHover={{ 
+                  variants={fadeInUp}
+                  custom={index + 1}
+                  whileHover={{
                     y: -5,
                     scale: 1.02,
                     transition: { duration: 0.3 }
@@ -309,9 +282,9 @@ const SearchPage: React.FC = () => {
                 >
                   <Link to={result.url} className="block group">
                     <div className="flex items-start gap-4">
-                      <motion.div 
+                      <motion.div
                         className="flex-shrink-0 w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-af-blue dark:text-af-light group-hover:bg-af-blue group-hover:text-white transition-all duration-300"
-                        whileHover={{ 
+                        whileHover={{
                           rotate: 360,
                           scale: 1.1,
                           transition: { duration: 0.6 }
@@ -324,9 +297,9 @@ const SearchPage: React.FC = () => {
                           <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-af-blue dark:group-hover:text-af-light transition-colors">
                             {result.title}
                           </h3>
-                          <motion.span 
+                          <motion.span
                             className={`px-2 py-1 text-xs font-medium rounded-full ${getCategoryColor(result.category)}`}
-                            whileHover={{ 
+                            whileHover={{
                               scale: 1.1,
                               transition: { duration: 0.2 }
                             }}
@@ -337,9 +310,9 @@ const SearchPage: React.FC = () => {
                         <p className="text-gray-600 dark:text-gray-400 mb-3">
                           {result.description}
                         </p>
-                        <motion.div 
+                        <motion.div
                           className="flex items-center gap-2 text-af-blue dark:text-af-light text-sm font-medium"
-                          whileHover={{ 
+                          whileHover={{
                             x: 5,
                             transition: { duration: 0.3 }
                           }}
@@ -360,7 +333,13 @@ const SearchPage: React.FC = () => {
             </div>
           </motion.div>
         ) : query ? (
-          <motion.div {...fadeIn} className="text-center py-20">
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="text-center py-20"
+          >
             <div className="max-w-md mx-auto">
               <Search size={64} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -379,7 +358,13 @@ const SearchPage: React.FC = () => {
             </div>
           </motion.div>
         ) : (
-          <motion.div {...fadeIn} className="text-center py-20">
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="text-center py-20"
+          >
             <Search size={64} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
               Enter a search term
@@ -390,7 +375,7 @@ const SearchPage: React.FC = () => {
           </motion.div>
         )}
       </motion.section>
-    </div>
+    </PageAnimate >
   );
 };
 

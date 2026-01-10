@@ -5,6 +5,7 @@ import ParallaxCarousel from '../../components/sections/parallax-carousel/Parall
 import NoticeBoard from '../../components/sections/NoticeBoard';
 import LatestNews from '../../components/sections/LatestNews';
 import TopperSection from '../../components/sections/TopperSection';
+import PageAnimate from '../../components/ui/PageAnimate';
 
 const fadeIn = {
     initial: { opacity: 0, y: 30 },
@@ -15,7 +16,7 @@ const fadeIn = {
 
 const HomePage: React.FC = () => {
     return (
-        <div className="overflow-hidden">
+        <PageAnimate className="overflow-hidden">
             <ParallaxCarousel />
 
             {/* Visual News Grid Section */}
@@ -123,7 +124,7 @@ const HomePage: React.FC = () => {
                     </Link>
                 </div>
             </motion.section>
-        </div>
+        </PageAnimate>
     );
 };
 

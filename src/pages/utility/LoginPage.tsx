@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ArrowLeft, User, Lock, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
 interface LoginPageProps {
     onLogin: (username: string) => void;
@@ -31,14 +33,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
         }, 1500);
     };
 
-    const fadeIn = {
-        initial: { opacity: 0, y: 30 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.5, ease: "easeOut" }
-    };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-gray-900 relative overflow-hidden font-sans">
+        <PageAnimate className="min-h-screen w-full flex items-center justify-center bg-gray-900 relative overflow-hidden font-sans">
             {/* Silk Background */}
             {/* Silk Background overlay gradient */}
             <div className="absolute inset-0 z-0">
@@ -65,7 +62,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
 
                 <motion.div
                     className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl"
-                    {...fadeIn}
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
                 >
                     <div className="text-center mb-8">
                         <img src="https://ecolearn.pages.dev/img/logo.png" alt="Logo" className="w-16 h-16 mx-auto mb-4 drop-shadow-lg" />
@@ -130,7 +129,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                     </div>
                 </motion.div>
             </div>
-        </div>
+        </PageAnimate>
     );
 };
 

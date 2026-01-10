@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { 
-    Trophy, 
-    Award, 
-    Star, 
-    Target, 
-    Medal, 
+import {
+    Trophy,
+    Award,
+    Star,
+    Target,
+    Medal,
     Flag,
     Users,
     BookOpen,
@@ -16,13 +16,9 @@ import {
     GraduationCap
 } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
+import PageAnimate from '../../components/ui/PageAnimate';
+import { fadeInUp } from '../../utils/animations';
 
-const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: "easeOut" as const }
-};
 
 const AchievementsPage: React.FC = () => {
     const achievementCategories = [
@@ -132,14 +128,9 @@ const AchievementsPage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-white dark:bg-gray-900">
+        <PageAnimate className="bg-white dark:bg-gray-900">
             {/* Hero Section */}
-            <motion.section 
-                className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden -mt-16"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-            >
+            <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden -mt-16">
                 {/* Silk Background */}
                 <div className="absolute inset-0 z-0">
                     <Silk
@@ -155,28 +146,45 @@ const AchievementsPage: React.FC = () => {
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10 pt-16">
-                    <motion.div 
+                    <motion.div
                         className="text-center max-w-4xl mx-auto"
-                        initial={{ y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
-                        <span className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg">Excellence & Recognition</span>
-                        <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
+                        <motion.span
+                            className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg"
+                            variants={fadeInUp}
+                            custom={1}
+                        >
+                            Excellence & Recognition
+                        </motion.span>
+                        <motion.h1
+                            className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl"
+                            variants={fadeInUp}
+                            custom={2}
+                        >
                             Our <span className="text-af-gold">Achievements</span>
-                        </h1>
-                        <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed">
-                            Celebrating excellence in academics, sports, cultural activities, and community service 
+                        </motion.h1>
+                        <motion.p
+                            className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed"
+                            variants={fadeInUp}
+                            custom={3}
+                        >
+                            Celebrating excellence in academics, sports, cultural activities, and community service
                             that makes Air Force School Hindan proud.
-                        </p>
+                        </motion.p>
                     </motion.div>
                 </div>
-            </motion.section>
+            </section>
 
-            {/* Recent Achievements */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gray-50 dark:bg-gray-800"
-                {...fadeIn}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
             >
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -193,10 +201,8 @@ const AchievementsPage: React.FC = () => {
                         {recentAchievements.map((achievement, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1, duration: 0.6 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
                             >
                                 <div className="flex items-start gap-4">
@@ -226,11 +232,12 @@ const AchievementsPage: React.FC = () => {
                 </div>
             </motion.section>
 
-            {/* Achievement Categories */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-white dark:bg-gray-900"
-                {...fadeIn}
-                transition={{ delay: 0.2 }}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
             >
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -247,10 +254,8 @@ const AchievementsPage: React.FC = () => {
                         {achievementCategories.map((category, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1, duration: 0.6 }}
+                                variants={fadeInUp}
+                                custom={index}
                                 className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
                             >
                                 <div className="w-16 h-16 bg-af-blue/10 dark:bg-af-light/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-af-blue dark:group-hover:bg-af-light transition-colors duration-300">
@@ -291,7 +296,7 @@ const AchievementsPage: React.FC = () => {
             </motion.section>
 
             {/* Statistics Section */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gradient-to-r from-af-blue to-af-light text-white"
                 {...fadeIn}
                 transition={{ delay: 0.3 }}
@@ -337,7 +342,7 @@ const AchievementsPage: React.FC = () => {
             </motion.section>
 
             {/* CTA Section */}
-            <motion.section 
+            <motion.section
                 className="py-20 bg-gray-50 dark:bg-gray-800"
                 {...fadeIn}
                 transition={{ delay: 0.4 }}
@@ -351,7 +356,7 @@ const AchievementsPage: React.FC = () => {
                             Join Our Legacy of Excellence
                         </h2>
                         <p className="text-gray-600 dark:text-gray-400 text-lg mb-8 leading-relaxed">
-                            Be part of a institution that celebrates achievement and fosters excellence in every field. 
+                            Be part of a institution that celebrates achievement and fosters excellence in every field.
                             Our students continue to make us proud with their accomplishments.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -371,7 +376,7 @@ const AchievementsPage: React.FC = () => {
                     </div>
                 </div>
             </motion.section>
-        </div>
+        </PageAnimate>
     );
 };
 
