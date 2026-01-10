@@ -44,6 +44,11 @@ const GalleryAdmin = () => {
     const [photosToken, setPhotosToken] = useState<string | null>(null); // Separate token for Photos
 
     // Debugging Interface
+    useEffect(() => {
+        console.log("Gallery Admin Fix v3 - Debugging Headers");
+        console.log("Origin:", window.location.origin);
+    }, []);
+
     const [authLog, setAuthLog] = useState<string[]>([]);
     const log = (msg: string) => setAuthLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
 
