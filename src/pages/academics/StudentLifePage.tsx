@@ -278,7 +278,7 @@ const StudentLifePage: React.FC = () => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </motion.section>
 
       <motion.section
@@ -366,7 +366,7 @@ const StudentLifePage: React.FC = () => {
                 "{nccInfo.motto}"
               </p>
             </div>
-          </div>
+          </motion.div>
 
           <p className="text-blue-50 text-lg mb-8 leading-relaxed">
             {nccInfo.description}
@@ -436,7 +436,7 @@ const StudentLifePage: React.FC = () => {
               ))}
             </ul>
           </div>
-        </div>
+        </motion.div>
       </motion.section>
 
       {/* Call to Action */}
@@ -451,7 +451,7 @@ const StudentLifePage: React.FC = () => {
           </button>
         </Link>
       </section>
-    </PageAnimate>
+    </PageAnimate >
   );
 };
 
