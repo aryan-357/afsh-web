@@ -5,9 +5,7 @@ import BrandFooter from './BrandFooter';
 import Footer from './Footer';
 
 // Lazy load heavy components to reduce initial bundle size
-// AssistantChat pulls in @google/genai (~100KB)
-// LoginPage pulls in Silk/Three.js (~750KB)
-const AssistantChat = lazy(() => import('../ui/AssistantChat'));
+
 const LoginPage = lazy(() => import('../../pages/utility/LoginPage'));
 
 interface LayoutProps {
@@ -129,9 +127,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <BrandFooter />
             </div>
 
-            <Suspense fallback={null}>
-                <AssistantChat />
-            </Suspense>
+
         </div>
     );
 };
