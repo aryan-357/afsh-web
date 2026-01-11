@@ -21,9 +21,11 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-af-blue rounded-full flex items-center justify-center text-white font-serif font-bold text-xl border border-af-gold shadow-lg shadow-af-blue/20">
-                AF
-              </div>
+              <img
+                src="https://ecolearn.pages.dev/img/logo.png"
+                alt="Air Force School Hindan Logo"
+                className="w-12 h-12 rounded-full object-cover border border-af-gold shadow-lg shadow-af-blue/20"
+              />
               <div>
                 <h3 className="font-serif font-bold text-xl tracking-tight">Air Force School</h3>
                 <p className="text-[10px] text-af-gold font-bold tracking-[0.2em] uppercase">HINDAN, GHAZIABAD</p>
@@ -111,7 +113,7 @@ const Footer: React.FC = () => {
                 <div className="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center shrink-0 group-hover:bg-af-blue/20 transition-colors">
                   <Mail className="text-af-gold" size={20} />
                 </div>
-                <span>afschoolhindan@gmail.com</span>
+                <span>afshindanprincipal@yahoo.com</span>
               </li>
             </ul>
           </motion.div>

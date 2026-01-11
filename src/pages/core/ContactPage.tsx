@@ -145,8 +145,8 @@ const ContactPage: React.FC = () => {
               </div>
               <h3 className="text-lg font-serif font-bold text-gray-900 dark:text-white mb-2">Email</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
-                <a href="mailto:afschoolhindan@gmail.com" className="hover:text-af-blue transition-colors">
-                  afschoolhindan@gmail.com
+                <a href="mailto:afshindanprincipal@yahoo.com" className="hover:text-af-blue transition-colors">
+                  afshindanprincipal@yahoo.com
                 </a><br />
                 <a href="mailto:info@afschoolhindan.in" className="hover:text-af-blue transition-colors">
                   info@afschoolhindan.in
