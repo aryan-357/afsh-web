@@ -4,9 +4,9 @@ import { Variants } from 'framer-motion';
  * Premium easing functions for a formal and sophisticated feel.
  */
 export const easings = {
-    premium: [0.76, 0, 0.24, 1], // Sophisticated cubic-bezier
-    outQuart: [0.25, 1, 0.5, 1],
-    outExpo: [0.16, 1, 0.3, 1],
+    premium: [0.76, 0, 0.24, 1] as const, // Sophisticated cubic-bezier
+    outQuart: [0.25, 1, 0.5, 1] as const,
+    outExpo: [0.16, 1, 0.3, 1] as const,
 };
 
 /**

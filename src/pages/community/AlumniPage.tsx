@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { GraduationCap, Users, Heart, Target, Star, Trophy } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, scaleIn, slideInFromLeft, slideInFromRight } from '../../utils/animations';
 
 
 const alumniTestimonials = [
@@ -108,7 +108,6 @@ const AlumniPage: React.FC = () => {
                 <motion.div
                   className="inline-flex p-3 rounded-full bg-af-blue/10 text-af-blue dark:text-af-light mb-4"
                   whileHover={{
-                    rotate: 360,
                     scale: 1.1,
                     transition: { duration: 0.6 }
                   }}
@@ -159,7 +158,6 @@ const AlumniPage: React.FC = () => {
                   viewport={{ once: true, amount: 0.2, margin: "-100px" }}
                   transition={{ delay: 0.8 + (idx * 0.15) }}
                   whileHover={{
-                    rotate: 5,
                     scale: 1.1,
                     transition: { duration: 0.4 }
                   }}

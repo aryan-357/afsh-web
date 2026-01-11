@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, fadeIn } from '../../utils/animations';
 
 
 const AchievementsPage: React.FC = () => {

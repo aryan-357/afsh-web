@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GraduationCap, ArrowLeft, CheckCircle, Mail, Phone, MapPin, Calendar, Briefcase, Award, AlertCircle } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, fadeIn, scaleIn } from '../../utils/animations';
 
 
 const AlumniRegistrationPage: React.FC = () => {
@@ -28,7 +28,7 @@ const AlumniRegistrationPage: React.FC = () => {
     pinCode: string;
     linkedInProfile: string;
     achievements: string;
-    memories: string;
+    message: string;
     allowContact: boolean;
     newsletter: boolean;
   }
@@ -50,7 +50,7 @@ const AlumniRegistrationPage: React.FC = () => {
     pinCode: '',
     linkedInProfile: '',
     achievements: '',
-    memories: '',
+    message: '',
     allowContact: false,
     newsletter: false
   });
@@ -161,7 +161,6 @@ const AlumniRegistrationPage: React.FC = () => {
         >
           <motion.div
             animate={{
-              rotate: [0, 10, -10, 0],
               scale: [1, 1.05, 1]
             }}
             transition={{
@@ -252,7 +251,6 @@ const AlumniRegistrationPage: React.FC = () => {
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
                     animate={{
-                      rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
                     transition={{
@@ -341,7 +339,6 @@ const AlumniRegistrationPage: React.FC = () => {
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
                     animate={{
-                      rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
                     transition={{
@@ -398,7 +395,6 @@ const AlumniRegistrationPage: React.FC = () => {
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
                     animate={{
-                      rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
                     transition={{
@@ -521,7 +517,6 @@ const AlumniRegistrationPage: React.FC = () => {
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                   <motion.div
                     animate={{
-                      rotate: [0, 360],
                       scale: [1, 1.1, 1]
                     }}
                     transition={{

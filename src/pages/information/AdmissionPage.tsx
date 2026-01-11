@@ -456,7 +456,6 @@ const AdmissionPage: React.FC = () => {
             >
               <motion.div
                 animate={{
-                  rotate: [0, 360],
                   scale: [1, 1.1, 1]
                 }}
                 transition={{

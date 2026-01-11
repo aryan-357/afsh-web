@@ -268,7 +268,7 @@ const StudentLifePage: React.FC = () => {
               >
                 <motion.div
                   className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300"
-                  whileHover={{ rotate: [0, 10, -10, 0] }}
+                  whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.5 }}
                 >
                   {club.icon}
@@ -312,7 +312,7 @@ const StudentLifePage: React.FC = () => {
             >
               <motion.div
                 className="text-5xl mb-3 group-hover:scale-110 transition-transform duration-300"
-                whileHover={{ rotate: [0, 15, -15, 0] }}
+                whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.6 }}
               >
                 {sport.icon}
@@ -347,7 +347,6 @@ const StudentLifePage: React.FC = () => {
             <motion.div
               className="text-6xl"
               animate={{
-                rotate: [0, 10, -10, 0],
                 scale: [1, 1.1, 1]
               }}
               transition={{
@@ -378,8 +377,8 @@ const StudentLifePage: React.FC = () => {
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Shield size={32} className="mb-2 text-yellow-400" />
               </motion.div>

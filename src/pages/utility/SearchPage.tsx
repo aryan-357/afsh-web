@@ -195,7 +195,6 @@ const SearchPage: React.FC = () => {
             >
               <motion.div
                 animate={{
-                  rotate: [0, 10, -10, 0],
                   scale: [1, 1.05, 1]
                 }}
                 transition={{
@@ -285,7 +284,6 @@ const SearchPage: React.FC = () => {
                       <motion.div
                         className="flex-shrink-0 w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-af-blue dark:text-af-light group-hover:bg-af-blue group-hover:text-white transition-all duration-300"
                         whileHover={{
-                          rotate: 360,
                           scale: 1.1,
                           transition: { duration: 0.6 }
                         }}

@@ -85,7 +85,6 @@ const CalendarPage: React.FC = () => {
         >
           <motion.div
             animate={{
-              rotate: [0, 10, -10, 0],
               scale: [1, 1.1, 1]
             }}
             transition={{

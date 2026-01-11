@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Clock, Send, CheckCircle, MessageSquare, Users, Bu
 import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, fadeIn, scaleIn, slideInFromLeft, slideInFromRight } from '../../utils/animations';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
