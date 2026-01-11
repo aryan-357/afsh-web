@@ -257,15 +257,11 @@ const SearchPage: React.FC = () => {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            <motion.div
-              className="mb-8"
-              variants={fadeInUp}
-              custom={0}
-            >
+            <div className="mb-8">
               <p className="text-gray-600 dark:text-gray-400">
                 Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{query}"
               </p>
-            </motion.div>
+            </div>
             <div className="space-y-6">
               {searchResults.map((result, index) => (
                 <motion.div

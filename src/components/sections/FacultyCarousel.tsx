@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { EmblaCarouselType } from 'embla-carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 
 export interface FacultyMember {
@@ -102,10 +103,12 @@ const FacultyCarousel: React.FC<FacultyCarouselProps> = ({
     autoSlideInterval = 5000
 }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({
-        loop: false,
+        loop: true,
         duration: 30,
         align: 'start'
-    });
+    }, [
+        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+    ]);
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [openedMemberIndex, setOpenedMemberIndex] = useState<number | null>(null);
