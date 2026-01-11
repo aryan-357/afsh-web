@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Silk from '@/src/components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, fadeIn, slideInFromLeft, scaleIn } from '../../utils/animations';
 
 const StudentLifePage: React.FC = () => {
   const [activeHouse, setActiveHouse] = useState<string | null>(null);

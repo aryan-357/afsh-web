@@ -66,3 +66,55 @@ export const staggerContainer: Variants = {
         },
     },
 };
+
+/**
+ * Standard fade in animation object.
+ */
+export const fadeIn = {
+    initial: "hidden",
+    whileInView: "visible",
+    viewport: { once: true },
+    variants: {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.5, ease: easings.outQuart } }
+    }
+};
+
+/**
+ * Slide in from left animation object.
+ */
+export const slideInFromLeft = {
+    initial: "hidden",
+    whileInView: "visible",
+    viewport: { once: true },
+    variants: {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: easings.outQuart } }
+    }
+};
+
+/**
+ * Slide in from right animation object.
+ */
+export const slideInFromRight = {
+    initial: "hidden",
+    whileInView: "visible",
+    viewport: { once: true },
+    variants: {
+        hidden: { opacity: 0, x: 50 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: easings.outQuart } }
+    }
+};
+
+/**
+ * Scale in animation object.
+ */
+export const scaleIn = {
+    initial: "hidden",
+    whileInView: "visible",
+    viewport: { once: true },
+    variants: {
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: easings.outQuart } }
+    }
+};

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Silk from '@/src/components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, fadeIn, slideInFromLeft, slideInFromRight, scaleIn } from '../../utils/animations';
 
 const AcademicsPage: React.FC = () => {
   const [expandedDept, setExpandedDept] = useState<string | null>(null);
