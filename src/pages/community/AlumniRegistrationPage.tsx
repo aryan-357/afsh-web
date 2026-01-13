@@ -114,27 +114,31 @@ const AlumniRegistrationPage: React.FC = () => {
       return;
     }
 
-    // TODO: Add your backend API call here
-    console.log('Form data ready for backend:', formData);
+   const response = await fetch(
+    "https://anaghsingh.app.n8n.cloud/webhook/alumni/register",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }
+  );
 
-    // Placeholder for your backend implementation
-    // Example:
-    // try {
-    //   const response = await fetch('/api/alumni/register', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(formData)
-    //   });
-    //   const result = await response.json();
-    //   if (result.success) {
-    //     setIsSubmitted(true);
-    //     // Handle success
-    //   }
-    // } catch (error) {
-    //   setError('Registration failed. Please try again.');
-    // }
-  };
+  const result = await response.json();
 
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "Registration failed");
+  }
+
+  alert("Registration successful 🎉");
+  navigate("/alumni");
+
+} catch (err: any) {
+  setError(err.message || "Something went wrong");
+} finally {
+  setIsSubmitting(false);
+}
   return (
     <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
       {/* Hero Section */}
