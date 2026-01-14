@@ -24,15 +24,42 @@ const ContactPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate form submission
-    setSubmitted(true);
-    setTimeout(() => {
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      setSubmitted(false);
-    }, 3000);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch(
+      "https://anaghsingh.app.n8n.cloud/webhook/contact-form",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.success) {
+      setSubmitted(true);
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+    } else {
+      alert("Something went wrong");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Server error. Please try again.");
+  }
+};
+
 
   return (
     <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-700">

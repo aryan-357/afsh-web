@@ -105,36 +105,42 @@ const AlumniRegistrationPage: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!validateForm()) {
-      setError('Please fix the errors below');
+      setError("Please fill all required fields");
       return;
     }
 
-    // TODO: Add your backend API call here
-    console.log('Form data ready for backend:', formData);
+    setIsSubmitting(true);
 
-    // Placeholder for your backend implementation
-    // Example:
-    // try {
-    //   const response = await fetch('/api/alumni/register', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(formData)
-    //   });
-    //   const result = await response.json();
-    //   if (result.success) {
-    //     setIsSubmitted(true);
-    //     // Handle success
-    //   }
-    // } catch (error) {
-    //   setError('Registration failed. Please try again.');
-    // }
+    try {
+      const response = await fetch(
+        "https://anaghsingh.app.n8n.cloud/webhook/alumni/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      alert("Alumni registered successfully 🎉");
+      navigate("/alumni");
+
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-
   return (
     <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
       {/* Hero Section */}
