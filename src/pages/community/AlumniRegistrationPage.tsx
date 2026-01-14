@@ -105,40 +105,42 @@ const AlumniRegistrationPage: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!validateForm()) {
-      setError('Please fix the errors below');
+      setError("Please fill all required fields");
       return;
     }
 
-   const response = await fetch(
-    "https://anaghsingh.app.n8n.cloud/webhook/alumni/register",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(
+        "https://anaghsingh.app.n8n.cloud/webhook/alumni/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      alert("Alumni registered successfully 🎉");
+      navigate("/alumni");
+
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
     }
-  );
-
-  const result = await response.json();
-
-  if (!response.ok || !result.success) {
-    throw new Error(result.message || "Registration failed");
-  }
-
-  alert("Registration successful 🎉");
-  navigate("/alumni");
-
-} catch (err: any) {
-  setError(err.message || "Something went wrong");
-} finally {
-  setIsSubmitting(false);
-}
+  };
   return (
     <PageAnimate className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
       {/* Hero Section */}

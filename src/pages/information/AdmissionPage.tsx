@@ -74,7 +74,8 @@ const AdmissionPage: React.FC = () => {
     const data = await res.json();
 
     if (data.success) {
-      alert("Inquiry submitted successfully");
+      setSubmitted(true); // ✅ THIS WAS MISSING
+
       setFormData({
         name: '',
         email: '',
@@ -91,7 +92,6 @@ const AdmissionPage: React.FC = () => {
     alert("Server error");
   }
 };
-
 
   const faqs = [
     {
