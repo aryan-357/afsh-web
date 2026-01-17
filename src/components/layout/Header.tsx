@@ -13,6 +13,10 @@ interface HeaderProps {
 
 const navItems: NavItem[] = [
   {
+    label: 'Home',
+    href: '/'
+  },
+  {
     label: 'About',
     href: '/about',
     subItems: [
@@ -54,14 +58,9 @@ const navItems: NavItem[] = [
     ]
   },
   {
-    label: 'Gallery',
-    href: '/gallery'
-  },
-  {
     label: 'Achievements',
     href: '/achievements'
   },
-
   {
     label: 'Contact',
     href: '/contact'
@@ -155,8 +154,15 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
         <div className="container mx-auto px-6 flex justify-end items-center space-x-6">
           <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
           <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
-          <Link to="/news" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>News</Link>
-          <Link to="/notices" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Notices</Link>
+          <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Gallery</Link>
+          <Link 
+            to="/news" 
+            className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light animate-pulse`}
+          >News</Link>
+          <Link 
+            to="/notices" 
+            className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light animate-pulse`}
+          >Notices</Link>
 
           {/* Theme Toggle Button */}
           <button
@@ -210,7 +216,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center h-full">
-            <ul className="flex h-full items-center gap-3">
+            <ul className="flex h-full items-center gap-2">
               {navItems.map((item) => (
                 <li
                   key={item.label}
@@ -221,7 +227,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
                   <Link
                     to={item.href}
                     onClick={(e) => handleNavClick(e, item)}
-                    className={`px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors relative z-10 flex items-center gap-2 whitespace-nowrap ${textClasses} ${navHoverClasses}`}
+                    className={`px-3 py-2 text-xs font-bold uppercase tracking-wide transition-colors relative z-10 flex items-center gap-2 whitespace-nowrap ${textClasses} ${navHoverClasses}`}
                   >
                     {item.subItems && (
                       <ChevronDown

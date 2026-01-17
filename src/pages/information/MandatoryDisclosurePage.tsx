@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import Silk from '../../components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
-import { fadeInUp } from '../../utils/animations';
+import { fadeInUp, fadeIn } from '../../utils/animations';
 
 
 const MandatoryDisclosurePage: React.FC = () => {
@@ -116,29 +116,35 @@ const MandatoryDisclosurePage: React.FC = () => {
                 <div className="container mx-auto px-4 relative z-10 pt-16">
                     <motion.div
                         className="text-center max-w-4xl mx-auto"
-                        variants={fadeInUp}
-                        initial="initial"
-                        whileInView="animate"
+                        initial="hidden"
+                        whileInView="visible"
                         viewport={{ once: true }}
+                        variants={fadeIn}
                     >
                         <motion.span
                             className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg"
-                            variants={fadeInUp}
-                            custom={1}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
                         >
                             Transparency & Compliance
                         </motion.span>
                         <motion.h1
                             className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl"
-                            variants={fadeInUp}
-                            custom={2}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
                         >
                             Mandatory <span className="text-af-gold">Disclosure</span>
                         </motion.h1>
                         <motion.p
                             className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto font-medium drop-shadow-lg leading-relaxed"
-                            variants={fadeInUp}
-                            custom={3}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
                         >
                             Complete transparency in school operations as per regulatory requirements
                             and educational board guidelines.
@@ -171,10 +177,10 @@ const MandatoryDisclosurePage: React.FC = () => {
 
             <motion.section
                 className="py-20 bg-white dark:bg-gray-900"
-                variants={fadeInUp}
-                initial="initial"
-                whileInView="animate"
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
+                variants={fadeIn}
             >
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -191,8 +197,10 @@ const MandatoryDisclosurePage: React.FC = () => {
                         {disclosureCategories.map((category, index) => (
                             <motion.div
                                 key={index}
-                                variants={fadeInUp}
-                                custom={index}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
                                 className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
                             >
                                 <div className="w-16 h-16 bg-af-blue/10 dark:bg-af-light/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-af-blue dark:group-hover:bg-af-light transition-colors duration-300">
