@@ -35,7 +35,7 @@ export default defineConfig({
         templates: [
           {
             name: "academics",
-            label: "Academics Page",
+            label: "Academics Page (Content)",
             fields: [
               {
                 type: "object",
