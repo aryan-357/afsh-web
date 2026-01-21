@@ -129,38 +129,38 @@ const AdmissionPage: React.FC = () => {
         </div>
 
         <motion.div
-           className="container mx-auto px-4 relative z-10 text-center pt-24"
-           variants={fadeInUp}
-           initial="initial"
-           whileInView="animate"
-           viewport={{ once: true }}
-         >
-           <motion.h1
-             className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
-             variants={fadeInUp}
-             custom={1}
-           >
-             {hero.title}
-           </motion.h1>
-           <motion.p
-             className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
-             variants={fadeInUp}
-             custom={2}
-           >
-             {hero.subtitle}
-           </motion.p>
-           <motion.div
-             className="w-24 h-1 bg-af-gold mx-auto mt-6"
-             variants={fadeInUp}
-             custom={3}
-           />
-         </motion.div>
-       </section>
-
-       {/* ... existing content ... */}
-
-
+          className="container mx-auto px-4 relative z-10 text-center pt-24"
+          variants={fadeInUp}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <motion.h1
+            className="text-4xl md:text-5xl font-serif font-bold text-white mb-4 drop-shadow-lg"
+            variants={fadeInUp}
+            custom={1}
+          >
+            {hero.title}
+          </motion.h1>
+          <motion.p
+            className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
+            variants={fadeInUp}
+            custom={2}
+          >
+            {hero.subtitle}
+          </motion.p>
+          <motion.div
+            className="w-24 h-1 bg-af-gold mx-auto mt-6"
+            variants={fadeInUp}
+            custom={3}
+          />
+        </motion.div>
       </section>
+
+      {/* ... existing content ... */}
+
+
+
 
       <motion.section
         className="container mx-auto px-4 mb-20"
@@ -254,337 +254,337 @@ const AdmissionPage: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* Query Form Section */ }
-  <motion.section
-    className="container mx-auto px-4 mb-20"
-    {...fadeIn}
-    transition={{ delay: 2.1 }}
-  >
-    <motion.div
-      className="max-w-2xl mx-auto"
-      {...slideInFromLeft}
-      transition={{ delay: 2.2 }}
-    >
-      <motion.div
-        className="text-center mb-12"
-        {...scaleIn}
-        transition={{ delay: 2.3 }}
+      {/* Query Form Section */}
+      <motion.section
+        className="container mx-auto px-4 mb-20"
+        {...fadeIn}
+        transition={{ delay: 2.1 }}
       >
-        <motion.h2
-          className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
-          {...slideInFromRight}
-          transition={{ delay: 2.4 }}
+        <motion.div
+          className="max-w-2xl mx-auto"
+          {...slideInFromLeft}
+          transition={{ delay: 2.2 }}
         >
-          Admission Inquiry Form
-        </motion.h2>
-        <motion.p
-          className="text-gray-600 dark:text-gray-400 text-lg"
-          {...fadeIn}
-          transition={{ delay: 2.5 }}
-        >
-          Have questions? Contact us using the form below
-        </motion.p>
-      </motion.div>
+          <motion.div
+            className="text-center mb-12"
+            {...scaleIn}
+            transition={{ delay: 2.3 }}
+          >
+            <motion.h2
+              className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
+              {...slideInFromRight}
+              transition={{ delay: 2.4 }}
+            >
+              Admission Inquiry Form
+            </motion.h2>
+            <motion.p
+              className="text-gray-600 dark:text-gray-400 text-lg"
+              {...fadeIn}
+              transition={{ delay: 2.5 }}
+            >
+              Have questions? Contact us using the form below
+            </motion.p>
+          </motion.div>
 
-      <motion.div
-        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg"
+          <motion.div
+            className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg"
+            {...scaleIn}
+            transition={{ delay: 2.6 }}
+            whileHover={{
+              y: -5,
+              transition: { duration: 0.3 }
+            }}
+          >
+            {submitted ? (
+              <div className="text-center py-8">
+                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Thank You!</h3>
+                <p className="text-gray-600 dark:text-gray-400">Your inquiry has been submitted successfully. We'll get back to you soon.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Student Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter student's full name"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="your.email@example.com"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Phone Number *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="+91-XXXXXXXXXX"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Applying for Class *</label>
+                    <select
+                      name="class"
+                      value={formData.class}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
+                    >
+                      <option value="">Select Class</option>
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <option key={i + 1} value={`Class ${i + 1}`}>Class {i + 1}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Guardian Name *</label>
+                  <input
+                    type="text"
+                    name="guardianName"
+                    value={formData.guardianName}
+                    onChange={handleChange}
+                    required
+                    placeholder="Father's / Mother's name"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message / Questions</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Tell us about your interests, achievements, or any specific questions..."
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors resize-none"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-af-blue to-blue-700 hover:from-af-blue hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                >
+                  <Send size={20} />
+                  Submit Inquiry
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* Transfer Certificate Section */}
+      <motion.section
+        className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-16 mb-20"
+        {...fadeIn}
+        transition={{ delay: 2.7 }}
+      >
+        <motion.div
+          className="container mx-auto px-4"
+          {...slideInFromLeft}
+          transition={{ delay: 2.8 }}
+        >
+          <motion.div
+            className="max-w-4xl mx-auto"
+            {...scaleIn}
+            transition={{ delay: 2.9 }}
+          >
+            <motion.div
+              className="flex items-center gap-4 mb-8"
+              {...slideInFromRight}
+              transition={{ delay: 3.0 }}
+            >
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <FileCheck className="w-12 h-12 text-af-blue dark:text-af-light flex-shrink-0" />
+              </motion.div>
+              <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white">Transfer Certificate</h2>
+            </motion.div>
+
+            <div className="space-y-6">
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Procedure</h3>
+                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <li className="flex gap-3">
+                    <span className="font-bold text-af-blue">•</span>
+                    Submit a written request to the office for TC generation
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="font-bold text-af-blue">•</span>
+                    TC is issued within 7-10 working days
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="font-bold text-af-blue">•</span>
+                    Processing fee: ₹500 (as per school norms)
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="font-bold text-af-blue">•</span>
+                    Document carries official school seal and signature
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Required Documents</h3>
+                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <li className="flex gap-3">
+                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
+                    Original Admission Form
+                  </li>
+                  <li className="flex gap-3">
+                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
+                    School ID Card
+                  </li>
+                  <li className="flex gap-3">
+                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
+                    Fee Clearance Certificate
+                  </li>
+                  <li className="flex gap-3">
+                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
+                    Character Certificate from current class teacher
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* FAQs Section */}
+      <motion.section
+        className="container mx-auto px-4 mb-20"
+        {...fadeIn}
+        transition={{ delay: 3.1 }}
+      >
+        <motion.div
+          className="text-center mb-12"
+          {...slideInFromLeft}
+          transition={{ delay: 3.2 }}
+        >
+          <motion.h2
+            className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
+            {...scaleIn}
+            transition={{ delay: 3.3 }}
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          <motion.p
+            className="text-gray-600 dark:text-gray-400 text-lg"
+            {...slideInFromRight}
+            transition={{ delay: 3.4 }}
+          >
+            Find answers to common admission queries
+          </motion.p>
+        </motion.div>
+
+        <div className="max-w-3xl mx-auto space-y-4">
+          {faqs.map((faq, idx) => (
+            <motion.div
+              key={idx}
+              className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300"
+              {...scaleIn}
+              transition={{ delay: 3.5 + idx * 0.1 }}
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <button
+                onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
+                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white pr-4">{faq.question}</h3>
+                <span className={`flex-shrink-0 text-af-blue dark:text-af-light text-2xl transition-transform duration-300 ${openFaqIndex === idx ? 'rotate-180' : ''}`}>
+                  ▼
+                </span>
+              </button>
+
+              {openFaqIndex === idx && (
+                <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+                  <p className="text-gray-700 dark:text-gray-300">{faq.answer}</p>
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Contact Section */}
+      <motion.section
+        className="bg-gradient-to-r from-af-blue to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center"
         {...scaleIn}
-        transition={{ delay: 2.6 }}
+        transition={{ delay: 3.8 }}
         whileHover={{
           y: -5,
           transition: { duration: 0.3 }
         }}
       >
-        {submitted ? (
-          <div className="text-center py-8">
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Thank You!</h3>
-            <p className="text-gray-600 dark:text-gray-400">Your inquiry has been submitted successfully. We'll get back to you soon.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Student Name *</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="Enter student's full name"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  placeholder="your.email@example.com"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Phone Number *</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  placeholder="+91-XXXXXXXXXX"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Applying for Class *</label>
-                <select
-                  name="class"
-                  value={formData.class}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-                >
-                  <option value="">Select Class</option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i + 1} value={`Class ${i + 1}`}>Class {i + 1}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Guardian Name *</label>
-              <input
-                type="text"
-                name="guardianName"
-                value={formData.guardianName}
-                onChange={handleChange}
-                required
-                placeholder="Father's / Mother's name"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message / Questions</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Tell us about your interests, achievements, or any specific questions..."
-                rows={5}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-af-blue dark:focus:border-af-light transition-colors resize-none"
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-af-blue to-blue-700 hover:from-af-blue hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
-            >
-              <Send size={20} />
-              Submit Inquiry
-            </button>
-          </form>
-        )}
-      </motion.div>
-    </motion.div>
-  </motion.section>
-
-  {/* Transfer Certificate Section */ }
-  <motion.section
-    className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-16 mb-20"
-    {...fadeIn}
-    transition={{ delay: 2.7 }}
-  >
-    <motion.div
-      className="container mx-auto px-4"
-      {...slideInFromLeft}
-      transition={{ delay: 2.8 }}
-    >
-      <motion.div
-        className="max-w-4xl mx-auto"
-        {...scaleIn}
-        transition={{ delay: 2.9 }}
-      >
-        <motion.div
-          className="flex items-center gap-4 mb-8"
+        <motion.h2
+          className="text-3xl font-serif font-bold mb-4"
+          {...slideInFromLeft}
+          transition={{ delay: 3.9 }}
+        >
+          Still Have Questions?
+        </motion.h2>
+        <motion.p
+          className="text-blue-100 mb-6 max-w-2xl mx-auto"
           {...slideInFromRight}
-          transition={{ delay: 3.0 }}
+          transition={{ delay: 4.0 }}
         >
-          <motion.div
-            animate={{
-              scale: [1, 1.1, 1]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <FileCheck className="w-12 h-12 text-af-blue dark:text-af-light flex-shrink-0" />
-          </motion.div>
-          <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white">Transfer Certificate</h2>
-        </motion.div>
-
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Procedure</h3>
-            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li className="flex gap-3">
-                <span className="font-bold text-af-blue">•</span>
-                Submit a written request to the office for TC generation
-              </li>
-              <li className="flex gap-3">
-                <span className="font-bold text-af-blue">•</span>
-                TC is issued within 7-10 working days
-              </li>
-              <li className="flex gap-3">
-                <span className="font-bold text-af-blue">•</span>
-                Processing fee: ₹500 (as per school norms)
-              </li>
-              <li className="flex gap-3">
-                <span className="font-bold text-af-blue">•</span>
-                Document carries official school seal and signature
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Required Documents</h3>
-            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li className="flex gap-3">
-                <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                Original Admission Form
-              </li>
-              <li className="flex gap-3">
-                <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                School ID Card
-              </li>
-              <li className="flex gap-3">
-                <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                Fee Clearance Certificate
-              </li>
-              <li className="flex gap-3">
-                <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                Character Certificate from current class teacher
-              </li>
-            </ul>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  </motion.section>
-
-  {/* FAQs Section */ }
-  <motion.section
-    className="container mx-auto px-4 mb-20"
-    {...fadeIn}
-    transition={{ delay: 3.1 }}
-  >
-    <motion.div
-      className="text-center mb-12"
-      {...slideInFromLeft}
-      transition={{ delay: 3.2 }}
-    >
-      <motion.h2
-        className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
-        {...scaleIn}
-        transition={{ delay: 3.3 }}
-      >
-        Frequently Asked Questions
-      </motion.h2>
-      <motion.p
-        className="text-gray-600 dark:text-gray-400 text-lg"
-        {...slideInFromRight}
-        transition={{ delay: 3.4 }}
-      >
-        Find answers to common admission queries
-      </motion.p>
-    </motion.div>
-
-    <div className="max-w-3xl mx-auto space-y-4">
-      {faqs.map((faq, idx) => (
+          Contact our admissions office directly for personalized assistance
+        </motion.p>
         <motion.div
-          key={idx}
-          className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300"
-          {...scaleIn}
-          transition={{ delay: 3.5 + idx * 0.1 }}
-          whileHover={{
-            scale: 1.02,
-            transition: { duration: 0.3 }
-          }}
+          className="flex flex-col md:flex-row justify-center gap-6 text-blue-50"
+          {...fadeIn}
+          transition={{ delay: 4.1 }}
         >
-          <button
-            onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
-            className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-          >
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white pr-4">{faq.question}</h3>
-            <span className={`flex-shrink-0 text-af-blue dark:text-af-light text-2xl transition-transform duration-300 ${openFaqIndex === idx ? 'rotate-180' : ''}`}>
-              ▼
-            </span>
-          </button>
-
-          {openFaqIndex === idx && (
-            <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-              <p className="text-gray-700 dark:text-gray-300">{faq.answer}</p>
-            </div>
-          )}
+          <div>
+            <p className="font-bold mb-1">Phone</p>
+            <p>{contactInfo.phone}</p>
+          </div>
+          <div>
+            <p className="font-bold mb-1">Email</p>
+            <p>{contactInfo.email}</p>
+          </div>
+          <div>
+            <p className="font-bold mb-1">Office Hours</p>
+            <p>{contactInfo.hours}</p>
+          </div>
         </motion.div>
-      ))}
-    </div>
-  </motion.section>
-
-  {/* Contact Section */ }
-  <motion.section
-    className="bg-gradient-to-r from-af-blue to-blue-700 text-white rounded-2xl container mx-auto px-4 py-12 text-center"
-    {...scaleIn}
-    transition={{ delay: 3.8 }}
-    whileHover={{
-      y: -5,
-      transition: { duration: 0.3 }
-    }}
-  >
-    <motion.h2
-      className="text-3xl font-serif font-bold mb-4"
-      {...slideInFromLeft}
-      transition={{ delay: 3.9 }}
-    >
-      Still Have Questions?
-    </motion.h2>
-    <motion.p
-      className="text-blue-100 mb-6 max-w-2xl mx-auto"
-      {...slideInFromRight}
-      transition={{ delay: 4.0 }}
-    >
-      Contact our admissions office directly for personalized assistance
-    </motion.p>
-    <motion.div
-      className="flex flex-col md:flex-row justify-center gap-6 text-blue-50"
-      {...fadeIn}
-      transition={{ delay: 4.1 }}
-    >
-      <div>
-        <p className="font-bold mb-1">Phone</p>
-        <p>{contactInfo.phone}</p>
-      </div>
-      <div>
-        <p className="font-bold mb-1">Email</p>
-        <p>{contactInfo.email}</p>
-      </div>
-      <div>
-        <p className="font-bold mb-1">Office Hours</p>
-        <p>{contactInfo.hours}</p>
-      </div>
-    </motion.div>
-  </motion.section>
+      </motion.section>
     </PageAnimate >
   );
 };
