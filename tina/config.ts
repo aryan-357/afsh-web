@@ -11,9 +11,9 @@ const branch =
 export default defineConfig({
   branch,
   // Get this from tina.io
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "372c1232-2d0e-429a-a325-cb4750dc6248",
   // Get this from tina.io
-  token: process.env.TINA_TOKEN,
+  token: process.env.TINA_TOKEN || "ef72ff47fc188ec1c51f329fada86e678330f1c9",
   build: {
     outputFolder: "admin",
     publicFolder: "public",
@@ -143,15 +143,15 @@ export default defineConfig({
                 ],
               },
               {
-                  type: "object",
-                  name: "cta",
-                  label: "Call to Action",
-                  fields: [
-                      { type: "string", name: "title", label: "Title" },
-                      { type: "string", name: "text", label: "Text" },
-                      { type: "string", name: "buttonText", label: "Button Text" },
-                      { type: "string", name: "buttonLink", label: "Button Link" },
-                  ]
+                type: "object",
+                name: "cta",
+                label: "Call to Action",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "text", label: "Text" },
+                  { type: "string", name: "buttonText", label: "Button Text" },
+                  { type: "string", name: "buttonLink", label: "Button Link" },
+                ]
               }
             ],
           },
@@ -170,18 +170,18 @@ export default defineConfig({
                 ],
               },
               {
-                  type: "string",
-                  name: "edMessage",
-                  label: "ED Message Component Placeholder (Not editable here yet unless moved to content)",
+                type: "string",
+                name: "edMessage",
+                label: "ED Message Component Placeholder (Not editable here yet unless moved to content)",
               },
-               {
-                  type: "object",
-                  name: "facultySection",
-                  label: "Faculty Section",
-                  fields: [
-                      { type: "string", name: "title", label: "Title" },
-                      { type: "string", name: "subtitle", label: "Subtitle" },
-                  ]
+              {
+                type: "object",
+                name: "facultySection",
+                label: "Faculty Section",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" },
+                ]
               },
               {
                 type: "object",
@@ -265,16 +265,16 @@ export default defineConfig({
                 ],
               },
               {
-                  type: "object",
-                  name: "values",
-                  label: "Core Values",
-                  list: true,
-                  fields: [
-                      { type: "string", name: "title", label: "Title" },
-                      { type: "string", name: "desc", label: "Description", ui: { component: "textarea" } },
-                      { type: "string", name: "iconName", label: "Icon Name (Lucide)" },
-                      { type: "string", name: "color", label: "Color Theme (e.g. blue, gold, emerald)" },
-                  ]
+                type: "object",
+                name: "values",
+                label: "Core Values",
+                list: true,
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "desc", label: "Description", ui: { component: "textarea" } },
+                  { type: "string", name: "iconName", label: "Icon Name (Lucide)" },
+                  { type: "string", name: "color", label: "Color Theme (e.g. blue, gold, emerald)" },
+                ]
               }
             ],
           },
@@ -292,53 +292,53 @@ export default defineConfig({
                 ],
               },
               {
-                  type: "object",
-                  name: "process",
-                  label: "Process Steps",
-                  list: true,
-                  fields: [
-                      { type: "number", name: "number", label: "Step Number" },
-                      { type: "string", name: "title", label: "Title" },
-                      { type: "string", name: "description", label: "Description" },
-                      { type: "string", name: "icon", label: "Icon (Emoji)" },
-                  ]
-              },
-               {
-                  type: "object",
-                  name: "feeStructure",
-                  label: "Fee Structure",
-                  list: true,
-                  fields: [
-                      { type: "string", name: "class", label: "Class" },
-                      { type: "string", name: "tuition", label: "Tuition Fee" },
-                      { type: "string", name: "annual", label: "Annual Charges" },
-                      { type: "string", name: "total", label: "Total" },
-                  ]
+                type: "object",
+                name: "process",
+                label: "Process Steps",
+                list: true,
+                fields: [
+                  { type: "number", name: "number", label: "Step Number" },
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "description", label: "Description" },
+                  { type: "string", name: "icon", label: "Icon (Emoji)" },
+                ]
               },
               {
-                  type: "object",
-                  name: "faqs",
-                  label: "FAQs",
-                  list: true,
-                  fields: [
-                      { type: "string", name: "question", label: "Question" },
-                      { type: "string", name: "answer", label: "Answer", ui: { component: "textarea" } },
-                  ]
+                type: "object",
+                name: "feeStructure",
+                label: "Fee Structure",
+                list: true,
+                fields: [
+                  { type: "string", name: "class", label: "Class" },
+                  { type: "string", name: "tuition", label: "Tuition Fee" },
+                  { type: "string", name: "annual", label: "Annual Charges" },
+                  { type: "string", name: "total", label: "Total" },
+                ]
               },
               {
-                  type: "object",
-                  name: "contactInfo",
-                  label: "Contact Info",
-                  fields: [
-                      { type: "string", name: "phone", label: "Phone" },
-                      { type: "string", name: "email", label: "Email" },
-                      { type: "string", name: "hours", label: "Office Hours" },
-                  ]
+                type: "object",
+                name: "faqs",
+                label: "FAQs",
+                list: true,
+                fields: [
+                  { type: "string", name: "question", label: "Question" },
+                  { type: "string", name: "answer", label: "Answer", ui: { component: "textarea" } },
+                ]
+              },
+              {
+                type: "object",
+                name: "contactInfo",
+                label: "Contact Info",
+                fields: [
+                  { type: "string", name: "phone", label: "Phone" },
+                  { type: "string", name: "email", label: "Email" },
+                  { type: "string", name: "hours", label: "Office Hours" },
+                ]
 
               }
             ],
           },
-           {
+          {
             name: "contact",
             label: "Contact Page",
             fields: [
@@ -351,21 +351,21 @@ export default defineConfig({
                   { type: "string", name: "subtitle", label: "Subtitle" },
                 ],
               },
-               {
-                  type: "object",
-                  name: "contactDetails",
-                  label: "Contact Details",
-                  fields: [
-                      { type: "string", name: "address", label: "Address", ui: { component: "textarea" } },
-                      { type: "string", name: "phone", label: "Phone numbers (multiline)", ui: { component: "textarea" } },
-                      { type: "string", name: "email", label: "Emails (multiline)", ui: { component: "textarea" } },
-                      { type: "string", name: "hours", label: "Hours (multiline)", ui: { component: "textarea" } },
-                  ]
+              {
+                type: "object",
+                name: "contactDetails",
+                label: "Contact Details",
+                fields: [
+                  { type: "string", name: "address", label: "Address", ui: { component: "textarea" } },
+                  { type: "string", name: "phone", label: "Phone numbers (multiline)", ui: { component: "textarea" } },
+                  { type: "string", name: "email", label: "Emails (multiline)", ui: { component: "textarea" } },
+                  { type: "string", name: "hours", label: "Hours (multiline)", ui: { component: "textarea" } },
+                ]
               },
-               {
-                  type: "string",
-                  name: "mapUrl",
-                  label: "Google Maps Embed URL",
+              {
+                type: "string",
+                name: "mapUrl",
+                label: "Google Maps Embed URL",
               },
             ],
           },
