@@ -61,7 +61,7 @@ const AdmissionPage: React.FC = () => {
 
   try {
     const res = await fetch(
-      "https://anaghsingh.app.n8n.cloud/webhook/admission-inquiry",
+      "http://localhost:5000/api/admission/inquiry",
       {
         method: "POST",
         headers: {

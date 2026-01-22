@@ -29,7 +29,7 @@ const ContactPage: React.FC = () => {
 
   try {
     const res = await fetch(
-      "https://anaghsingh.app.n8n.cloud/webhook/contact-form",
+      "http://localhost:5000/api/contact/submit",
       {
         method: "POST",
         headers: {
