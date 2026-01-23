@@ -29,7 +29,7 @@ const ContactPage: React.FC = () => {
 
   try {
     const res = await fetch(
-      "http://localhost:5000/api/contact/submit",
+      "https://web-production-9adf5.up.railway.app/api/contact/submit",
       {
         method: "POST",
         headers: {

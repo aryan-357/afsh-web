@@ -118,7 +118,7 @@ const AlumniRegistrationPage: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/alumni/register",
+        "https://web-production-9adf5.up.railway.app/api/alumni/register",
         {
           method: "POST",
           headers: {
