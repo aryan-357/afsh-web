@@ -1,0 +1,145 @@
+fragment PageParts on Page {
+  __typename
+  ... on PageAcademics {
+    hero {
+      __typename
+      title
+      subtitle
+    }
+    curriculum {
+      __typename
+      class
+      title
+      focus
+      description
+      features
+    }
+    departments {
+      __typename
+      id
+      name
+      icon
+      description
+      faculty
+      staffLead
+      subjects
+      highlights
+    }
+    academicCalendar {
+      __typename
+      month
+      event
+      type
+    }
+    scholars {
+      __typename
+      rank
+      name
+      percentage
+      class
+      icon
+    }
+    cta {
+      __typename
+      title
+      text
+      buttonText
+      buttonLink
+    }
+  }
+  ... on PageAbout {
+    hero {
+      __typename
+      title
+      subtitle
+      establishedDate
+    }
+    edMessage
+    facultySection {
+      __typename
+      title
+      subtitle
+    }
+    pgtFaculty {
+      __typename
+      name
+      designation
+      department
+      image
+      quote
+      description
+    }
+    tgtFaculty {
+      __typename
+      name
+      designation
+      department
+      image
+      quote
+      description
+    }
+    prtFaculty {
+      __typename
+      name
+      designation
+      department
+      image
+      quote
+      description
+    }
+    values {
+      __typename
+      title
+      desc
+      iconName
+      color
+    }
+  }
+  ... on PageAdmission {
+    hero {
+      __typename
+      title
+      subtitle
+    }
+    process {
+      __typename
+      number
+      title
+      description
+      icon
+    }
+    feeStructure {
+      __typename
+      class
+      tuition
+      annual
+      total
+    }
+    faqs {
+      __typename
+      question
+      answer
+    }
+    contactInfo {
+      __typename
+      phone
+      email
+      hours
+    }
+  }
+  ... on PageContact {
+    hero {
+      __typename
+      title
+      subtitle
+    }
+    contactDetails {
+      __typename
+      address
+      phone
+      email
+      hours
+    }
+    mapUrl
+  }
+}
