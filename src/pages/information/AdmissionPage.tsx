@@ -60,36 +60,18 @@ const AdmissionPage: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-      const res = await fetch(
-        "https://anaghsingh.app.n8n.cloud/webhook/admission-inquiry",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.success) {
-        setSubmitted(true); // ✅ THIS WAS MISSING
-
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          class: '',
-          guardianName: '',
-          message: ''
-        });
-      } else {
-        alert("Something went wrong");
+  try {
+    const res = await fetch(
+      "https://web-production-9adf5.up.railway.app/api/admission/inquiry",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       }
     } catch (err) {
       console.error(err);

@@ -118,7 +118,7 @@ const AlumniRegistrationPage: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://anaghsingh.app.n8n.cloud/webhook/alumni/register",
+        "https://web-production-9adf5.up.railway.app/api/alumni/register",
         {
           method: "POST",
           headers: {
