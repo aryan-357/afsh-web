@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, Suspense } from 'react';
 import { Send, FileText, DollarSign, FileCheck, HelpCircle, CheckCircle, GraduationCap, Calendar, Users, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Silk from '@/src/components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
 import { fadeInUp } from '../../utils/animations';
+import { useTinaPage } from '@/src/hooks/useTinaPage';
 
 interface FormData {
   name: string;
@@ -49,7 +51,9 @@ const AdmissionPage: React.FC = () => {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
+  const { data, loading } = useTinaPage('admission.md');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -69,113 +73,24 @@ const AdmissionPage: React.FC = () => {
         },
         body: JSON.stringify(formData),
       }
-    );
-
-    const data = await res.json();
-
-    if (data.success) {
-      setSubmitted(true); // ✅ THIS WAS MISSING
-
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        class: '',
-        guardianName: '',
-        message: ''
-      });
-    } else {
-      alert("Something went wrong");
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Server error");
+  };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white">Loading...</div>;
   }
-};
 
-  const faqs = [
-    {
-      question: 'What is the admission process?',
-      answer: 'Admission to Air Force School Hindan is based on merit and entrance examination. Students applying for Classes I-IV undergo informal assessment, while Classes V onwards require written examinations in English, Mathematics, and reasoning.'
-    },
-    {
-      question: 'What are the eligibility criteria?',
-      answer: 'Students must meet the age requirements as per CBSE guidelines. Children of Air Force personnel get priority. General students are admitted based on merit and availability of seats.'
-    },
-    {
-      question: 'When are admissions open?',
-      answer: 'Admissions are open from November to March for the next academic year. Registration forms are available on the school website. Classes are allocated after the entrance examination.'
-    },
-    {
-      question: 'What is the fee structure?',
-      answer: 'Fees vary by class and category. Concessions are available for children of Air Force personnel. A detailed fee structure is available on request or can be downloaded from the school website.'
-    },
-    {
-      question: 'Do you provide scholarships?',
-      answer: 'Yes, merit-based scholarships are available for deserving students. Special concessions are provided to Air Force wards, SC/ST students, and students with special needs.'
-    },
-    {
-      question: 'What documents are required for admission?',
-      answer: 'Required documents include: Birth Certificate, Previous School Certificate, Marks Sheets, Transfer Certificate, Aadhar Card, and photographs (4x6). Air Force ID for service wards is mandatory.'
-    },
-    {
-      question: 'Is there a school bus facility?',
-      answer: 'Yes, the school provides bus transport facility covering major areas. Transportation charges are separate and billed quarterly.'
-    },
-    {
-      question: 'What is the school curriculum?',
-      answer: 'Air Force School Hindan follows the CBSE (Central Board of Secondary Education) curriculum for Classes I-XII, ensuring quality education and national recognition.'
-    }
-  ];
+  const pageData = data?.page;
+  if (!pageData) return null;
 
-  const admissionSteps = [
-    {
-      number: 1,
-      title: 'Registration',
-      description: 'Complete the registration form available during the admission period',
-      icon: '📝'
-    },
-    {
-      number: 2,
-      title: 'Entrance Examination',
-      description: 'Appear for written exam (English, Math, Reasoning) - applicable for Class V onwards',
-      icon: '✏️'
-    },
-    {
-      number: 3,
-      title: 'Merit List',
-      description: 'Merit list published based on entrance exam performance and previous academic records',
-      icon: '📊'
-    },
-    {
-      number: 4,
-      title: 'Documentation',
-      description: 'Submit required documents for verification and processing',
-      icon: '📄'
-    },
-    {
-      number: 5,
-      title: 'Fee Payment',
-      description: 'Complete fee payment as per the decided amount and schedule',
-      icon: '💳'
-    },
-    {
-      number: 6,
-      title: 'Admission Confirmation',
-      description: 'Receive admission confirmation and enrollment materials',
-      icon: '✅'
-    }
-  ];
-
-  const feeStructure = [
-    { class: 'Classes I-II', tuition: '₹45,000', annual: '₹5,000', total: '₹50,000' },
-    { class: 'Classes III-V', tuition: '₹50,000', annual: '₹5,500', total: '₹55,500' },
-    { class: 'Classes VI-VIII', tuition: '₹60,000', annual: '₹6,000', total: '₹66,000' },
-    { class: 'Classes IX-X', tuition: '₹70,000', annual: '₹7,000', total: '₹77,000' },
-    { class: 'Classes XI-XII', tuition: '₹80,000', annual: '₹8,000', total: '₹88,000' },
-  ];
-
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const faqs = pageData.faqs || [];
+  const admissionSteps = pageData.process || [];
+  const feeStructure = pageData.feeStructure || [];
+  const hero = pageData.hero || { title: 'Join Our Institution', subtitle: 'Join the legacy...' };
+  const contactInfo = pageData.contactInfo || {};
 
   return (
     <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
@@ -207,14 +122,14 @@ const AdmissionPage: React.FC = () => {
             variants={fadeInUp}
             custom={1}
           >
-            Join Our <span className="text-af-gold">Institution</span>
+            {hero.title}
           </motion.h1>
           <motion.p
             className="text-xl text-blue-100 max-w-3xl mx-auto drop-shadow"
             variants={fadeInUp}
             custom={2}
           >
-            Join the legacy of excellence at Air Force School Hindan. We welcome students who aspire to be leaders.
+            {hero.subtitle}
           </motion.p>
           <motion.div
             className="w-24 h-1 bg-af-gold mx-auto mt-6"
@@ -223,6 +138,11 @@ const AdmissionPage: React.FC = () => {
           />
         </motion.div>
       </section>
+
+      {/* ... existing content ... */}
+
+
+
 
       <motion.section
         className="container mx-auto px-4 mb-20"
@@ -635,19 +555,19 @@ const AdmissionPage: React.FC = () => {
         >
           <div>
             <p className="font-bold mb-1">Phone</p>
-            <p>+91-XXXXXXXXXX (Ext. 101)</p>
+            <p>{contactInfo.phone}</p>
           </div>
           <div>
             <p className="font-bold mb-1">Email</p>
-            <p>admissions@afschoolhindan.edu.in</p>
+            <p>{contactInfo.email}</p>
           </div>
           <div>
             <p className="font-bold mb-1">Office Hours</p>
-            <p>Mon-Fri: 9:00 AM - 4:00 PM</p>
+            <p>{contactInfo.hours}</p>
           </div>
         </motion.div>
       </motion.section>
-    </PageAnimate>
+    </PageAnimate >
   );
 };
 

@@ -23,27 +23,35 @@ export interface ParallaxSlide {
 const slides: ParallaxSlide[] = [
     {
         id: 1,
-        imageUrl: 'https://picsum.photos/seed/school1/1920/1080',
-        title: 'Excellence in Education',
-        subtitle: 'Nurturing the future leaders of tomorrow',
-        buttonText: 'About Us',
-        buttonLink: '/about'
+        imageUrl: '/img/IAF_Garud_commando.jpg',
+        title: 'Guardians of the Sky',
+        subtitle: 'Elite Garud Commando Force',
+        buttonText: 'Join Us',
+        buttonLink: '/admissions'
     },
     {
         id: 2,
-        imageUrl: 'https://picsum.photos/seed/school2/1920/1080',
-        title: 'Holistic Development',
-        subtitle: 'Sports, Arts, and Academics in perfect harmony',
-        buttonText: 'Our Campus',
+        imageUrl: '/img/wp5534129-lca-tejas-wallpapers.jpg',
+        title: 'LCA Tejas',
+        subtitle: 'Pride of Indian Aviation',
+        buttonText: 'Our Fleet',
         buttonLink: '/academics'
     },
     {
         id: 3,
-        imageUrl: 'https://picsum.photos/seed/school3/1920/1080',
-        title: 'State of the Art Facilities',
-        subtitle: 'Providing the best environment for learning',
-        buttonText: 'Admissions',
-        buttonLink: '/admissions'
+        imageUrl: '/img/wp6738688-indian-air-force-desktop-wallpapers.jpg',
+        title: 'Sky Warriors',
+        subtitle: 'Defending the Skies with Valor',
+        buttonText: 'Learn More',
+        buttonLink: '/about'
+    },
+    {
+        id: 4,
+        imageUrl: '/img/wp6739097-indian-air-force-desktop-wallpapers.jpg',
+        title: 'Air Superiority',
+        subtitle: 'Touch the Sky with Glory',
+        buttonText: 'Gallery',
+        buttonLink: '/gallery'
     }
 ];
 
