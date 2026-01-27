@@ -4,29 +4,37 @@ import path from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
+
+  const processEnv = {
+    GITHUB_BRANCH: env.GITHUB_BRANCH,
+    VERCEL_GIT_COMMIT_REF: env.VERCEL_GIT_COMMIT_REF,
+    HEAD: env.HEAD,
+    NEXT_PUBLIC_TINA_CLIENT_ID: env.NEXT_PUBLIC_TINA_CLIENT_ID,
+    TINA_TOKEN: env.TINA_TOKEN,
+  };
+
   return {
     define: {
-      'process.env': env,
+      'process.env': JSON.stringify(processEnv),
     },
-  },
-  server: {
-    host: '0.0.0.0',
-    port: 5000,
-    allowedHosts: true,
-  },
-  build: {
-    outDir: 'dist',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-three': ['three', '@react-three/fiber'],
-
-          'vendor-ui': ['lucide-react', 'embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
+    server: {
+      host: '0.0.0.0',
+      port: 5000,
+      allowedHosts: true,
+    },
+    build: {
+      outDir: 'dist',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-three': ['three', '@react-three/fiber'],
+            'vendor-ui': ['lucide-react', 'embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
+          },
         },
+        chunkSizeWarningLimit: 800,
       },
-      chunkSizeWarningLimit: 800,
     },
+    plugins: [react()],
   };
 });
-
