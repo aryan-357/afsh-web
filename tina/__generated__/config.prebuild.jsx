@@ -1,6 +1,6 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
-var branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.CF_PAGES_BRANCH || "main";
+var branch = process.env.GITHUB_BRANCH || process.env.CF_PAGES_BRANCH || "main";
 var config_default = defineConfig({
   branch,
   // Get this from tina.io
