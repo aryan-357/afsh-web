@@ -1,6 +1,6 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
-var branch = process.env.GITHUB_BRANCH || process.env.CF_PAGES_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || process.env.HEAD || "main";
+var branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.CF_PAGES_BRANCH || "main";
 var config_default = defineConfig({
   branch,
   // Get this from tina.io
@@ -42,8 +42,17 @@ var config_default = defineConfig({
               },
               {
                 type: "object",
+                name: "curriculumSection",
+                label: "Curriculum Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
                 name: "curriculum",
-                label: "Curriculum",
+                label: "Curriculum Items",
                 list: true,
                 ui: {
                   itemProps: (item) => {
@@ -70,8 +79,17 @@ var config_default = defineConfig({
               },
               {
                 type: "object",
+                name: "departmentsSection",
+                label: "Departments Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
                 name: "departments",
-                label: "Departments",
+                label: "Departments List",
                 list: true,
                 ui: {
                   itemProps: (item) => ({ label: item?.name || "Department" })
@@ -103,8 +121,17 @@ var config_default = defineConfig({
               },
               {
                 type: "object",
+                name: "calendarSection",
+                label: "Calendar Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
                 name: "academicCalendar",
-                label: "Academic Calendar",
+                label: "Academic Calendar Events",
                 list: true,
                 fields: [
                   { type: "string", name: "month", label: "Month" },
@@ -125,8 +152,17 @@ var config_default = defineConfig({
               },
               {
                 type: "object",
+                name: "scholarsSection",
+                label: "Scholars Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
                 name: "scholars",
-                label: "Scholars",
+                label: "Scholars List",
                 list: true,
                 fields: [
                   { type: "string", name: "rank", label: "Rank" },
@@ -134,6 +170,17 @@ var config_default = defineConfig({
                   { type: "string", name: "percentage", label: "Percentage" },
                   { type: "string", name: "class", label: "Class" },
                   { type: "string", name: "icon", label: "Icon" }
+                ]
+              },
+              {
+                type: "object",
+                name: "keyHighlights",
+                label: "Key Highlights (Bottom)",
+                list: true,
+                fields: [
+                  { type: "string", name: "icon", label: "Icon (Emoji)" },
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "desc", label: "Description" }
                 ]
               },
               {
@@ -164,9 +211,30 @@ var config_default = defineConfig({
                 ]
               },
               {
-                type: "string",
+                type: "object",
                 name: "edMessage",
-                label: "ED Message Component Placeholder (Not editable here yet unless moved to content)"
+                label: "ED's Message",
+                fields: [
+                  { type: "image", name: "image", label: "Photo" },
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "message", label: "Message Body", ui: { component: "textarea" } },
+                  { type: "string", name: "name", label: "Name" },
+                  { type: "string", name: "designation", label: "Designation" },
+                  { type: "image", name: "signature", label: "Signature Image" }
+                ]
+              },
+              {
+                type: "object",
+                name: "principalMessage",
+                label: "Principal's Message",
+                fields: [
+                  { type: "image", name: "image", label: "Photo" },
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "message", label: "Message Body", ui: { component: "textarea" } },
+                  { type: "string", name: "name", label: "Name" },
+                  { type: "string", name: "designation", label: "Designation" },
+                  { type: "image", name: "signature", label: "Signature Image" }
+                ]
               },
               {
                 type: "object",
@@ -287,6 +355,15 @@ var config_default = defineConfig({
               },
               {
                 type: "object",
+                name: "processSection",
+                label: "Process Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
                 name: "process",
                 label: "Process Steps",
                 list: true,
@@ -295,6 +372,16 @@ var config_default = defineConfig({
                   { type: "string", name: "title", label: "Title" },
                   { type: "string", name: "description", label: "Description" },
                   { type: "string", name: "icon", label: "Icon (Emoji)" }
+                ]
+              },
+              {
+                type: "object",
+                name: "feeSection",
+                label: "Fee Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" },
+                  { type: "string", name: "note", label: "Footer Note", ui: { component: "textarea" } }
                 ]
               },
               {
@@ -311,12 +398,51 @@ var config_default = defineConfig({
               },
               {
                 type: "object",
+                name: "formSection",
+                label: "Form Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
+                name: "tcSection",
+                label: "Transfer Certificate Section",
+                fields: [
+                  { type: "string", name: "title", label: "Main Title" },
+                  { type: "string", name: "procedureTitle", label: "Procedure Title" },
+                  { type: "string", name: "procedureList", label: "Procedure Steps", list: true },
+                  { type: "string", name: "documentsTitle", label: "Documents Title" },
+                  { type: "string", name: "documentsList", label: "Required Documents", list: true }
+                ]
+              },
+              {
+                type: "object",
+                name: "faqSection",
+                label: "FAQ Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
+                ]
+              },
+              {
+                type: "object",
                 name: "faqs",
                 label: "FAQs",
                 list: true,
                 fields: [
                   { type: "string", name: "question", label: "Question" },
                   { type: "string", name: "answer", label: "Answer", ui: { component: "textarea" } }
+                ]
+              },
+              {
+                type: "object",
+                name: "contactSection",
+                label: "Contact Section Headers",
+                fields: [
+                  { type: "string", name: "title", label: "Title" },
+                  { type: "string", name: "subtitle", label: "Subtitle" }
                 ]
               },
               {
@@ -359,6 +485,22 @@ var config_default = defineConfig({
                 type: "string",
                 name: "mapUrl",
                 label: "Google Maps Embed URL"
+              },
+              {
+                type: "object",
+                name: "formSection",
+                label: "Contact Form Header",
+                fields: [
+                  { type: "string", name: "title", label: "Title" }
+                ]
+              },
+              {
+                type: "object",
+                name: "linksSection",
+                label: "Quick Links Header",
+                fields: [
+                  { type: "string", name: "title", label: "Title" }
+                ]
               }
             ]
           }

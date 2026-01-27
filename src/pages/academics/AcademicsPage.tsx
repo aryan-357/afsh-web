@@ -26,6 +26,18 @@ const AcademicsPage: React.FC = () => {
   const hero = pageData.hero || { title: 'Academic Excellence', subtitle: 'Comprehensive curriculum...' };
   const cta = pageData.cta || { title: 'Ready to Excel?', text: 'Join our community...', buttonText: 'Explore Admissions', buttonLink: '/admissions' };
 
+  // New CMS Sections with fallbacks
+  const curriculumSection = pageData.curriculumSection || { title: 'Our Curriculum', subtitle: 'CBSE Curriculum following the latest educational guidelines' };
+  const departmentsSection = pageData.departmentsSection || { title: 'Academic Departments', subtitle: 'Specialized subject departments with expert faculty' };
+  const calendarSection = pageData.calendarSection || { title: 'Academic Calendar 2024-25', subtitle: 'Important dates and events throughout the year' };
+  const scholarsSection = pageData.scholarsSection || { title: 'Top Academic Achievers', subtitle: 'Celebrating excellence and outstanding performance' };
+  const keyHighlights = pageData.keyHighlights || [
+    { icon: '👨‍🏫', title: 'Expert Faculty', desc: '85+ Qualified & Experienced Teachers' },
+    { icon: '📚', title: 'Rich Library', desc: '10,000+ Books & Digital Resources' },
+    { icon: '🔬', title: 'Modern Labs', desc: 'State-of-the-art Science Laboratories' },
+    { icon: '💻', title: 'Tech-Enabled', desc: 'Smart Classrooms & Digital Learning' }
+  ];
+
   return (
     <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Hero Section */}
@@ -83,10 +95,10 @@ const AcademicsPage: React.FC = () => {
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
-            Our Curriculum
+            {curriculumSection.title}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            CBSE Curriculum following the latest educational guidelines
+            {curriculumSection.subtitle}
           </p>
         </div>
 
@@ -147,14 +159,14 @@ const AcademicsPage: React.FC = () => {
               {...slideInFromRight}
               transition={{ delay: 1.6 }}
             >
-              Academic Departments
+              {departmentsSection.title}
             </motion.h2>
             <motion.p
               className="text-gray-600 dark:text-gray-400 text-lg"
               {...fadeIn}
               transition={{ delay: 1.7 }}
             >
-              Specialized subject departments with expert faculty
+              {departmentsSection.subtitle}
             </motion.p>
           </motion.div>
 
@@ -245,14 +257,14 @@ const AcademicsPage: React.FC = () => {
             {...scaleIn}
             transition={{ delay: 2.7 }}
           >
-            Academic Calendar 2024-25
+            {calendarSection.title}
           </motion.h2>
           <motion.p
             className="text-gray-600 dark:text-gray-400 text-lg"
             {...slideInFromRight}
             transition={{ delay: 2.8 }}
           >
-            Important dates and events throughout the year
+            {calendarSection.subtitle}
           </motion.p>
         </motion.div>
 
@@ -324,14 +336,14 @@ const AcademicsPage: React.FC = () => {
             {...slideInFromLeft}
             transition={{ delay: 3.2 }}
           >
-            Top Academic Achievers
+            {scholarsSection.title}
           </motion.h2>
           <motion.p
             className="text-blue-100"
             {...slideInFromRight}
             transition={{ delay: 3.3 }}
           >
-            Celebrating excellence and outstanding performance
+            {scholarsSection.subtitle}
           </motion.p>
         </motion.div>
 
@@ -367,12 +379,7 @@ const AcademicsPage: React.FC = () => {
         transition={{ delay: 3.8 }}
       >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[
-            { icon: '👨‍🏫', title: 'Expert Faculty', desc: '85+ Qualified & Experienced Teachers' },
-            { icon: '📚', title: 'Rich Library', desc: '10,000+ Books & Digital Resources' },
-            { icon: '🔬', title: 'Modern Labs', desc: 'State-of-the-art Science Laboratories' },
-            { icon: '💻', title: 'Tech-Enabled', desc: 'Smart Classrooms & Digital Learning' }
-          ].map((item, idx) => (
+          {keyHighlights.map((item, idx) => (
             <motion.div
               key={idx}
               className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-6 text-center border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300"

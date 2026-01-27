@@ -6,6 +6,11 @@ fragment PageParts on Page {
       title
       subtitle
     }
+    curriculumSection {
+      __typename
+      title
+      subtitle
+    }
     curriculum {
       __typename
       class
@@ -13,6 +18,11 @@ fragment PageParts on Page {
       focus
       description
       features
+    }
+    departmentsSection {
+      __typename
+      title
+      subtitle
     }
     departments {
       __typename
@@ -25,11 +35,21 @@ fragment PageParts on Page {
       subjects
       highlights
     }
+    calendarSection {
+      __typename
+      title
+      subtitle
+    }
     academicCalendar {
       __typename
       month
       event
       type
+    }
+    scholarsSection {
+      __typename
+      title
+      subtitle
     }
     scholars {
       __typename
@@ -38,6 +58,12 @@ fragment PageParts on Page {
       percentage
       class
       icon
+    }
+    keyHighlights {
+      __typename
+      icon
+      title
+      desc
     }
     cta {
       __typename
@@ -54,7 +80,24 @@ fragment PageParts on Page {
       subtitle
       establishedDate
     }
-    edMessage
+    edMessage {
+      __typename
+      image
+      title
+      message
+      name
+      designation
+      signature
+    }
+    principalMessage {
+      __typename
+      image
+      title
+      message
+      name
+      designation
+      signature
+    }
     facultySection {
       __typename
       title
@@ -101,12 +144,23 @@ fragment PageParts on Page {
       title
       subtitle
     }
+    processSection {
+      __typename
+      title
+      subtitle
+    }
     process {
       __typename
       number
       title
       description
       icon
+    }
+    feeSection {
+      __typename
+      title
+      subtitle
+      note
     }
     feeStructure {
       __typename
@@ -115,10 +169,33 @@ fragment PageParts on Page {
       annual
       total
     }
+    formSection {
+      __typename
+      title
+      subtitle
+    }
+    tcSection {
+      __typename
+      title
+      procedureTitle
+      procedureList
+      documentsTitle
+      documentsList
+    }
+    faqSection {
+      __typename
+      title
+      subtitle
+    }
     faqs {
       __typename
       question
       answer
+    }
+    contactSection {
+      __typename
+      title
+      subtitle
     }
     contactInfo {
       __typename
@@ -141,5 +218,13 @@ fragment PageParts on Page {
       hours
     }
     mapUrl
+    formSection {
+      __typename
+      title
+    }
+    linksSection {
+      __typename
+      title
+    }
   }
 }

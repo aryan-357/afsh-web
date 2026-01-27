@@ -35,6 +35,8 @@ const AboutPage: React.FC = () => {
     const prtFaculty: FacultyMember[] = pageData.prtFaculty || [];
     const hero = pageData.hero || { title: 'Our Legacy', subtitle: 'Nurturing young minds...', establishedDate: 'Established 1950' };
     const values = pageData.values || [];
+    const edMessage = pageData.edMessage;
+    const principalMessage = pageData.principalMessage;
 
     return (
         <PageAnimate className="bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden">
@@ -62,10 +64,10 @@ const AboutPage: React.FC = () => {
                     >
                         <span className="text-af-gold font-bold tracking-[0.5em] text-xs uppercase mb-4 block drop-shadow-lg">Established 1950</span>
                         <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-2xl">
-                            Our <span className="text-af-gold">Legacy</span>
+                            {hero.title}
                         </h1>
                         <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto font-medium drop-shadow-lg">
-                            Nurturing young minds with values of excellence and character for over seven decades.
+                            {hero.subtitle}
                         </p>
                     </motion.div>
                 </div>
@@ -78,7 +80,7 @@ const AboutPage: React.FC = () => {
                 style={{ contentVisibility: 'auto', containIntrinsicSize: '0 800px' }}
                 {...fadeIn}
             >
-                <EDMessage />
+                <EDMessage data={edMessage} />
             </motion.div>
 
             {/* Principal's Message Section */}
@@ -89,7 +91,7 @@ const AboutPage: React.FC = () => {
                     style={{ contentVisibility: 'auto', containIntrinsicSize: '0 800px' }}
                     {...fadeIn}
                 >
-                    <PrincipalMessage />
+                    <PrincipalMessage data={principalMessage} />
                 </motion.div>
             </Suspense>
 

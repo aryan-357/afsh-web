@@ -93,6 +93,20 @@ const AdmissionPage: React.FC = () => {
   const hero = pageData.hero || { title: 'Join Our Institution', subtitle: 'Join the legacy...' };
   const contactInfo = pageData.contactInfo || {};
 
+  // New CMS Sections with fallbacks
+  const processSection = pageData.processSection || { title: 'Admission Process', subtitle: 'Follow these steps to join our school' };
+  const feeSection = pageData.feeSection || { title: 'Fee Structure', subtitle: 'Annual fees for different classes (Per Year)', note: 'Special concessions available...' };
+  const formSection = pageData.formSection || { title: 'Admission Inquiry Form', subtitle: 'Have questions? Contact us using the form below' };
+  const tcSection = pageData.tcSection || {
+    title: 'Transfer Certificate',
+    procedureTitle: 'Procedure',
+    procedureList: ['Submit a written request...', 'TC is issued within 7-10 working days', 'Processing fee: ₹500', 'Document carries official seal'],
+    documentsTitle: 'Required Documents',
+    documentsList: ['Original Admission Form', 'School ID Card', 'Fee Clearance Certificate', 'Character Certificate']
+  };
+  const faqSection = pageData.faqSection || { title: 'Frequently Asked Questions', subtitle: 'Find answers to common admission queries' };
+  const contactSection = pageData.contactSection || { title: 'Still Have Questions?', subtitle: 'Contact our admissions office directly for personalized assistance' };
+
   return (
     <PageAnimate className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 pb-20">
       {/* Hero Section */}
@@ -154,10 +168,10 @@ const AdmissionPage: React.FC = () => {
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
-            Admission Process
+            {processSection.title}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Follow these steps to join our school
+            {processSection.subtitle}
           </p>
         </div>
 
@@ -199,10 +213,10 @@ const AdmissionPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">
-              Fee Structure
+              {feeSection.title}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-lg">
-              Annual fees for different classes (Per Year)
+              {feeSection.subtitle}
             </p>
           </div>
 
@@ -231,7 +245,7 @@ const AdmissionPage: React.FC = () => {
 
           <div className="mt-8 p-6 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-af-blue rounded-lg">
             <p className="text-gray-700 dark:text-gray-300">
-              <span className="font-bold text-af-blue dark:text-af-light">Note:</span> Special concessions available for children of Air Force personnel (10-50% reduction). Merit scholarships available for deserving students. Fees are subject to change. For the latest fee structure, please contact the school directly.
+              <span className="font-bold text-af-blue dark:text-af-light">Note:</span> {feeSection.note}
             </p>
           </div>
         </div>
@@ -258,14 +272,14 @@ const AdmissionPage: React.FC = () => {
               {...slideInFromRight}
               transition={{ delay: 2.4 }}
             >
-              Admission Inquiry Form
+              {formSection.title}
             </motion.h2>
             <motion.p
               className="text-gray-600 dark:text-gray-400 text-lg"
               {...fadeIn}
               transition={{ delay: 2.5 }}
             >
-              Have questions? Contact us using the form below
+              {formSection.subtitle}
             </motion.p>
           </motion.div>
 
@@ -414,51 +428,31 @@ const AdmissionPage: React.FC = () => {
               >
                 <FileCheck className="w-12 h-12 text-af-blue dark:text-af-light flex-shrink-0" />
               </motion.div>
-              <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white">Transfer Certificate</h2>
+              <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white">{tcSection.title}</h2>
             </motion.div>
 
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Procedure</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{tcSection.procedureTitle}</h3>
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li className="flex gap-3">
-                    <span className="font-bold text-af-blue">•</span>
-                    Submit a written request to the office for TC generation
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="font-bold text-af-blue">•</span>
-                    TC is issued within 7-10 working days
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="font-bold text-af-blue">•</span>
-                    Processing fee: ₹500 (as per school norms)
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="font-bold text-af-blue">•</span>
-                    Document carries official school seal and signature
-                  </li>
+                  {(tcSection.procedureList || []).map((step: string, i: number) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="font-bold text-af-blue">•</span>
+                      {step}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Required Documents</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{tcSection.documentsTitle}</h3>
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li className="flex gap-3">
-                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                    Original Admission Form
-                  </li>
-                  <li className="flex gap-3">
-                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                    School ID Card
-                  </li>
-                  <li className="flex gap-3">
-                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                    Fee Clearance Certificate
-                  </li>
-                  <li className="flex gap-3">
-                    <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
-                    Character Certificate from current class teacher
-                  </li>
+                  {(tcSection.documentsList || []).map((doc: string, i: number) => (
+                    <li key={i} className="flex gap-3">
+                      <CheckCircle size={20} className="flex-shrink-0 text-green-500" />
+                      {doc}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -482,14 +476,14 @@ const AdmissionPage: React.FC = () => {
             {...scaleIn}
             transition={{ delay: 3.3 }}
           >
-            Frequently Asked Questions
+            {faqSection.title}
           </motion.h2>
           <motion.p
             className="text-gray-600 dark:text-gray-400 text-lg"
             {...slideInFromRight}
             transition={{ delay: 3.4 }}
           >
-            Find answers to common admission queries
+            {faqSection.subtitle}
           </motion.p>
         </motion.div>
 
@@ -540,14 +534,14 @@ const AdmissionPage: React.FC = () => {
           {...slideInFromLeft}
           transition={{ delay: 3.9 }}
         >
-          Still Have Questions?
+          {contactSection.title}
         </motion.h2>
         <motion.p
           className="text-blue-100 mb-6 max-w-2xl mx-auto"
           {...slideInFromRight}
           transition={{ delay: 4.0 }}
         >
-          Contact our admissions office directly for personalized assistance
+          {contactSection.subtitle}
         </motion.p>
         <motion.div
           className="flex flex-col md:flex-row justify-center gap-6 text-blue-50"

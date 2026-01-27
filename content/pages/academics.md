@@ -2,6 +2,9 @@
 hero:
   title: Academic Excellence
   subtitle: Comprehensive curriculum, experienced faculty, and modern teaching methodologies
+curriculumSection:
+  title: Our Curriculum
+  subtitle: CBSE Curriculum following the latest educational guidelines
 curriculum:
   - class: Classes I-V
     title: Primary
@@ -43,6 +46,9 @@ curriculum:
       - University Preparation
       - Specialization
       - Research Projects
+departmentsSection:
+  title: Academic Departments
+  subtitle: Specialized subject departments with expert faculty
 departments:
   - id: english
     name: English
@@ -132,6 +138,9 @@ departments:
       - Music Performances
       - Talent Showcase
     staffLead: Mr. Rohan Kumar
+calendarSection:
+  title: Academic Calendar 2024-25
+  subtitle: Important dates and events throughout the year
 academicCalendar:
   - month: April
     event: Academic Year Begins
@@ -157,6 +166,9 @@ academicCalendar:
   - month: March
     event: Board Exams (Classes X, XII)
     type: Exam
+scholarsSection:
+  title: Top Academic Achievers
+  subtitle: Celebrating excellence and outstanding performance
 scholars:
   - rank: 1st
     name: Arjun Verma
@@ -173,6 +185,19 @@ scholars:
     percentage: 97.4%
     class: Class X
     icon: 🥉
+keyHighlights:
+  - icon: 👨‍🏫
+    title: Expert Faculty
+    desc: 85+ Qualified & Experienced Teachers
+  - icon: 📚
+    title: Rich Library
+    desc: 10,000+ Books & Digital Resources
+  - icon: 🔬
+    title: Modern Labs
+    desc: State-of-the-art Science Laboratories
+  - icon: 💻
+    title: Tech-Enabled
+    desc: Smart Classrooms & Digital Learning
 cta:
   title: Ready to Excel?
   text: Join our community of learners and achievers. Explore our academic programs and discover your potential.

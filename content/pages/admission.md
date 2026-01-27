@@ -2,6 +2,9 @@
 hero:
   title: Join Our Institution
   subtitle: Join the legacy of excellence at Air Force School Hindan. We welcome students who aspire to be leaders.
+processSection:
+  title: Admission Process
+  subtitle: Follow these steps to join our school
 process:
   - number: 1
     title: Registration
@@ -27,6 +30,10 @@ process:
     title: Admission Confirmation
     description: Receive admission confirmation and enrollment materials
     icon: ✅
+feeSection:
+  title: Fee Structure
+  subtitle: Annual fees for different classes (Per Year)
+  note: "Special concessions available for children of Air Force personnel (10-50% reduction). Merit scholarships available for deserving students. Fees are subject to change. For the latest fee structure, please contact the school directly."
 feeStructure:
   - class: Classes I-II
     tuition: ₹45,000
@@ -48,6 +55,26 @@ feeStructure:
     tuition: ₹80,000
     annual: ₹8,000
     total: ₹88,000
+formSection:
+  title: Admission Inquiry Form
+  subtitle: Have questions? Contact us using the form below
+tcSection:
+  title: Transfer Certificate
+  procedureTitle: Procedure
+  procedureList:
+    - "Submit a written request to the office for TC generation"
+    - "TC is issued within 7-10 working days"
+    - "Processing fee: ₹500 (as per school norms)"
+    - "Document carries official school seal and signature"
+  documentsTitle: Required Documents
+  documentsList:
+    - Original Admission Form
+    - School ID Card
+    - Fee Clearance Certificate
+    - Character Certificate from current class teacher
+faqSection:
+  title: Frequently Asked Questions
+  subtitle: Find answers to common admission queries
 faqs:
   - question: What is the admission process?
     answer: Admission to Air Force School Hindan is based on merit and entrance examination. Students applying for Classes I-IV undergo informal assessment, while Classes V onwards require written examinations in English, Mathematics, and reasoning.
@@ -65,6 +92,9 @@ faqs:
     answer: Yes, the school provides bus transport facility covering major areas. Transportation charges are separate and billed quarterly.
   - question: What is the school curriculum?
     answer: Air Force School Hindan follows the CBSE (Central Board of Secondary Education) curriculum for Classes I-XII, ensuring quality education and national recognition.
+contactSection:
+  title: Still Have Questions?
+  subtitle: Contact our admissions office directly for personalized assistance
 contactInfo:
   phone: +91-XXXXXXXXXX (Ext. 101)
   email: admissions@afschoolhindan.edu.in

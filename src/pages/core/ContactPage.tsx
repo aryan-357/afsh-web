@@ -29,17 +29,17 @@ const ContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-  try {
-    const res = await fetch(
-      "https://web-production-9adf5.up.railway.app/api/contact/submit",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    try {
+      const res = await fetch(
+        "https://web-production-9adf5.up.railway.app/api/contact/submit",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await res.json();
 
@@ -72,6 +72,8 @@ const ContactPage: React.FC = () => {
   const contactInfo = pageData.contactDetails || {};
   const hero = pageData.hero || { title: 'Get In Touch', subtitle: "We'd love to hear from you." };
   const mapUrl = pageData.mapUrl || "https://www.google.com/maps/embed?pb=...";
+  const formSection = pageData.formSection || { title: 'Send us a Message' };
+  const linksSection = pageData.linksSection || { title: 'Quick Links' };
 
 
 
@@ -237,7 +239,8 @@ const ContactPage: React.FC = () => {
                 {...slideInFromRight}
                 transition={{ delay: 1.4 }}
               >
-                Send us a Message
+
+                {formSection.title}
               </motion.h2>
 
               {submitted && (
@@ -341,7 +344,7 @@ const ContactPage: React.FC = () => {
 
               {/* Quick Links */}
               <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg transition-all duration-500">
-                <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6">Quick Links</h3>
+                <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-6">{linksSection.title}</h3>
                 <div className="space-y-3">
                   <a href="/admissions" className="flex items-center gap-3 text-gray-600 dark:text-gray-300 hover:text-af-blue dark:hover:text-af-light transition-all duration-400 ease-out group hover:translate-x-1">
                     <div className="w-2 h-2 bg-af-blue rounded-full group-hover:scale-150 transition-transform duration-300"></div>

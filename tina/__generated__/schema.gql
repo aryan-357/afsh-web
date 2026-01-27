@@ -92,12 +92,22 @@ type PageAcademicsHero {
   subtitle: String
 }
 
+type PageAcademicsCurriculumSection {
+  title: String
+  subtitle: String
+}
+
 type PageAcademicsCurriculum {
   class: String
   title: String
   focus: String
   description: String
   features: [String]
+}
+
+type PageAcademicsDepartmentsSection {
+  title: String
+  subtitle: String
 }
 
 type PageAcademicsDepartments {
@@ -111,10 +121,20 @@ type PageAcademicsDepartments {
   highlights: [String]
 }
 
+type PageAcademicsCalendarSection {
+  title: String
+  subtitle: String
+}
+
 type PageAcademicsAcademicCalendar {
   month: String
   event: String
   type: String
+}
+
+type PageAcademicsScholarsSection {
+  title: String
+  subtitle: String
 }
 
 type PageAcademicsScholars {
@@ -123,6 +143,12 @@ type PageAcademicsScholars {
   percentage: String
   class: String
   icon: String
+}
+
+type PageAcademicsKeyHighlights {
+  icon: String
+  title: String
+  desc: String
 }
 
 type PageAcademicsCta {
@@ -134,10 +160,15 @@ type PageAcademicsCta {
 
 type PageAcademics implements Node & Document {
   hero: PageAcademicsHero
+  curriculumSection: PageAcademicsCurriculumSection
   curriculum: [PageAcademicsCurriculum]
+  departmentsSection: PageAcademicsDepartmentsSection
   departments: [PageAcademicsDepartments]
+  calendarSection: PageAcademicsCalendarSection
   academicCalendar: [PageAcademicsAcademicCalendar]
+  scholarsSection: PageAcademicsScholarsSection
   scholars: [PageAcademicsScholars]
+  keyHighlights: [PageAcademicsKeyHighlights]
   cta: PageAcademicsCta
   id: ID!
   _sys: SystemInfo!
@@ -148,6 +179,24 @@ type PageAboutHero {
   title: String
   subtitle: String
   establishedDate: String
+}
+
+type PageAboutEdMessage {
+  image: String
+  title: String
+  message: String
+  name: String
+  designation: String
+  signature: String
+}
+
+type PageAboutPrincipalMessage {
+  image: String
+  title: String
+  message: String
+  name: String
+  designation: String
+  signature: String
 }
 
 type PageAboutFacultySection {
@@ -191,7 +240,8 @@ type PageAboutValues {
 
 type PageAbout implements Node & Document {
   hero: PageAboutHero
-  edMessage: String
+  edMessage: PageAboutEdMessage
+  principalMessage: PageAboutPrincipalMessage
   facultySection: PageAboutFacultySection
   pgtFaculty: [PageAboutPgtFaculty]
   tgtFaculty: [PageAboutTgtFaculty]
@@ -207,11 +257,22 @@ type PageAdmissionHero {
   subtitle: String
 }
 
+type PageAdmissionProcessSection {
+  title: String
+  subtitle: String
+}
+
 type PageAdmissionProcess {
   number: Float
   title: String
   description: String
   icon: String
+}
+
+type PageAdmissionFeeSection {
+  title: String
+  subtitle: String
+  note: String
 }
 
 type PageAdmissionFeeStructure {
@@ -221,9 +282,32 @@ type PageAdmissionFeeStructure {
   total: String
 }
 
+type PageAdmissionFormSection {
+  title: String
+  subtitle: String
+}
+
+type PageAdmissionTcSection {
+  title: String
+  procedureTitle: String
+  procedureList: [String]
+  documentsTitle: String
+  documentsList: [String]
+}
+
+type PageAdmissionFaqSection {
+  title: String
+  subtitle: String
+}
+
 type PageAdmissionFaqs {
   question: String
   answer: String
+}
+
+type PageAdmissionContactSection {
+  title: String
+  subtitle: String
 }
 
 type PageAdmissionContactInfo {
@@ -234,9 +318,15 @@ type PageAdmissionContactInfo {
 
 type PageAdmission implements Node & Document {
   hero: PageAdmissionHero
+  processSection: PageAdmissionProcessSection
   process: [PageAdmissionProcess]
+  feeSection: PageAdmissionFeeSection
   feeStructure: [PageAdmissionFeeStructure]
+  formSection: PageAdmissionFormSection
+  tcSection: PageAdmissionTcSection
+  faqSection: PageAdmissionFaqSection
   faqs: [PageAdmissionFaqs]
+  contactSection: PageAdmissionContactSection
   contactInfo: PageAdmissionContactInfo
   id: ID!
   _sys: SystemInfo!
@@ -255,10 +345,20 @@ type PageContactContactDetails {
   hours: String
 }
 
+type PageContactFormSection {
+  title: String
+}
+
+type PageContactLinksSection {
+  title: String
+}
+
 type PageContact implements Node & Document {
   hero: PageContactHero
   contactDetails: PageContactContactDetails
   mapUrl: String
+  formSection: PageContactFormSection
+  linksSection: PageContactLinksSection
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -278,12 +378,22 @@ input PageAcademicsHeroFilter {
   subtitle: StringFilter
 }
 
+input PageAcademicsCurriculumSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
+}
+
 input PageAcademicsCurriculumFilter {
   class: StringFilter
   title: StringFilter
   focus: StringFilter
   description: StringFilter
   features: StringFilter
+}
+
+input PageAcademicsDepartmentsSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
 }
 
 input PageAcademicsDepartmentsFilter {
@@ -297,10 +407,20 @@ input PageAcademicsDepartmentsFilter {
   highlights: StringFilter
 }
 
+input PageAcademicsCalendarSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
+}
+
 input PageAcademicsAcademicCalendarFilter {
   month: StringFilter
   event: StringFilter
   type: StringFilter
+}
+
+input PageAcademicsScholarsSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
 }
 
 input PageAcademicsScholarsFilter {
@@ -309,6 +429,12 @@ input PageAcademicsScholarsFilter {
   percentage: StringFilter
   class: StringFilter
   icon: StringFilter
+}
+
+input PageAcademicsKeyHighlightsFilter {
+  icon: StringFilter
+  title: StringFilter
+  desc: StringFilter
 }
 
 input PageAcademicsCtaFilter {
@@ -320,10 +446,15 @@ input PageAcademicsCtaFilter {
 
 input PageAcademicsFilter {
   hero: PageAcademicsHeroFilter
+  curriculumSection: PageAcademicsCurriculumSectionFilter
   curriculum: PageAcademicsCurriculumFilter
+  departmentsSection: PageAcademicsDepartmentsSectionFilter
   departments: PageAcademicsDepartmentsFilter
+  calendarSection: PageAcademicsCalendarSectionFilter
   academicCalendar: PageAcademicsAcademicCalendarFilter
+  scholarsSection: PageAcademicsScholarsSectionFilter
   scholars: PageAcademicsScholarsFilter
+  keyHighlights: PageAcademicsKeyHighlightsFilter
   cta: PageAcademicsCtaFilter
 }
 
@@ -333,16 +464,34 @@ input PageAboutHeroFilter {
   establishedDate: StringFilter
 }
 
-input PageAboutFacultySectionFilter {
-  title: StringFilter
-  subtitle: StringFilter
-}
-
 input ImageFilter {
   startsWith: String
   eq: String
   exists: Boolean
   in: [String]
+}
+
+input PageAboutEdMessageFilter {
+  image: ImageFilter
+  title: StringFilter
+  message: StringFilter
+  name: StringFilter
+  designation: StringFilter
+  signature: ImageFilter
+}
+
+input PageAboutPrincipalMessageFilter {
+  image: ImageFilter
+  title: StringFilter
+  message: StringFilter
+  name: StringFilter
+  designation: StringFilter
+  signature: ImageFilter
+}
+
+input PageAboutFacultySectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
 }
 
 input PageAboutPgtFacultyFilter {
@@ -381,7 +530,8 @@ input PageAboutValuesFilter {
 
 input PageAboutFilter {
   hero: PageAboutHeroFilter
-  edMessage: StringFilter
+  edMessage: PageAboutEdMessageFilter
+  principalMessage: PageAboutPrincipalMessageFilter
   facultySection: PageAboutFacultySectionFilter
   pgtFaculty: PageAboutPgtFacultyFilter
   tgtFaculty: PageAboutTgtFacultyFilter
@@ -390,6 +540,11 @@ input PageAboutFilter {
 }
 
 input PageAdmissionHeroFilter {
+  title: StringFilter
+  subtitle: StringFilter
+}
+
+input PageAdmissionProcessSectionFilter {
   title: StringFilter
   subtitle: StringFilter
 }
@@ -411,6 +566,12 @@ input PageAdmissionProcessFilter {
   icon: StringFilter
 }
 
+input PageAdmissionFeeSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
+  note: StringFilter
+}
+
 input PageAdmissionFeeStructureFilter {
   class: StringFilter
   tuition: StringFilter
@@ -418,9 +579,32 @@ input PageAdmissionFeeStructureFilter {
   total: StringFilter
 }
 
+input PageAdmissionFormSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
+}
+
+input PageAdmissionTcSectionFilter {
+  title: StringFilter
+  procedureTitle: StringFilter
+  procedureList: StringFilter
+  documentsTitle: StringFilter
+  documentsList: StringFilter
+}
+
+input PageAdmissionFaqSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
+}
+
 input PageAdmissionFaqsFilter {
   question: StringFilter
   answer: StringFilter
+}
+
+input PageAdmissionContactSectionFilter {
+  title: StringFilter
+  subtitle: StringFilter
 }
 
 input PageAdmissionContactInfoFilter {
@@ -431,9 +615,15 @@ input PageAdmissionContactInfoFilter {
 
 input PageAdmissionFilter {
   hero: PageAdmissionHeroFilter
+  processSection: PageAdmissionProcessSectionFilter
   process: PageAdmissionProcessFilter
+  feeSection: PageAdmissionFeeSectionFilter
   feeStructure: PageAdmissionFeeStructureFilter
+  formSection: PageAdmissionFormSectionFilter
+  tcSection: PageAdmissionTcSectionFilter
+  faqSection: PageAdmissionFaqSectionFilter
   faqs: PageAdmissionFaqsFilter
+  contactSection: PageAdmissionContactSectionFilter
   contactInfo: PageAdmissionContactInfoFilter
 }
 
@@ -449,10 +639,20 @@ input PageContactContactDetailsFilter {
   hours: StringFilter
 }
 
+input PageContactFormSectionFilter {
+  title: StringFilter
+}
+
+input PageContactLinksSectionFilter {
+  title: StringFilter
+}
+
 input PageContactFilter {
   hero: PageContactHeroFilter
   contactDetails: PageContactContactDetailsFilter
   mapUrl: StringFilter
+  formSection: PageContactFormSectionFilter
+  linksSection: PageContactLinksSectionFilter
 }
 
 input PageFilter {
@@ -497,12 +697,22 @@ input PageAcademicsHeroMutation {
   subtitle: String
 }
 
+input PageAcademicsCurriculumSectionMutation {
+  title: String
+  subtitle: String
+}
+
 input PageAcademicsCurriculumMutation {
   class: String
   title: String
   focus: String
   description: String
   features: [String]
+}
+
+input PageAcademicsDepartmentsSectionMutation {
+  title: String
+  subtitle: String
 }
 
 input PageAcademicsDepartmentsMutation {
@@ -516,10 +726,20 @@ input PageAcademicsDepartmentsMutation {
   highlights: [String]
 }
 
+input PageAcademicsCalendarSectionMutation {
+  title: String
+  subtitle: String
+}
+
 input PageAcademicsAcademicCalendarMutation {
   month: String
   event: String
   type: String
+}
+
+input PageAcademicsScholarsSectionMutation {
+  title: String
+  subtitle: String
 }
 
 input PageAcademicsScholarsMutation {
@@ -528,6 +748,12 @@ input PageAcademicsScholarsMutation {
   percentage: String
   class: String
   icon: String
+}
+
+input PageAcademicsKeyHighlightsMutation {
+  icon: String
+  title: String
+  desc: String
 }
 
 input PageAcademicsCtaMutation {
@@ -539,10 +765,15 @@ input PageAcademicsCtaMutation {
 
 input PageAcademicsMutation {
   hero: PageAcademicsHeroMutation
+  curriculumSection: PageAcademicsCurriculumSectionMutation
   curriculum: [PageAcademicsCurriculumMutation]
+  departmentsSection: PageAcademicsDepartmentsSectionMutation
   departments: [PageAcademicsDepartmentsMutation]
+  calendarSection: PageAcademicsCalendarSectionMutation
   academicCalendar: [PageAcademicsAcademicCalendarMutation]
+  scholarsSection: PageAcademicsScholarsSectionMutation
   scholars: [PageAcademicsScholarsMutation]
+  keyHighlights: [PageAcademicsKeyHighlightsMutation]
   cta: PageAcademicsCtaMutation
 }
 
@@ -550,6 +781,24 @@ input PageAboutHeroMutation {
   title: String
   subtitle: String
   establishedDate: String
+}
+
+input PageAboutEdMessageMutation {
+  image: String
+  title: String
+  message: String
+  name: String
+  designation: String
+  signature: String
+}
+
+input PageAboutPrincipalMessageMutation {
+  image: String
+  title: String
+  message: String
+  name: String
+  designation: String
+  signature: String
 }
 
 input PageAboutFacultySectionMutation {
@@ -593,7 +842,8 @@ input PageAboutValuesMutation {
 
 input PageAboutMutation {
   hero: PageAboutHeroMutation
-  edMessage: String
+  edMessage: PageAboutEdMessageMutation
+  principalMessage: PageAboutPrincipalMessageMutation
   facultySection: PageAboutFacultySectionMutation
   pgtFaculty: [PageAboutPgtFacultyMutation]
   tgtFaculty: [PageAboutTgtFacultyMutation]
@@ -606,11 +856,22 @@ input PageAdmissionHeroMutation {
   subtitle: String
 }
 
+input PageAdmissionProcessSectionMutation {
+  title: String
+  subtitle: String
+}
+
 input PageAdmissionProcessMutation {
   number: Float
   title: String
   description: String
   icon: String
+}
+
+input PageAdmissionFeeSectionMutation {
+  title: String
+  subtitle: String
+  note: String
 }
 
 input PageAdmissionFeeStructureMutation {
@@ -620,9 +881,32 @@ input PageAdmissionFeeStructureMutation {
   total: String
 }
 
+input PageAdmissionFormSectionMutation {
+  title: String
+  subtitle: String
+}
+
+input PageAdmissionTcSectionMutation {
+  title: String
+  procedureTitle: String
+  procedureList: [String]
+  documentsTitle: String
+  documentsList: [String]
+}
+
+input PageAdmissionFaqSectionMutation {
+  title: String
+  subtitle: String
+}
+
 input PageAdmissionFaqsMutation {
   question: String
   answer: String
+}
+
+input PageAdmissionContactSectionMutation {
+  title: String
+  subtitle: String
 }
 
 input PageAdmissionContactInfoMutation {
@@ -633,9 +917,15 @@ input PageAdmissionContactInfoMutation {
 
 input PageAdmissionMutation {
   hero: PageAdmissionHeroMutation
+  processSection: PageAdmissionProcessSectionMutation
   process: [PageAdmissionProcessMutation]
+  feeSection: PageAdmissionFeeSectionMutation
   feeStructure: [PageAdmissionFeeStructureMutation]
+  formSection: PageAdmissionFormSectionMutation
+  tcSection: PageAdmissionTcSectionMutation
+  faqSection: PageAdmissionFaqSectionMutation
   faqs: [PageAdmissionFaqsMutation]
+  contactSection: PageAdmissionContactSectionMutation
   contactInfo: PageAdmissionContactInfoMutation
 }
 
@@ -651,10 +941,20 @@ input PageContactContactDetailsMutation {
   hours: String
 }
 
+input PageContactFormSectionMutation {
+  title: String
+}
+
+input PageContactLinksSectionMutation {
+  title: String
+}
+
 input PageContactMutation {
   hero: PageContactHeroMutation
   contactDetails: PageContactContactDetailsMutation
   mapUrl: String
+  formSection: PageContactFormSectionMutation
+  linksSection: PageContactLinksSectionMutation
 }
 
 input PageMutation {

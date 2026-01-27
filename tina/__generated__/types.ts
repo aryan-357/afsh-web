@@ -171,6 +171,12 @@ export type PageAcademicsHero = {
   subtitle?: Maybe<Scalars['String']['output']>;
 };
 
+export type PageAcademicsCurriculumSection = {
+  __typename?: 'PageAcademicsCurriculumSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+};
+
 export type PageAcademicsCurriculum = {
   __typename?: 'PageAcademicsCurriculum';
   class?: Maybe<Scalars['String']['output']>;
@@ -178,6 +184,12 @@ export type PageAcademicsCurriculum = {
   focus?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   features?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
+export type PageAcademicsDepartmentsSection = {
+  __typename?: 'PageAcademicsDepartmentsSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type PageAcademicsDepartments = {
@@ -192,11 +204,23 @@ export type PageAcademicsDepartments = {
   highlights?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
+export type PageAcademicsCalendarSection = {
+  __typename?: 'PageAcademicsCalendarSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+};
+
 export type PageAcademicsAcademicCalendar = {
   __typename?: 'PageAcademicsAcademicCalendar';
   month?: Maybe<Scalars['String']['output']>;
   event?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAcademicsScholarsSection = {
+  __typename?: 'PageAcademicsScholarsSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type PageAcademicsScholars = {
@@ -206,6 +230,13 @@ export type PageAcademicsScholars = {
   percentage?: Maybe<Scalars['String']['output']>;
   class?: Maybe<Scalars['String']['output']>;
   icon?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAcademicsKeyHighlights = {
+  __typename?: 'PageAcademicsKeyHighlights';
+  icon?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  desc?: Maybe<Scalars['String']['output']>;
 };
 
 export type PageAcademicsCta = {
@@ -219,10 +250,15 @@ export type PageAcademicsCta = {
 export type PageAcademics = Node & Document & {
   __typename?: 'PageAcademics';
   hero?: Maybe<PageAcademicsHero>;
+  curriculumSection?: Maybe<PageAcademicsCurriculumSection>;
   curriculum?: Maybe<Array<Maybe<PageAcademicsCurriculum>>>;
+  departmentsSection?: Maybe<PageAcademicsDepartmentsSection>;
   departments?: Maybe<Array<Maybe<PageAcademicsDepartments>>>;
+  calendarSection?: Maybe<PageAcademicsCalendarSection>;
   academicCalendar?: Maybe<Array<Maybe<PageAcademicsAcademicCalendar>>>;
+  scholarsSection?: Maybe<PageAcademicsScholarsSection>;
   scholars?: Maybe<Array<Maybe<PageAcademicsScholars>>>;
+  keyHighlights?: Maybe<Array<Maybe<PageAcademicsKeyHighlights>>>;
   cta?: Maybe<PageAcademicsCta>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -234,6 +270,26 @@ export type PageAboutHero = {
   title?: Maybe<Scalars['String']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
   establishedDate?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAboutEdMessage = {
+  __typename?: 'PageAboutEdMessage';
+  image?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  designation?: Maybe<Scalars['String']['output']>;
+  signature?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAboutPrincipalMessage = {
+  __typename?: 'PageAboutPrincipalMessage';
+  image?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  designation?: Maybe<Scalars['String']['output']>;
+  signature?: Maybe<Scalars['String']['output']>;
 };
 
 export type PageAboutFacultySection = {
@@ -283,7 +339,8 @@ export type PageAboutValues = {
 export type PageAbout = Node & Document & {
   __typename?: 'PageAbout';
   hero?: Maybe<PageAboutHero>;
-  edMessage?: Maybe<Scalars['String']['output']>;
+  edMessage?: Maybe<PageAboutEdMessage>;
+  principalMessage?: Maybe<PageAboutPrincipalMessage>;
   facultySection?: Maybe<PageAboutFacultySection>;
   pgtFaculty?: Maybe<Array<Maybe<PageAboutPgtFaculty>>>;
   tgtFaculty?: Maybe<Array<Maybe<PageAboutTgtFaculty>>>;
@@ -300,12 +357,25 @@ export type PageAdmissionHero = {
   subtitle?: Maybe<Scalars['String']['output']>;
 };
 
+export type PageAdmissionProcessSection = {
+  __typename?: 'PageAdmissionProcessSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+};
+
 export type PageAdmissionProcess = {
   __typename?: 'PageAdmissionProcess';
   number?: Maybe<Scalars['Float']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   icon?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAdmissionFeeSection = {
+  __typename?: 'PageAdmissionFeeSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  note?: Maybe<Scalars['String']['output']>;
 };
 
 export type PageAdmissionFeeStructure = {
@@ -316,10 +386,37 @@ export type PageAdmissionFeeStructure = {
   total?: Maybe<Scalars['String']['output']>;
 };
 
+export type PageAdmissionFormSection = {
+  __typename?: 'PageAdmissionFormSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAdmissionTcSection = {
+  __typename?: 'PageAdmissionTcSection';
+  title?: Maybe<Scalars['String']['output']>;
+  procedureTitle?: Maybe<Scalars['String']['output']>;
+  procedureList?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  documentsTitle?: Maybe<Scalars['String']['output']>;
+  documentsList?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
+export type PageAdmissionFaqSection = {
+  __typename?: 'PageAdmissionFaqSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+};
+
 export type PageAdmissionFaqs = {
   __typename?: 'PageAdmissionFaqs';
   question?: Maybe<Scalars['String']['output']>;
   answer?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageAdmissionContactSection = {
+  __typename?: 'PageAdmissionContactSection';
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type PageAdmissionContactInfo = {
@@ -332,9 +429,15 @@ export type PageAdmissionContactInfo = {
 export type PageAdmission = Node & Document & {
   __typename?: 'PageAdmission';
   hero?: Maybe<PageAdmissionHero>;
+  processSection?: Maybe<PageAdmissionProcessSection>;
   process?: Maybe<Array<Maybe<PageAdmissionProcess>>>;
+  feeSection?: Maybe<PageAdmissionFeeSection>;
   feeStructure?: Maybe<Array<Maybe<PageAdmissionFeeStructure>>>;
+  formSection?: Maybe<PageAdmissionFormSection>;
+  tcSection?: Maybe<PageAdmissionTcSection>;
+  faqSection?: Maybe<PageAdmissionFaqSection>;
   faqs?: Maybe<Array<Maybe<PageAdmissionFaqs>>>;
+  contactSection?: Maybe<PageAdmissionContactSection>;
   contactInfo?: Maybe<PageAdmissionContactInfo>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -355,11 +458,23 @@ export type PageContactContactDetails = {
   hours?: Maybe<Scalars['String']['output']>;
 };
 
+export type PageContactFormSection = {
+  __typename?: 'PageContactFormSection';
+  title?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageContactLinksSection = {
+  __typename?: 'PageContactLinksSection';
+  title?: Maybe<Scalars['String']['output']>;
+};
+
 export type PageContact = Node & Document & {
   __typename?: 'PageContact';
   hero?: Maybe<PageContactHero>;
   contactDetails?: Maybe<PageContactContactDetails>;
   mapUrl?: Maybe<Scalars['String']['output']>;
+  formSection?: Maybe<PageContactFormSection>;
+  linksSection?: Maybe<PageContactLinksSection>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -379,12 +494,22 @@ export type PageAcademicsHeroFilter = {
   subtitle?: InputMaybe<StringFilter>;
 };
 
+export type PageAcademicsCurriculumSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+};
+
 export type PageAcademicsCurriculumFilter = {
   class?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   focus?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   features?: InputMaybe<StringFilter>;
+};
+
+export type PageAcademicsDepartmentsSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
 };
 
 export type PageAcademicsDepartmentsFilter = {
@@ -398,10 +523,20 @@ export type PageAcademicsDepartmentsFilter = {
   highlights?: InputMaybe<StringFilter>;
 };
 
+export type PageAcademicsCalendarSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+};
+
 export type PageAcademicsAcademicCalendarFilter = {
   month?: InputMaybe<StringFilter>;
   event?: InputMaybe<StringFilter>;
   type?: InputMaybe<StringFilter>;
+};
+
+export type PageAcademicsScholarsSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
 };
 
 export type PageAcademicsScholarsFilter = {
@@ -410,6 +545,12 @@ export type PageAcademicsScholarsFilter = {
   percentage?: InputMaybe<StringFilter>;
   class?: InputMaybe<StringFilter>;
   icon?: InputMaybe<StringFilter>;
+};
+
+export type PageAcademicsKeyHighlightsFilter = {
+  icon?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  desc?: InputMaybe<StringFilter>;
 };
 
 export type PageAcademicsCtaFilter = {
@@ -421,10 +562,15 @@ export type PageAcademicsCtaFilter = {
 
 export type PageAcademicsFilter = {
   hero?: InputMaybe<PageAcademicsHeroFilter>;
+  curriculumSection?: InputMaybe<PageAcademicsCurriculumSectionFilter>;
   curriculum?: InputMaybe<PageAcademicsCurriculumFilter>;
+  departmentsSection?: InputMaybe<PageAcademicsDepartmentsSectionFilter>;
   departments?: InputMaybe<PageAcademicsDepartmentsFilter>;
+  calendarSection?: InputMaybe<PageAcademicsCalendarSectionFilter>;
   academicCalendar?: InputMaybe<PageAcademicsAcademicCalendarFilter>;
+  scholarsSection?: InputMaybe<PageAcademicsScholarsSectionFilter>;
   scholars?: InputMaybe<PageAcademicsScholarsFilter>;
+  keyHighlights?: InputMaybe<PageAcademicsKeyHighlightsFilter>;
   cta?: InputMaybe<PageAcademicsCtaFilter>;
 };
 
@@ -434,16 +580,34 @@ export type PageAboutHeroFilter = {
   establishedDate?: InputMaybe<StringFilter>;
 };
 
-export type PageAboutFacultySectionFilter = {
-  title?: InputMaybe<StringFilter>;
-  subtitle?: InputMaybe<StringFilter>;
-};
-
 export type ImageFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
   eq?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type PageAboutEdMessageFilter = {
+  image?: InputMaybe<ImageFilter>;
+  title?: InputMaybe<StringFilter>;
+  message?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  designation?: InputMaybe<StringFilter>;
+  signature?: InputMaybe<ImageFilter>;
+};
+
+export type PageAboutPrincipalMessageFilter = {
+  image?: InputMaybe<ImageFilter>;
+  title?: InputMaybe<StringFilter>;
+  message?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  designation?: InputMaybe<StringFilter>;
+  signature?: InputMaybe<ImageFilter>;
+};
+
+export type PageAboutFacultySectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
 };
 
 export type PageAboutPgtFacultyFilter = {
@@ -482,7 +646,8 @@ export type PageAboutValuesFilter = {
 
 export type PageAboutFilter = {
   hero?: InputMaybe<PageAboutHeroFilter>;
-  edMessage?: InputMaybe<StringFilter>;
+  edMessage?: InputMaybe<PageAboutEdMessageFilter>;
+  principalMessage?: InputMaybe<PageAboutPrincipalMessageFilter>;
   facultySection?: InputMaybe<PageAboutFacultySectionFilter>;
   pgtFaculty?: InputMaybe<PageAboutPgtFacultyFilter>;
   tgtFaculty?: InputMaybe<PageAboutTgtFacultyFilter>;
@@ -491,6 +656,11 @@ export type PageAboutFilter = {
 };
 
 export type PageAdmissionHeroFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+};
+
+export type PageAdmissionProcessSectionFilter = {
   title?: InputMaybe<StringFilter>;
   subtitle?: InputMaybe<StringFilter>;
 };
@@ -512,6 +682,12 @@ export type PageAdmissionProcessFilter = {
   icon?: InputMaybe<StringFilter>;
 };
 
+export type PageAdmissionFeeSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+  note?: InputMaybe<StringFilter>;
+};
+
 export type PageAdmissionFeeStructureFilter = {
   class?: InputMaybe<StringFilter>;
   tuition?: InputMaybe<StringFilter>;
@@ -519,9 +695,32 @@ export type PageAdmissionFeeStructureFilter = {
   total?: InputMaybe<StringFilter>;
 };
 
+export type PageAdmissionFormSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+};
+
+export type PageAdmissionTcSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  procedureTitle?: InputMaybe<StringFilter>;
+  procedureList?: InputMaybe<StringFilter>;
+  documentsTitle?: InputMaybe<StringFilter>;
+  documentsList?: InputMaybe<StringFilter>;
+};
+
+export type PageAdmissionFaqSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+};
+
 export type PageAdmissionFaqsFilter = {
   question?: InputMaybe<StringFilter>;
   answer?: InputMaybe<StringFilter>;
+};
+
+export type PageAdmissionContactSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
 };
 
 export type PageAdmissionContactInfoFilter = {
@@ -532,9 +731,15 @@ export type PageAdmissionContactInfoFilter = {
 
 export type PageAdmissionFilter = {
   hero?: InputMaybe<PageAdmissionHeroFilter>;
+  processSection?: InputMaybe<PageAdmissionProcessSectionFilter>;
   process?: InputMaybe<PageAdmissionProcessFilter>;
+  feeSection?: InputMaybe<PageAdmissionFeeSectionFilter>;
   feeStructure?: InputMaybe<PageAdmissionFeeStructureFilter>;
+  formSection?: InputMaybe<PageAdmissionFormSectionFilter>;
+  tcSection?: InputMaybe<PageAdmissionTcSectionFilter>;
+  faqSection?: InputMaybe<PageAdmissionFaqSectionFilter>;
   faqs?: InputMaybe<PageAdmissionFaqsFilter>;
+  contactSection?: InputMaybe<PageAdmissionContactSectionFilter>;
   contactInfo?: InputMaybe<PageAdmissionContactInfoFilter>;
 };
 
@@ -550,10 +755,20 @@ export type PageContactContactDetailsFilter = {
   hours?: InputMaybe<StringFilter>;
 };
 
+export type PageContactFormSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+};
+
+export type PageContactLinksSectionFilter = {
+  title?: InputMaybe<StringFilter>;
+};
+
 export type PageContactFilter = {
   hero?: InputMaybe<PageContactHeroFilter>;
   contactDetails?: InputMaybe<PageContactContactDetailsFilter>;
   mapUrl?: InputMaybe<StringFilter>;
+  formSection?: InputMaybe<PageContactFormSectionFilter>;
+  linksSection?: InputMaybe<PageContactLinksSectionFilter>;
 };
 
 export type PageFilter = {
@@ -646,12 +861,22 @@ export type PageAcademicsHeroMutation = {
   subtitle?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type PageAcademicsCurriculumSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PageAcademicsCurriculumMutation = {
   class?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   focus?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   features?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type PageAcademicsDepartmentsSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageAcademicsDepartmentsMutation = {
@@ -665,10 +890,20 @@ export type PageAcademicsDepartmentsMutation = {
   highlights?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type PageAcademicsCalendarSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PageAcademicsAcademicCalendarMutation = {
   month?: InputMaybe<Scalars['String']['input']>;
   event?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAcademicsScholarsSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageAcademicsScholarsMutation = {
@@ -677,6 +912,12 @@ export type PageAcademicsScholarsMutation = {
   percentage?: InputMaybe<Scalars['String']['input']>;
   class?: InputMaybe<Scalars['String']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAcademicsKeyHighlightsMutation = {
+  icon?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  desc?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageAcademicsCtaMutation = {
@@ -688,10 +929,15 @@ export type PageAcademicsCtaMutation = {
 
 export type PageAcademicsMutation = {
   hero?: InputMaybe<PageAcademicsHeroMutation>;
+  curriculumSection?: InputMaybe<PageAcademicsCurriculumSectionMutation>;
   curriculum?: InputMaybe<Array<InputMaybe<PageAcademicsCurriculumMutation>>>;
+  departmentsSection?: InputMaybe<PageAcademicsDepartmentsSectionMutation>;
   departments?: InputMaybe<Array<InputMaybe<PageAcademicsDepartmentsMutation>>>;
+  calendarSection?: InputMaybe<PageAcademicsCalendarSectionMutation>;
   academicCalendar?: InputMaybe<Array<InputMaybe<PageAcademicsAcademicCalendarMutation>>>;
+  scholarsSection?: InputMaybe<PageAcademicsScholarsSectionMutation>;
   scholars?: InputMaybe<Array<InputMaybe<PageAcademicsScholarsMutation>>>;
+  keyHighlights?: InputMaybe<Array<InputMaybe<PageAcademicsKeyHighlightsMutation>>>;
   cta?: InputMaybe<PageAcademicsCtaMutation>;
 };
 
@@ -699,6 +945,24 @@ export type PageAboutHeroMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   establishedDate?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAboutEdMessageMutation = {
+  image?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  designation?: InputMaybe<Scalars['String']['input']>;
+  signature?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAboutPrincipalMessageMutation = {
+  image?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  designation?: InputMaybe<Scalars['String']['input']>;
+  signature?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageAboutFacultySectionMutation = {
@@ -742,7 +1006,8 @@ export type PageAboutValuesMutation = {
 
 export type PageAboutMutation = {
   hero?: InputMaybe<PageAboutHeroMutation>;
-  edMessage?: InputMaybe<Scalars['String']['input']>;
+  edMessage?: InputMaybe<PageAboutEdMessageMutation>;
+  principalMessage?: InputMaybe<PageAboutPrincipalMessageMutation>;
   facultySection?: InputMaybe<PageAboutFacultySectionMutation>;
   pgtFaculty?: InputMaybe<Array<InputMaybe<PageAboutPgtFacultyMutation>>>;
   tgtFaculty?: InputMaybe<Array<InputMaybe<PageAboutTgtFacultyMutation>>>;
@@ -755,11 +1020,22 @@ export type PageAdmissionHeroMutation = {
   subtitle?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type PageAdmissionProcessSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PageAdmissionProcessMutation = {
   number?: InputMaybe<Scalars['Float']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   icon?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAdmissionFeeSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  note?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageAdmissionFeeStructureMutation = {
@@ -769,9 +1045,32 @@ export type PageAdmissionFeeStructureMutation = {
   total?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type PageAdmissionFormSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAdmissionTcSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  procedureTitle?: InputMaybe<Scalars['String']['input']>;
+  procedureList?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  documentsTitle?: InputMaybe<Scalars['String']['input']>;
+  documentsList?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type PageAdmissionFaqSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PageAdmissionFaqsMutation = {
   question?: InputMaybe<Scalars['String']['input']>;
   answer?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageAdmissionContactSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageAdmissionContactInfoMutation = {
@@ -782,9 +1081,15 @@ export type PageAdmissionContactInfoMutation = {
 
 export type PageAdmissionMutation = {
   hero?: InputMaybe<PageAdmissionHeroMutation>;
+  processSection?: InputMaybe<PageAdmissionProcessSectionMutation>;
   process?: InputMaybe<Array<InputMaybe<PageAdmissionProcessMutation>>>;
+  feeSection?: InputMaybe<PageAdmissionFeeSectionMutation>;
   feeStructure?: InputMaybe<Array<InputMaybe<PageAdmissionFeeStructureMutation>>>;
+  formSection?: InputMaybe<PageAdmissionFormSectionMutation>;
+  tcSection?: InputMaybe<PageAdmissionTcSectionMutation>;
+  faqSection?: InputMaybe<PageAdmissionFaqSectionMutation>;
   faqs?: InputMaybe<Array<InputMaybe<PageAdmissionFaqsMutation>>>;
+  contactSection?: InputMaybe<PageAdmissionContactSectionMutation>;
   contactInfo?: InputMaybe<PageAdmissionContactInfoMutation>;
 };
 
@@ -800,10 +1105,20 @@ export type PageContactContactDetailsMutation = {
   hours?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type PageContactFormSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageContactLinksSectionMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PageContactMutation = {
   hero?: InputMaybe<PageContactHeroMutation>;
   contactDetails?: InputMaybe<PageContactContactDetailsMutation>;
   mapUrl?: InputMaybe<Scalars['String']['input']>;
+  formSection?: InputMaybe<PageContactFormSectionMutation>;
+  linksSection?: InputMaybe<PageContactLinksSectionMutation>;
 };
 
 export type PageMutation = {
