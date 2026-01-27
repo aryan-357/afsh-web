@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: 'dist',
+      chunkSizeWarningLimit: 1600,
       rollupOptions: {
         output: {
           manualChunks: {
@@ -32,13 +33,16 @@ export default defineConfig(({ mode }) => {
             'vendor-ui': ['lucide-react', 'embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
           },
         },
-        chunkSizeWarningLimit: 800,
       },
     },
     plugins: [react()],
     resolve: {
       alias: {
         '@': path.resolve(process.cwd(), './'),
+        'node:fs': path.resolve(process.cwd(), 'src/utils/node-stub.ts'),
+        'node:path': path.resolve(process.cwd(), 'src/utils/node-stub.ts'),
+        'node:os': path.resolve(process.cwd(), 'src/utils/node-stub.ts'),
+        'node:crypto': path.resolve(process.cwd(), 'src/utils/node-stub.ts'),
       },
     },
   };
