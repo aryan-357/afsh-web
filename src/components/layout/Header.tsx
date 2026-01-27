@@ -20,10 +20,6 @@ const navItems: NavItem[] = [
     label: 'About',
     href: '/about',
     subItems: [
-      { label: 'Principal\'s Message', href: '/about#principal' },
-      { label: 'School History', href: '/about#history' },
-      { label: 'Vision & Mission', href: '/about#vision' },
-      { label: 'Administration', href: '/about#admin' },
       { label: 'Facilities', href: '/facilities' }
     ]
   },
@@ -31,31 +27,16 @@ const navItems: NavItem[] = [
     label: 'Academics',
     href: '/academics',
     subItems: [
-      { label: 'Curriculum', href: '/academics#curriculum' },
-      { label: 'Departments', href: '/academics#departments' },
-      { label: 'Academic Calendar', href: '/calendar' },
-      { label: 'Scholars', href: '/academics' }
+      { label: 'Academic Calendar', href: '/calendar' }
     ]
   },
   {
     label: 'Admissions',
-    href: '/admissions',
-    subItems: [
-      { label: 'Admission Procedure', href: '/admissions#procedure' },
-      { label: 'Fee Structure', href: '/admissions#fees' },
-      { label: 'Transfer Certificates', href: '/admissions#tc' },
-      { label: 'FAQs', href: '/admissions#faqs' }
-    ]
+    href: '/admissions'
   },
   {
     label: 'Student Life',
-    href: '/student-life',
-    subItems: [
-      { label: 'Houses', href: '/student-life#houses' },
-      { label: 'Clubs & Societies', href: '/student-life#clubs' },
-      { label: 'Sports', href: '/student-life#sports' },
-      { label: 'NCC', href: '/student-life#ncc' }
-    ]
+    href: '/student-life'
   },
   {
     label: 'Achievements',

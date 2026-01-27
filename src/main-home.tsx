@@ -24,7 +24,7 @@ const NewsPage = lazy(() => import('./pages/content/NewsPage'));
 const NoticesPage = lazy(() => import('./pages/content/NoticesPage'));
 const LoginPage = lazy(() => import('./pages/utility/LoginPage'));
 const SearchPage = lazy(() => import('./pages/utility/SearchPage'));
-const GalleryAdmin = lazy(() => import('./pages/admin/GalleryAdmin'));
+// const GalleryAdmin = lazy(() => import('./pages/admin/GalleryAdmin'));
 const DevelopmentPage = lazy(() => import('./pages/utility/DevelopmentPage'));
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -73,7 +73,7 @@ root.render(
                         <Route path="/notices" element={<NoticesPage />} />
                         <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
                         <Route path="/search" element={<SearchPage />} />
-                        <Route path="/admin/gallery" element={<GalleryAdmin />} />
+                        {/* <Route path="/admin/gallery" element={<GalleryAdmin />} /> */}
                         <Route path="/development" element={<DevelopmentPage />} />
                     </Routes>
                 </Suspense>
