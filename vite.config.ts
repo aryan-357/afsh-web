@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   const processEnv = {
-    GITHUB_BRANCH: env.GITHUB_BRANCH,
+    GITHUB_BRANCH: env.GITHUB_BRANCH || env.CF_PAGES_BRANCH,
     VERCEL_GIT_COMMIT_REF: env.VERCEL_GIT_COMMIT_REF,
     HEAD: env.HEAD,
     NEXT_PUBLIC_TINA_CLIENT_ID: env.NEXT_PUBLIC_TINA_CLIENT_ID,
