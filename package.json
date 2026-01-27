@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tinacms build && vite build",
+    "build": "tinacms build --skip-cloud-checks && vite build",
     "preview": "vite preview",
     "tina-dev": "tinacms dev -c \"vite\"",
-    "tina-build": "tinacms build && vite build"
+    "tina-build": "tinacms build --skip-cloud-checks && vite build"
   },
   "dependencies": {
     "@react-oauth/google": "^0.13.4",
