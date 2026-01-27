@@ -813,11 +813,248 @@ export type PageMutation = {
   contact?: InputMaybe<PageContactMutation>;
 };
 
+type PageParts_PageAcademics_Fragment = { __typename: 'PageAcademics', hero?: { __typename: 'PageAcademicsHero', title?: string | null, subtitle?: string | null } | null, curriculum?: Array<{ __typename: 'PageAcademicsCurriculum', class?: string | null, title?: string | null, focus?: string | null, description?: string | null, features?: Array<string | null> | null } | null> | null, departments?: Array<{ __typename: 'PageAcademicsDepartments', id?: string | null, name?: string | null, icon?: string | null, description?: string | null, faculty?: string | null, staffLead?: string | null, subjects?: Array<string | null> | null, highlights?: Array<string | null> | null } | null> | null, academicCalendar?: Array<{ __typename: 'PageAcademicsAcademicCalendar', month?: string | null, event?: string | null, type?: string | null } | null> | null, scholars?: Array<{ __typename: 'PageAcademicsScholars', rank?: string | null, name?: string | null, percentage?: string | null, class?: string | null, icon?: string | null } | null> | null, cta?: { __typename: 'PageAcademicsCta', title?: string | null, text?: string | null, buttonText?: string | null, buttonLink?: string | null } | null };
 
+type PageParts_PageAbout_Fragment = { __typename: 'PageAbout', edMessage?: string | null, hero?: { __typename: 'PageAboutHero', title?: string | null, subtitle?: string | null, establishedDate?: string | null } | null, facultySection?: { __typename: 'PageAboutFacultySection', title?: string | null, subtitle?: string | null } | null, pgtFaculty?: Array<{ __typename: 'PageAboutPgtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, tgtFaculty?: Array<{ __typename: 'PageAboutTgtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, prtFaculty?: Array<{ __typename: 'PageAboutPrtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, values?: Array<{ __typename: 'PageAboutValues', title?: string | null, desc?: string | null, iconName?: string | null, color?: string | null } | null> | null };
+
+type PageParts_PageAdmission_Fragment = { __typename: 'PageAdmission', hero?: { __typename: 'PageAdmissionHero', title?: string | null, subtitle?: string | null } | null, process?: Array<{ __typename: 'PageAdmissionProcess', number?: number | null, title?: string | null, description?: string | null, icon?: string | null } | null> | null, feeStructure?: Array<{ __typename: 'PageAdmissionFeeStructure', class?: string | null, tuition?: string | null, annual?: string | null, total?: string | null } | null> | null, faqs?: Array<{ __typename: 'PageAdmissionFaqs', question?: string | null, answer?: string | null } | null> | null, contactInfo?: { __typename: 'PageAdmissionContactInfo', phone?: string | null, email?: string | null, hours?: string | null } | null };
+
+type PageParts_PageContact_Fragment = { __typename: 'PageContact', mapUrl?: string | null, hero?: { __typename: 'PageContactHero', title?: string | null, subtitle?: string | null } | null, contactDetails?: { __typename: 'PageContactContactDetails', address?: string | null, phone?: string | null, email?: string | null, hours?: string | null } | null };
+
+export type PagePartsFragment = PageParts_PageAcademics_Fragment | PageParts_PageAbout_Fragment | PageParts_PageAdmission_Fragment | PageParts_PageContact_Fragment;
+
+export type PageQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'PageAcademics', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageAcademicsHero', title?: string | null, subtitle?: string | null } | null, curriculum?: Array<{ __typename: 'PageAcademicsCurriculum', class?: string | null, title?: string | null, focus?: string | null, description?: string | null, features?: Array<string | null> | null } | null> | null, departments?: Array<{ __typename: 'PageAcademicsDepartments', id?: string | null, name?: string | null, icon?: string | null, description?: string | null, faculty?: string | null, staffLead?: string | null, subjects?: Array<string | null> | null, highlights?: Array<string | null> | null } | null> | null, academicCalendar?: Array<{ __typename: 'PageAcademicsAcademicCalendar', month?: string | null, event?: string | null, type?: string | null } | null> | null, scholars?: Array<{ __typename: 'PageAcademicsScholars', rank?: string | null, name?: string | null, percentage?: string | null, class?: string | null, icon?: string | null } | null> | null, cta?: { __typename: 'PageAcademicsCta', title?: string | null, text?: string | null, buttonText?: string | null, buttonLink?: string | null } | null } | { __typename: 'PageAbout', id: string, edMessage?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageAboutHero', title?: string | null, subtitle?: string | null, establishedDate?: string | null } | null, facultySection?: { __typename: 'PageAboutFacultySection', title?: string | null, subtitle?: string | null } | null, pgtFaculty?: Array<{ __typename: 'PageAboutPgtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, tgtFaculty?: Array<{ __typename: 'PageAboutTgtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, prtFaculty?: Array<{ __typename: 'PageAboutPrtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, values?: Array<{ __typename: 'PageAboutValues', title?: string | null, desc?: string | null, iconName?: string | null, color?: string | null } | null> | null } | { __typename: 'PageAdmission', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageAdmissionHero', title?: string | null, subtitle?: string | null } | null, process?: Array<{ __typename: 'PageAdmissionProcess', number?: number | null, title?: string | null, description?: string | null, icon?: string | null } | null> | null, feeStructure?: Array<{ __typename: 'PageAdmissionFeeStructure', class?: string | null, tuition?: string | null, annual?: string | null, total?: string | null } | null> | null, faqs?: Array<{ __typename: 'PageAdmissionFaqs', question?: string | null, answer?: string | null } | null> | null, contactInfo?: { __typename: 'PageAdmissionContactInfo', phone?: string | null, email?: string | null, hours?: string | null } | null } | { __typename: 'PageContact', id: string, mapUrl?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageContactHero', title?: string | null, subtitle?: string | null } | null, contactDetails?: { __typename: 'PageContactContactDetails', address?: string | null, phone?: string | null, email?: string | null, hours?: string | null } | null } };
+
+export type PageConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PageFilter>;
+}>;
+
+
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'PageAcademics', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageAcademicsHero', title?: string | null, subtitle?: string | null } | null, curriculum?: Array<{ __typename: 'PageAcademicsCurriculum', class?: string | null, title?: string | null, focus?: string | null, description?: string | null, features?: Array<string | null> | null } | null> | null, departments?: Array<{ __typename: 'PageAcademicsDepartments', id?: string | null, name?: string | null, icon?: string | null, description?: string | null, faculty?: string | null, staffLead?: string | null, subjects?: Array<string | null> | null, highlights?: Array<string | null> | null } | null> | null, academicCalendar?: Array<{ __typename: 'PageAcademicsAcademicCalendar', month?: string | null, event?: string | null, type?: string | null } | null> | null, scholars?: Array<{ __typename: 'PageAcademicsScholars', rank?: string | null, name?: string | null, percentage?: string | null, class?: string | null, icon?: string | null } | null> | null, cta?: { __typename: 'PageAcademicsCta', title?: string | null, text?: string | null, buttonText?: string | null, buttonLink?: string | null } | null } | { __typename: 'PageAbout', id: string, edMessage?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageAboutHero', title?: string | null, subtitle?: string | null, establishedDate?: string | null } | null, facultySection?: { __typename: 'PageAboutFacultySection', title?: string | null, subtitle?: string | null } | null, pgtFaculty?: Array<{ __typename: 'PageAboutPgtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, tgtFaculty?: Array<{ __typename: 'PageAboutTgtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, prtFaculty?: Array<{ __typename: 'PageAboutPrtFaculty', name?: string | null, designation?: string | null, department?: string | null, image?: string | null, quote?: string | null, description?: string | null } | null> | null, values?: Array<{ __typename: 'PageAboutValues', title?: string | null, desc?: string | null, iconName?: string | null, color?: string | null } | null> | null } | { __typename: 'PageAdmission', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageAdmissionHero', title?: string | null, subtitle?: string | null } | null, process?: Array<{ __typename: 'PageAdmissionProcess', number?: number | null, title?: string | null, description?: string | null, icon?: string | null } | null> | null, feeStructure?: Array<{ __typename: 'PageAdmissionFeeStructure', class?: string | null, tuition?: string | null, annual?: string | null, total?: string | null } | null> | null, faqs?: Array<{ __typename: 'PageAdmissionFaqs', question?: string | null, answer?: string | null } | null> | null, contactInfo?: { __typename: 'PageAdmissionContactInfo', phone?: string | null, email?: string | null, hours?: string | null } | null } | { __typename: 'PageContact', id: string, mapUrl?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'PageContactHero', title?: string | null, subtitle?: string | null } | null, contactDetails?: { __typename: 'PageContactContactDetails', address?: string | null, phone?: string | null, email?: string | null, hours?: string | null } | null } | null } | null> | null } };
+
+export const PagePartsFragmentDoc = gql`
+    fragment PageParts on Page {
+  __typename
+  ... on PageAcademics {
+    hero {
+      __typename
+      title
+      subtitle
+    }
+    curriculum {
+      __typename
+      class
+      title
+      focus
+      description
+      features
+    }
+    departments {
+      __typename
+      id
+      name
+      icon
+      description
+      faculty
+      staffLead
+      subjects
+      highlights
+    }
+    academicCalendar {
+      __typename
+      month
+      event
+      type
+    }
+    scholars {
+      __typename
+      rank
+      name
+      percentage
+      class
+      icon
+    }
+    cta {
+      __typename
+      title
+      text
+      buttonText
+      buttonLink
+    }
+  }
+  ... on PageAbout {
+    hero {
+      __typename
+      title
+      subtitle
+      establishedDate
+    }
+    edMessage
+    facultySection {
+      __typename
+      title
+      subtitle
+    }
+    pgtFaculty {
+      __typename
+      name
+      designation
+      department
+      image
+      quote
+      description
+    }
+    tgtFaculty {
+      __typename
+      name
+      designation
+      department
+      image
+      quote
+      description
+    }
+    prtFaculty {
+      __typename
+      name
+      designation
+      department
+      image
+      quote
+      description
+    }
+    values {
+      __typename
+      title
+      desc
+      iconName
+      color
+    }
+  }
+  ... on PageAdmission {
+    hero {
+      __typename
+      title
+      subtitle
+    }
+    process {
+      __typename
+      number
+      title
+      description
+      icon
+    }
+    feeStructure {
+      __typename
+      class
+      tuition
+      annual
+      total
+    }
+    faqs {
+      __typename
+      question
+      answer
+    }
+    contactInfo {
+      __typename
+      phone
+      email
+      hours
+    }
+  }
+  ... on PageContact {
+    hero {
+      __typename
+      title
+      subtitle
+    }
+    contactDetails {
+      __typename
+      address
+      phone
+      email
+      hours
+    }
+    mapUrl
+  }
+}
+    `;
+export const PageDocument = gql`
+    query page($relativePath: String!) {
+  page(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PageParts
+  }
+}
+    ${PagePartsFragmentDoc}`;
+export const PageConnectionDocument = gql`
+    query pageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageFilter) {
+  pageConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...PageParts
+      }
+    }
+  }
+}
+    ${PagePartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
-  
+      page(variables: PageQueryVariables, options?: C): Promise<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}> {
+        return requester<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}, PageQueryVariables>(PageDocument, variables, options);
+      },
+    pageConnection(variables?: PageConnectionQueryVariables, options?: C): Promise<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}> {
+        return requester<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}, PageConnectionQueryVariables>(PageConnectionDocument, variables, options);
+      }
     };
   }
   export type Sdk = ReturnType<typeof getSdk>;
@@ -865,7 +1102,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/2.1/content/372c1232-2d0e-429a-a325-cb4750dc6248/github/main",
         queries,
       })
     )
