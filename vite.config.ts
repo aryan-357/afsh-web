@@ -8,29 +8,25 @@ export default defineConfig(({ mode }) => {
     define: {
       'process.env': env,
     },
-    plugins: [react()],
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './'),
-      },
-    },
-    server: {
-      host: '0.0.0.0',
-      port: 5000,
-      allowedHosts: true,
-    },
-    build: {
-      outDir: 'dist',
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-            'vendor-three': ['three', '@react-three/fiber'],
-            'vendor-ui': ['lucide-react', 'embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
-          },
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 5000,
+    allowedHosts: true,
+  },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-three': ['three', '@react-three/fiber'],
+
+          'vendor-ui': ['lucide-react', 'embla-carousel', 'embla-carousel-react', 'embla-carousel-autoplay'],
         },
       },
       chunkSizeWarningLimit: 800,
     },
   };
 });
+

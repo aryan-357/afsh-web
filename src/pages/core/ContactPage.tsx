@@ -29,17 +29,17 @@ const ContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch(
-        "https://anaghsingh.app.n8n.cloud/webhook/contact-form",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+  try {
+    const res = await fetch(
+      "https://web-production-9adf5.up.railway.app/api/contact/submit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
       const data = await res.json();
 
