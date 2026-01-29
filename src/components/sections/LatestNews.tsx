@@ -5,13 +5,15 @@ import { ArrowUpRight } from 'lucide-react';
 import { BlogPost } from '../../types/blog';
 import { PostService } from '../../services/postService';
 import { getStrapiMedia, extractImageUrl } from '../../utils/strapi';
+import { tinaField } from "tinacms/dist/react";
 
 interface LatestNewsProps {
   title?: string;
   count?: number;
+  block?: any;
 }
 
-const LatestNews: React.FC<LatestNewsProps> = ({ title, count = 3 }) => {
+const LatestNews: React.FC<LatestNewsProps> = ({ title, count = 3, block }) => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +56,12 @@ const LatestNews: React.FC<LatestNewsProps> = ({ title, count = 3 }) => {
     <section className="group bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden">
       {title && (
         <div className="container mx-auto px-6 py-8">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
+          <h2
+            data-tina-field={block ? tinaField(block, 'title') : undefined}
+            className="text-3xl md:text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4"
+          >
+            {title}
+          </h2>
         </div>
       )}
       <div className="w-full">

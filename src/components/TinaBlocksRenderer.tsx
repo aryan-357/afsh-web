@@ -1,4 +1,5 @@
 import React from 'react';
+import { tinaField } from "tinacms/dist/react";
 import ParallaxCarousel from './sections/parallax-carousel/ParallaxCarousel';
 import LatestNews from './sections/LatestNews';
 import NoticeBoard from './sections/NoticeBoard';
@@ -17,34 +18,34 @@ const TinaBlocksRenderer: React.FC<TinaBlocksRendererProps> = ({ blocks }) => {
     <>
       {blocks.map((block, i) => {
         // Handle both GraphQL __typename and manual _template (if strictly used in dev without GraphQL)
-        // Expected __typename format: PageFlexible_pageBlocks<BlockTemplateName>
-
         let templateName = '';
         if (block.__typename) {
              templateName = block.__typename;
         } else if (block._template) {
-             // Fallback for manual _template, though we should prefer __typename
-             // If manual, we construct what we expect the switch case to be, or handle it directly
-             // For simplicity, let's map _template to the expected typename format if possible,
-             // or just let the switch handle the raw _template if we added cases for it.
-             // But actually, let's just use the _template name capitalized as a suffix check if we wanted to be generic.
-             // For now, let's stick to the generated typenames we saw in the error.
              templateName = `PageFlexible_pageBlocks${block._template.charAt(0).toUpperCase() + block._template.slice(1)}`;
         }
 
+        let Component = null;
+
         switch (templateName) {
           case 'PageFlexible_pageBlocksHeroCarousel':
-            return <ParallaxCarousel key={i} {...block} />;
+            Component = ParallaxCarousel;
+            break;
           case 'PageFlexible_pageBlocksLatestNews':
-            return <LatestNews key={i} {...block} />;
+            Component = LatestNews;
+            break;
           case 'PageFlexible_pageBlocksNoticeBoard':
-            return <NoticeBoard key={i} {...block} />;
+            Component = NoticeBoard;
+            break;
           case 'PageFlexible_pageBlocksTopperSection':
-            return <TopperSection key={i} {...block} />;
+            Component = TopperSection;
+            break;
           case 'PageFlexible_pageBlocksPhilosophySection':
-            return <PhilosophySection key={i} {...block} />;
+            Component = PhilosophySection;
+            break;
           case 'PageFlexible_pageBlocksCampusLifeSection':
-            return <CampusLifeSection key={i} {...block} />;
+            Component = CampusLifeSection;
+            break;
           default:
             console.warn(`Unrecognized block type: ${templateName}`, block);
             return (
@@ -54,6 +55,14 @@ const TinaBlocksRenderer: React.FC<TinaBlocksRendererProps> = ({ blocks }) => {
               </div>
             );
         }
+
+        // We wrap the block to enable "Click to Edit" (Contextual Editing) for the block itself.
+        // We also pass the 'block' object down so components can implement field-level editing.
+        return (
+          <div key={i} data-tina-field={tinaField(block)}>
+            <Component {...block} block={block} />
+          </div>
+        );
       })}
     </>
   );

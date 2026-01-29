@@ -4,12 +4,14 @@ import { Bell, Calendar, ChevronRight, ChevronDown, Download, FileText, Loader2 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Notice } from '../../types/strapi';
 import { fetchRecentNotices } from '../../services/noticeService';
+import { tinaField } from "tinacms/dist/react";
 
 interface NoticeBoardProps {
   title?: string;
+  block?: any;
 }
 
-const NoticeBoard: React.FC<NoticeBoardProps> = ({ title = 'Notice Board' }) => {
+const NoticeBoard: React.FC<NoticeBoardProps> = ({ title = 'Notice Board', block }) => {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
   const [openNoticeId, setOpenNoticeId] = useState<number | null>(null);
@@ -79,7 +81,10 @@ const NoticeBoard: React.FC<NoticeBoardProps> = ({ title = 'Notice Board' }) => 
               className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden transition-all duration-300"
             >
               <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-900">
-                <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <h3
+                    data-tina-field={block ? tinaField(block, 'title') : undefined}
+                    className="text-2xl font-serif font-bold text-gray-900 dark:text-white flex items-center gap-3"
+                >
                   <div className="w-10 h-10 bg-af-blue/10 rounded-xl flex items-center justify-center">
                     <Bell className="text-af-blue" size={20} />
                   </div>
