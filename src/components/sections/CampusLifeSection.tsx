@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { tinaField } from "tinacms/dist/react";
 
 interface CampusLifeSectionProps {
     title?: string;
@@ -9,6 +10,7 @@ interface CampusLifeSectionProps {
     linkText?: string;
     linkUrl?: string;
     images?: string[];
+    block?: any;
 }
 
 const CampusLifeSection: React.FC<CampusLifeSectionProps> = ({
@@ -17,7 +19,8 @@ const CampusLifeSection: React.FC<CampusLifeSectionProps> = ({
     description = 'Experience the vibrant atmosphere and state-of-the-art facilities at Air Force School Hindan.',
     linkText = 'Explore Gallery',
     linkUrl = '/gallery',
-    images
+    images,
+    block
 }) => {
     const displayImages = images || [1, 2, 3, 4].map(i => `https://picsum.photos/seed/campus${i}/600/800`);
 
@@ -36,12 +39,28 @@ const CampusLifeSection: React.FC<CampusLifeSectionProps> = ({
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>
-                        <span className="text-af-light font-bold tracking-widest text-xs uppercase mb-2 block">{subtitle}</span>
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold">{title}</h2>
-                        <p className="text-gray-500 mt-4 max-w-xl text-lg">{description}</p>
+                        <span
+                            data-tina-field={block ? tinaField(block, 'subtitle') : undefined}
+                            className="text-af-light font-bold tracking-widest text-xs uppercase mb-2 block"
+                        >
+                            {subtitle}
+                        </span>
+                        <h2
+                            data-tina-field={block ? tinaField(block, 'title') : undefined}
+                            className="text-4xl md:text-5xl font-serif font-bold"
+                        >
+                            {title}
+                        </h2>
+                        <p
+                            data-tina-field={block ? tinaField(block, 'description') : undefined}
+                            className="text-gray-500 mt-4 max-w-xl text-lg"
+                        >
+                            {description}
+                        </p>
                     </div>
                     <Link
                         to={linkUrl}
+                        data-tina-field={block ? tinaField(block, 'linkText') : undefined}
                         className="hidden md:flex items-center gap-2 bg-white text-black px-8 py-4 hover:bg-af-blue hover:text-white transition duration-300 uppercase text-xs font-bold tracking-widest rounded-full shadow-xl"
                     >
                         {linkText}
