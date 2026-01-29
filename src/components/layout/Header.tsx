@@ -20,6 +20,10 @@ const navItems: NavItem[] = [
     label: 'About',
     href: '/about',
     subItems: [
+      { label: 'Principal\'s Message', href: '/about#principal' },
+      { label: 'School History', href: '/about#history' },
+      { label: 'Vision & Mission', href: '/about#vision' },
+      { label: 'Administration', href: '/about#admin' },
       { label: 'Facilities', href: '/facilities' }
     ]
   },
@@ -27,16 +31,31 @@ const navItems: NavItem[] = [
     label: 'Academics',
     href: '/academics',
     subItems: [
-      { label: 'Academic Calendar', href: '/calendar' }
+      { label: 'Curriculum', href: '/academics#curriculum' },
+      { label: 'Departments', href: '/academics#departments' },
+      { label: 'Academic Calendar', href: '/calendar' },
+      { label: 'Scholars', href: '/academics' }
     ]
   },
   {
     label: 'Admissions',
-    href: '/admissions'
+    href: '/admissions',
+    subItems: [
+      { label: 'Admission Procedure', href: '/admissions#procedure' },
+      { label: 'Fee Structure', href: '/admissions#fees' },
+      { label: 'Transfer Certificates', href: '/admissions#tc' },
+      { label: 'FAQs', href: '/admissions#faqs' }
+    ]
   },
   {
     label: 'Student Life',
-    href: '/student-life'
+    href: '/student-life',
+    subItems: [
+      { label: 'Houses', href: '/student-life#houses' },
+      { label: 'Clubs & Societies', href: '/student-life#clubs' },
+      { label: 'Sports', href: '/student-life#sports' },
+      { label: 'NCC', href: '/student-life#ncc' }
+    ]
   },
   {
     label: 'Achievements',
@@ -136,12 +155,12 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogout, onNavigat
           <Link to="/calendar" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Calendar</Link>
           <Link to="/alumni" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Alumni</Link>
           <Link to="/gallery" className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light`}>Gallery</Link>
-          <Link 
-            to="/news" 
+          <Link
+            to="/news"
             className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light animate-pulse`}
           >News</Link>
-          <Link 
-            to="/notices" 
+          <Link
+            to="/notices"
             className={`hidden md:block transition-colors ${utilityTextClasses} hover:text-af-light animate-pulse`}
           >Notices</Link>
 

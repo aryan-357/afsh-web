@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import PhotoAlbum from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 import "react-photo-album/rows.css";
@@ -12,10 +12,11 @@ import {
   Calendar,
   ArrowUpDown,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Loader2
 } from "lucide-react";
 
-import { galleryData, Photo } from "@/src/data/gallery-data";
+import { fetchGalleryData, Photo } from "@/src/services/sanityGalleryService";
 import Silk from '@/src/components/ui/Silk';
 import PageAnimate from '../../components/ui/PageAnimate';
 
@@ -169,6 +170,8 @@ const slideInFromRight = {
 };
 
 const GalleryPage = () => {
+  const [galleryData, setGalleryData] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>('photos');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [index, setIndex] = useState(-1);
@@ -180,11 +183,22 @@ const GalleryPage = () => {
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null);
 
+  // Fetch Data on Mount
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      const photos = await fetchGalleryData();
+      setGalleryData(photos);
+      setLoading(false);
+    }
+    loadData();
+  }, []);
+
   // --- Derived Data ---
   const years = useMemo(() => {
     const y = new Set(galleryData.map(p => p.date.split('-')[0]));
     return Array.from(y).sort().reverse();
-  }, []);
+  }, [galleryData]);
 
   const filteredPhotos = useMemo(() => {
     let data = [...galleryData];
@@ -200,7 +214,7 @@ const GalleryPage = () => {
       return sortOrder === 'latest' ? dateB - dateA : dateA - dateB;
     });
     return data;
-  }, [selectedYears, sortOrder, selectedAlbum]);
+  }, [galleryData, selectedYears, sortOrder, selectedAlbum]);
 
   const albums = useMemo(() => {
     const groups: Record<string, Photo[]> = {};
@@ -212,9 +226,9 @@ const GalleryPage = () => {
       name,
       cover: photos[0],
       count: photos.length,
-      dateRange: `${photos[photos.length - 1].date.split('-')[0]} - ${photos[0].date.split('-')[0]}`
+      dateRange: `${photos[photos.length - 1]?.date.split('-')[0] || ''} - ${photos[0]?.date.split('-')[0] || ''}`
     }));
-  }, []);
+  }, [galleryData]);
 
   const totalPages = Math.ceil(filteredPhotos.length / itemsPerPage);
   const paginatedPhotos = useMemo(() => {
@@ -325,94 +339,111 @@ const GalleryPage = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 min-h-[60vh]">
-
-        {viewMode === 'photos' ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Photo Grid */}
-            <PhotoAlbum
-              layout="rows"
-              photos={photosForAlbum}
-              onClick={({ index: current }) => setIndex((currentPage - 1) * itemsPerPage + current)}
-              targetRowHeight={300}
-              componentsProps={{ image: { className: "rounded-lg shadow-sm hover:brightness-110 transition-all duration-300 cursor-zoom-in" } }}
-            />
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-4 mt-12">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(c => c - 1)}
-                  className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-
-                <div className="flex gap-2">
-                  {Array.from({ length: totalPages }).map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setCurrentPage(i + 1)}
-                      className={`w-10 h-10 rounded-full font-bold text-sm transition-all ${currentPage === i + 1
-                        ? 'bg-blue-600 text-white shadow-lg scale-110'
-                        : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-100'
-                        }`}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage(c => c + 1)}
-                  className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </div>
-            )}
-          </motion.div>
+        {loading ? (
+           <div className="flex justify-center items-center h-64">
+             <Loader2 className="w-10 h-10 animate-spin text-af-gold" />
+           </div>
         ) : (
-          /* Album Grid */
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
-          >
-            {albums.map((album) => (
-              <div
-                key={album.name}
-                onClick={() => handleAlbumClick(album.name)}
-                className="group cursor-pointer bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
+          <>
+            {viewMode === 'photos' ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={album.cover.src}
-                    alt={album.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                {/* Photo Grid */}
+                {photosForAlbum.length > 0 ? (
+                  <PhotoAlbum
+                    layout="rows"
+                    photos={photosForAlbum}
+                    onClick={({ index: current }) => setIndex((currentPage - 1) * itemsPerPage + current)}
+                    targetRowHeight={300}
+                    componentsProps={{ image: { className: "rounded-lg shadow-sm hover:brightness-110 transition-all duration-300 cursor-zoom-in" } }}
                   />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
-                  <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    <Grid className="w-3 h-3" /> {album.count}
+                ) : (
+                  <div className="text-center py-20 text-gray-500">
+                    No photos found matching your criteria.
                   </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
-                    {album.name}
-                  </h3>
-                  <div className="flex items-center text-gray-500 text-sm">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    {album.dateRange}
+                )}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 mt-12">
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage(c => c - 1)}
+                      className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+
+                    <div className="flex gap-2">
+                      {Array.from({ length: totalPages }).map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setCurrentPage(i + 1)}
+                          className={`w-10 h-10 rounded-full font-bold text-sm transition-all ${currentPage === i + 1
+                            ? 'bg-blue-600 text-white shadow-lg scale-110'
+                            : 'bg-white dark:bg-gray-800 text-gray-600 hover:bg-gray-100'
+                            }`}
+                        >
+                          {i + 1}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage(c => c + 1)}
+                      className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
                   </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
+                )}
+              </motion.div>
+            ) : (
+              /* Album Grid */
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+              >
+                {albums.length > 0 ? albums.map((album) => (
+                  <div
+                    key={album.name}
+                    onClick={() => handleAlbumClick(album.name)}
+                    className="group cursor-pointer bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={album.cover?.src}
+                        alt={album.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
+                      <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <Grid className="w-3 h-3" /> {album.count}
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
+                        {album.name}
+                      </h3>
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {album.dateRange}
+                      </div>
+                    </div>
+                  </div>
+                )) : (
+                  <div className="col-span-full text-center py-20 text-gray-500">
+                    No albums found.
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </>
         )}
       </main>
 
