@@ -1,4 +1,7 @@
 ---
+hero:
+  title: About Us
+  subtitle: lol
 pgtFaculty:
   - {}
   - {}
