@@ -71,7 +71,7 @@ const MOCK_PHOTOS: Photo[] = [
 
 export async function fetchGalleryData(): Promise<Photo[]> {
   // If no project ID is set, return mock data immediately
-  if (!process.env.VITE_SANITY_PROJECT_ID) {
+  if (!import.meta.env.VITE_SANITY_PROJECT_ID) {
     console.warn('Sanity Project ID not found. Using Mock Data.');
     return MOCK_PHOTOS;
   }
