@@ -6,7 +6,12 @@ import { BlogPost } from '../../types/blog';
 import { PostService } from '../../services/postService';
 import { getStrapiMedia, extractImageUrl } from '../../utils/strapi';
 
-const LatestNews: React.FC = () => {
+interface LatestNewsProps {
+  title?: string;
+  count?: number;
+}
+
+const LatestNews: React.FC<LatestNewsProps> = ({ title, count = 3 }) => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +21,7 @@ const LatestNews: React.FC = () => {
   useEffect(() => {
     const fetchLatest = async () => {
       try {
-        const fetchedPosts = await PostService.getLatestPosts(3);
+        const fetchedPosts = await PostService.getLatestPosts(count);
         if (fetchedPosts) {
           setPosts(fetchedPosts);
         }
@@ -28,7 +33,7 @@ const LatestNews: React.FC = () => {
     };
 
     fetchLatest();
-  }, []);
+  }, [count]);
 
   const getImageUrl = (url?: string) => {
     const mediaUrl = getStrapiMedia(url);
@@ -47,9 +52,14 @@ const LatestNews: React.FC = () => {
 
   return (
     <section className="group bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden">
+      {title && (
+        <div className="container mx-auto px-6 py-8">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
+        </div>
+      )}
       <div className="w-full">
         {/* News Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3">
+        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(posts.length, 3)}`}>
           {posts.map((item, idx) => (
             <motion.div
               key={item.id}

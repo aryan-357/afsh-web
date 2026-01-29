@@ -1,4 +1,5 @@
 ---
+_template: admission
 hero:
   title: Join Our Institution
   subtitle: Join the legacy of excellence at Air Force School Hindan. We welcome students who aspire to be leaders.

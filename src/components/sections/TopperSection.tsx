@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Trophy, Award, Star } from 'lucide-react';
 
-interface Topper {
+export interface Topper {
   id: number;
   name: string;
   percentage: number;
@@ -10,64 +10,72 @@ interface Topper {
   image: string;
 }
 
-const TopperSection: React.FC = () => {
+const defaultToppers12: Topper[] = [
+  {
+    id: 1,
+    name: 'Kritika Singh',
+    percentage: 92.00,
+    position: 1,
+    classStr: 'Science',
+    image: 'https://picsum.photos/seed/topper1/400/400'
+  },
+  {
+    id: 2,
+    name: 'Arinav Attri',
+    percentage: 91.00,
+    position: 2,
+    classStr: 'Commerce',
+    image: 'https://picsum.photos/seed/topper2/400/400'
+  },
+  {
+    id: 3,
+    name: 'Pratigya Chaudhary',
+    percentage: 90.00,
+    position: 3,
+    classStr: 'Humanities',
+    image: 'https://picsum.photos/seed/topper3/400/400'
+  }
+];
+
+const defaultToppers10: Topper[] = [
+  {
+    id: 1,
+    name: 'Ananya Singh',
+    percentage: 98.60,
+    position: 1,
+    classStr: 'Class X',
+    image: 'https://picsum.photos/seed/topper4/400/400'
+  },
+  {
+    id: 2,
+    name: 'Anuska Gupta',
+    percentage: 98.00,
+    position: 2,
+    classStr: 'Class X',
+    image: 'https://picsum.photos/seed/topper5/400/400'
+  },
+  {
+    id: 3,
+    name: 'Arunima Saxena',
+    percentage: 97.40,
+    position: 3,
+    classStr: 'Class X',
+    image: 'https://picsum.photos/seed/topper6/400/400'
+  }
+];
+
+interface TopperSectionProps {
+  class12Toppers?: Topper[];
+  class10Toppers?: Topper[];
+}
+
+const TopperSection: React.FC<TopperSectionProps> = ({
+  class12Toppers = defaultToppers12,
+  class10Toppers = defaultToppers10
+}) => {
   const [activeTab, setActiveTab] = useState<'XII' | 'X'>('X');
 
-  const toppers12: Topper[] = [
-    {
-      id: 1,
-      name: 'Kritika Singh',
-      percentage: 92.00,
-      position: 1,
-      classStr: 'Science',
-      image: 'https://picsum.photos/seed/topper1/400/400'
-    },
-    {
-      id: 2,
-      name: 'Arinav Attri',
-      percentage: 91.00,
-      position: 2,
-      classStr: 'Commerce',
-      image: 'https://picsum.photos/seed/topper2/400/400'
-    },
-    {
-      id: 3,
-      name: 'Pratigya Chaudhary',
-      percentage: 90.00,
-      position: 3,
-      classStr: 'Humanities',
-      image: 'https://picsum.photos/seed/topper3/400/400'
-    }
-  ];
-
-  const toppers10: Topper[] = [
-    {
-      id: 1,
-      name: 'Ananya Singh',
-      percentage: 98.60,
-      position: 1,
-      classStr: 'Class X',
-      image: 'https://picsum.photos/seed/topper4/400/400'
-    },
-    {
-      id: 2,
-      name: 'Anuska Gupta',
-      percentage: 98.00,
-      position: 2,
-      classStr: 'Class X',
-      image: 'https://picsum.photos/seed/topper5/400/400'
-    },
-    {
-      id: 3,
-      name: 'Arunima Saxena',
-      percentage: 97.40,
-      position: 3,
-      classStr: 'Class X',
-      image: 'https://picsum.photos/seed/topper6/400/400'
-    }
-  ];
-
-  const currentToppers = activeTab === 'XII' ? toppers12 : toppers10;
+  const currentToppers = activeTab === 'XII' ? class12Toppers : class10Toppers;
 
   const getRankIcon = (position: number) => {
     switch (position) {

@@ -6,6 +6,7 @@ import Layout from './components/layout/Layout';
 
 // Lazy load page components for code splitting
 const HomePage = lazy(() => import('./pages/core/HomePage'));
+const BuilderPage = lazy(() => import('./pages/core/BuilderPage'));
 const AboutPage = lazy(() => import('./pages/core/AboutPage'));
 const BlogPage = lazy(() => import('./pages/content/BlogPage'));
 const PostDetails = lazy(() => import('./pages/content/PostDetails'));
@@ -54,6 +55,7 @@ root.render(
                 <Suspense fallback={<PageLoader />}>
                     <Routes>
                         <Route path="/" element={<HomePage />} />
+                        <Route path="/builder-demo" element={<BuilderPage />} />
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/blog" element={<BlogPage />} />
                         <Route path="/blog/:slug" element={<PostDetails />} />

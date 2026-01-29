@@ -20,7 +20,7 @@ export interface ParallaxSlide {
     buttonLink?: string;
 }
 
-const slides: ParallaxSlide[] = [
+const defaultSlides: ParallaxSlide[] = [
     {
         id: 1,
         imageUrl: '/img/IAF_Garud_commando.jpg',
@@ -61,7 +61,11 @@ const OPTIONS: EmblaOptionsType = {
     duration: 25 // Snappy feel
 };
 
-const ParallaxCarousel: React.FC = () => {
+interface ParallaxCarouselProps {
+    slides?: ParallaxSlide[];
+}
+
+const ParallaxCarousel: React.FC<ParallaxCarouselProps> = ({ slides = defaultSlides }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);

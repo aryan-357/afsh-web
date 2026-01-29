@@ -1,4 +1,5 @@
 ---
+_template: academics
 hero:
   title: Academic Excellence
   subtitle: Comprehensive curriculum, experienced faculty, and modern teaching methodologies
