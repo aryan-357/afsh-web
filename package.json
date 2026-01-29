@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tinacms build && vite build",
+    "build": "tinacms build --skip-cloud-checks && vite build",
     "preview": "vite preview",
     "tina-dev": "tinacms dev -c \"vite\"",
-    "tina-build": "tinacms build && vite build"
+    "tina-build": "tinacms build --skip-cloud-checks && vite build"
   },
   "dependencies": {
     "@react-oauth/google": "^0.13.4",
@@ -16,7 +16,7 @@
     "@react-three/fiber": "^8.17.10",
     "@sanity/client": "^7.14.1",
     "@sanity/image-url": "^2.0.3",
-    "@tinacms/cli": "^1.3.3",
+    "@tinacms/cli": "^2.1.2",
     "axios": "^1.13.2",
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
