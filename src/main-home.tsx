@@ -25,6 +25,7 @@ const NoticesPage = lazy(() => import('./pages/content/NoticesPage'));
 const LoginPage = lazy(() => import('./pages/utility/LoginPage'));
 const SearchPage = lazy(() => import('./pages/utility/SearchPage'));
 const DevelopmentPage = lazy(() => import('./pages/utility/DevelopmentPage'));
+const SanityStudioPage = lazy(() => import('./pages/studio/SanityStudioPage'));
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -50,32 +51,44 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
         <BrowserRouter>
-            <Layout>
-                <Suspense fallback={<PageLoader />}>
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/about" element={<AboutPage />} />
-                        <Route path="/blog" element={<BlogPage />} />
-                        <Route path="/blog/:slug" element={<PostDetails />} />
-                        <Route path="/gallery" element={<GalleryPage />} />
-                        <Route path="/student-life" element={<StudentLifePage />} />
-                        <Route path="/admissions" element={<AdmissionPage />} />
-                        <Route path="/academics" element={<AcademicsPage />} />
-                        <Route path="/alumni" element={<AlumniPage />} />
-                        <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
-                        <Route path="/calendar" element={<CalendarPageNew />} />
-                        <Route path="/contact" element={<ContactPage />} />
-                        <Route path="/achievements" element={<AchievementsPage />} />
-                        <Route path="/mandatory-disclosure" element={<MandatoryDisclosurePage />} />
-                        <Route path="/facilities" element={<FacilitiesPage />} />
-                        <Route path="/news" element={<NewsPage />} />
-                        <Route path="/notices" element={<NoticesPage />} />
-                        <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
-                        <Route path="/search" element={<SearchPage />} />
-                        <Route path="/development" element={<DevelopmentPage />} />
-                    </Routes>
-                </Suspense>
-            </Layout>
+            {/*
+               We render Layout conditionally or inside the Routes for normal pages.
+               However, for /studio, we want to bypass the standard Layout (Header/Footer).
+            */}
+            <Suspense fallback={<PageLoader />}>
+                <Routes>
+                    {/* Sanity Studio Route - Outside Layout */}
+                    <Route path="/studio/*" element={<SanityStudioPage />} />
+
+                    {/* All other routes wrapped in Layout */}
+                    <Route path="*" element={
+                        <Layout>
+                            <Routes>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/about" element={<AboutPage />} />
+                                <Route path="/blog" element={<BlogPage />} />
+                                <Route path="/blog/:slug" element={<PostDetails />} />
+                                <Route path="/gallery" element={<GalleryPage />} />
+                                <Route path="/student-life" element={<StudentLifePage />} />
+                                <Route path="/admissions" element={<AdmissionPage />} />
+                                <Route path="/academics" element={<AcademicsPage />} />
+                                <Route path="/alumni" element={<AlumniPage />} />
+                                <Route path="/alumni/register" element={<AlumniRegistrationPage />} />
+                                <Route path="/calendar" element={<CalendarPageNew />} />
+                                <Route path="/contact" element={<ContactPage />} />
+                                <Route path="/achievements" element={<AchievementsPage />} />
+                                <Route path="/mandatory-disclosure" element={<MandatoryDisclosurePage />} />
+                                <Route path="/facilities" element={<FacilitiesPage />} />
+                                <Route path="/news" element={<NewsPage />} />
+                                <Route path="/notices" element={<NoticesPage />} />
+                                <Route path="/login" element={<LoginPage onLogin={() => { }} onBack={() => window.history.back()} />} />
+                                <Route path="/search" element={<SearchPage />} />
+                                <Route path="/development" element={<DevelopmentPage />} />
+                            </Routes>
+                        </Layout>
+                    } />
+                </Routes>
+            </Suspense>
         </BrowserRouter>
     </GoogleOAuthProvider>
 );

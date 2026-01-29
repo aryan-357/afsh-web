@@ -16,6 +16,7 @@
     "@react-three/fiber": "^8.17.10",
     "@sanity/client": "^7.14.1",
     "@sanity/image-url": "^2.0.3",
+    "@sanity/vision": "^3.50.0",
     "@tinacms/cli": "^2.1.2",
     "axios": "^1.13.2",
     "embla-carousel": "^8.6.0",
@@ -25,9 +26,16 @@
     "gapi-script": "^1.2.0",
     "lucide-react": "^0.556.0",
     "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
     "react-photo-album": "^3.4.0",
     "react-router-dom": "^7.10.1",
+    "sanity": "^3.50.0",
+    "slate": "^0.123.0",
+    "slate-dom": "^0.123.0",
+    "slate-react": "^0.123.0",
+    "styled-components": "^6.1.8",
     "three": "^0.182.0",
     "tinacms": "^3.3.2",
     "yet-another-react-lightbox": "^3.28.0"
@@ -37,6 +45,7 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.3.1",
+    "fs-extra": "^11.3.3",
     "typescript": "~5.6.2",
     "vite": "^7.3.1"
   }
