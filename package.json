@@ -39,3 +39,44 @@
     "vite": "^7.3.1"
   }
 }
+{
+  "name": "air-force-school-hindan-clone",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tinacms build --skip-cloud-checks && vite build",
+    "preview": "vite preview",
+    "tina-dev": "tinacms dev -c \"vite\"",
+    "tina-build": "tinacms build --skip-cloud-checks && vite build"
+  },
+  "dependencies": {
+    "@react-oauth/google": "^0.13.4",
+    "@react-spring/web": "^10.0.3",
+    "@react-three/fiber": "^8.17.10",
+    "@tinacms/cli": "^2.0.0",
+    "axios": "^1.13.2",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.23.26",
+    "gapi-script": "^1.2.0",
+    "lucide-react": "^0.556.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-photo-album": "^3.4.0",
+    "react-router-dom": "^7.10.1",
+    "three": "^0.182.0",
+    "tinacms": "^3.3.2",
+    "yet-another-react-lightbox": "^3.28.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "~5.6.2",
+    "vite": "^7.3.1"
+  }
+}
