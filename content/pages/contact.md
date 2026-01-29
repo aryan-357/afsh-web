@@ -1,4 +1,5 @@
 ---
+_template: contact
 hero:
   title: Get In Touch
   subtitle: We'd love to hear from you. Whether you have a question or just want to say hello, feel free to reach out.

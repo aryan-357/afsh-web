@@ -33,6 +33,120 @@ export default defineConfig({
         format: "md",
         templates: [
           {
+            name: "flexible_page",
+            label: "Flexible Page",
+            fields: [
+              {
+                type: "object",
+                list: true,
+                name: "blocks",
+                label: "Sections",
+                templates: [
+                  {
+                    name: "heroCarousel",
+                    label: "Hero Carousel",
+                    fields: [
+                      {
+                        type: "object",
+                        list: true,
+                        name: "slides",
+                        label: "Slides",
+                        fields: [
+                          { type: "number", name: "id", label: "ID" },
+                          { type: "image", name: "imageUrl", label: "Image" },
+                          { type: "string", name: "title", label: "Title" },
+                          { type: "string", name: "subtitle", label: "Subtitle" },
+                          { type: "string", name: "buttonText", label: "Button Text" },
+                          { type: "string", name: "buttonLink", label: "Button Link" },
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    name: "latestNews",
+                    label: "Latest News",
+                    fields: [
+                      { type: "string", name: "title", label: "Title" },
+                      { type: "number", name: "count", label: "Number of Posts" },
+                    ]
+                  },
+                  {
+                    name: "noticeBoard",
+                    label: "Notice Board",
+                    fields: [
+                      { type: "string", name: "title", label: "Title" },
+                    ]
+                  },
+                  {
+                    name: "topperSection",
+                    label: "Topper Section",
+                    fields: [
+                      {
+                        type: "object",
+                        list: true,
+                        name: "class12Toppers",
+                        label: "Class 12 Toppers",
+                        fields: [
+                          { type: "number", name: "id", label: "ID" },
+                          { type: "string", name: "name", label: "Name" },
+                          { type: "number", name: "percentage", label: "Percentage" },
+                          { type: "number", name: "position", label: "Position" },
+                          { type: "string", name: "classStr", label: "Stream/Class" },
+                          { type: "image", name: "image", label: "Image" },
+                        ]
+                      },
+                      {
+                        type: "object",
+                        list: true,
+                        name: "class10Toppers",
+                        label: "Class 10 Toppers",
+                        fields: [
+                          { type: "number", name: "id", label: "ID" },
+                          { type: "string", name: "name", label: "Name" },
+                          { type: "number", name: "percentage", label: "Percentage" },
+                          { type: "number", name: "position", label: "Position" },
+                          { type: "string", name: "classStr", label: "Stream/Class" },
+                          { type: "image", name: "image", label: "Image" },
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    name: "philosophySection",
+                    label: "Philosophy Section",
+                    fields: [
+                      { type: "string", name: "title", label: "Title" },
+                      { type: "string", name: "subtitle", label: "Subtitle" },
+                      {
+                        type: "object",
+                        list: true,
+                        name: "items",
+                        label: "Items",
+                        fields: [
+                          { type: "string", name: "title", label: "Title" },
+                          { type: "string", name: "icon", label: "Icon (Emoji)" },
+                          { type: "string", name: "desc", label: "Description" },
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    name: "campusLifeSection",
+                    label: "Campus Life Section",
+                    fields: [
+                      { type: "string", name: "title", label: "Title" },
+                      { type: "string", name: "subtitle", label: "Subtitle" },
+                      { type: "string", name: "description", label: "Description", ui: { component: "textarea" } },
+                      { type: "string", name: "linkText", label: "Link Text" },
+                      { type: "string", name: "linkUrl", label: "Link URL" },
+                      { type: "image", list: true, name: "images", label: "Images" },
+                    ]
+                  }
+                ]
+              }
+            ],
+          },
+          {
             name: "academics",
             label: "Academics Page (Content)",
             fields: [

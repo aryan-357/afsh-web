@@ -5,7 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Notice } from '../../types/strapi';
 import { fetchRecentNotices } from '../../services/noticeService';
 
-const NoticeBoard: React.FC = () => {
+interface NoticeBoardProps {
+  title?: string;
+}
+
+const NoticeBoard: React.FC<NoticeBoardProps> = ({ title = 'Notice Board' }) => {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
   const [openNoticeId, setOpenNoticeId] = useState<number | null>(null);
@@ -79,7 +83,7 @@ const NoticeBoard: React.FC = () => {
                   <div className="w-10 h-10 bg-af-blue/10 rounded-xl flex items-center justify-center">
                     <Bell className="text-af-blue" size={20} />
                   </div>
-                  Notice Board
+                  {title}
                 </h3>
                 <Link to="/notices" className="text-sm font-bold text-af-blue dark:text-af-light hover:underline flex items-center gap-1 group">
                   View All Notices <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
